@@ -1,0 +1,62 @@
+.authentication {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+
+    &__left {
+        width: 50%;
+        height: 100%;
+        position: relative;
+
+        h1 {
+            top: 35%;
+            position: absolute;
+            right: 50px;
+            // text-align: center;
+            align-items: center;
+            z-index: 1;
+            font-size: 10em;
+            color: white;
+        }
+    }
+    &__right {
+        width: 50%;
+        // min-height: 100vh;
+
+        position: relative;
+
+        h1 {
+            top: 35%;
+            position: absolute;
+            left: 50px;
+            // text-align: center;
+            align-items: center;
+            z-index: 1;
+            font-size: 10em;
+            background: linear-gradient(to right, #db36a4 0%, #f7ff00 100%); // màu background gradient
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p{
+            top: 55%;
+            left: 60px;
+            position: absolute;
+            font-size: 1em;
+        }
+        Button{
+            top: 65%;
+            left: 50px;
+            position: absolute;
+        }
+
+    }
+
+
+}
+.SignUpText{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: grey;
+    margin: 10px 0 20px 0 !important;
+}
