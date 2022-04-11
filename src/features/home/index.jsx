@@ -4,9 +4,7 @@ import { makeStyles } from '@mui/styles';
 import React, { Fragment, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import Slider from 'react-slick';
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
+
 import GroupBar from './../../components/GroupBar/index';
 import Header from './../../components/Header/index';
 import CrawlDataUnit from './CrawlDataUnit/index';

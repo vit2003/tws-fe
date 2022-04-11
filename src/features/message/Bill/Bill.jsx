@@ -9,12 +9,12 @@ import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import tradingPostApi from './../../../api/TradingPostApi';
 // Import Swiper styles
-import 'swiper/css';
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper';
-
+import "swiper/css/pagination";
+import { Pagination, Navigation } from "swiper";
 
 const useStyle = makeStyles(theme => ({
     root: {

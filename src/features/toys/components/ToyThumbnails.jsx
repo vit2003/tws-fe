@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material/';
-import { SwiperSlide, Swiper } from 'swiper/react';
+
 import { makeStyles } from '@mui/styles';
 import CardMedia from '@mui/material/CardMedia';
 import { useState } from 'react';
-import { Navigation, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css/pagination";
+import { Pagination, Navigation } from "swiper";
 
 ToyThumbnails.propTypes = {
     toy: PropTypes.object,
@@ -30,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     },
     boxContainImg: {
         display: 'flex !important',
-        justifyContent: 'center !important' ,
+        justifyContent: 'center !important',
         cursor: 'pointer !important',
         '&:hover': {
             filter: 'brightness(70%) !important',

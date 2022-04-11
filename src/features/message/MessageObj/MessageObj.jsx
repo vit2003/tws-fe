@@ -9,11 +9,13 @@ import { makeStyles } from '@mui/styles';
 import { format, compareAsc } from 'date-fns'
 import endOfDay from './../../../../node_modules/date-fns/esm/endOfDay/index';
 import { Tooltip } from '@mui/material';
-import { Navigation, Pagination } from 'swiper';
-import 'swiper/css';
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import "swiper/css/pagination";
+import { Pagination, Navigation } from "swiper";
+// import { Navigation, Pagination } from 'swiper';
 
 const useStyles = makeStyles(theme => ({
     msgSender: {

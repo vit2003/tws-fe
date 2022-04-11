@@ -13,8 +13,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
-// Import Swiper styles
-import "swiper/css";
+
 import InputField from '../../../components/form-controls/InputFields';
 import eventApi from "./../../../api/eventApi";
 import prizeApi from "./../../../api/prizeApi";

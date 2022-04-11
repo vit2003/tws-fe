@@ -23,13 +23,14 @@ import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Navigation, Pagination } from 'swiper';
+
 import { addDoc, collection, serverTimestamp, setDoc, Timestamp, doc, updateDoc } from 'firebase/firestore';
+import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
-import 'swiper/css';
+import "swiper/css";
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import "swiper/css/pagination";
+import { Pagination, Navigation } from "swiper";
 import { db } from '../../../../Firebase/firebase';
 import tradingPostApi from './../../../../api/TradingPostApi';
 
