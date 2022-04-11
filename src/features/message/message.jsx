@@ -14,9 +14,6 @@ import accountApi from '../../api/accountApi';
 import Bill from './Bill/Bill';
 
 
-message.propTypes = {
-
-};
 
 function Message() {
     const location = useLocation();
