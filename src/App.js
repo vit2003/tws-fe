@@ -35,7 +35,7 @@ import EditPrize from './features/admin/prize/edit';
 import TradingPostManagement from './features/admin/tradingPost/index';
 import BillManagement from './features/admin/bill/bill';
 import FeedbackManagement from './features/admin/feedback/Feedback';
-import Message from './features/message/Message';
+import Message from './features/message/message';
 
 function App() {
   const currentUser = useSelector(state => state.account.current);
