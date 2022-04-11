@@ -12,14 +12,14 @@ CommentSkeleton.defaultProps = {
 }
 
 
-function CommentSkeleton(props) {
+function CommentSkeleton({ length }) {
     return (
         <Box>
             <Grid container >
                 {Array.from(new Array(length)).map((x, index) => (
                     <Grid key={index} item xs={12} sm={12} md={12} lg={12}>
                         <Box padding={1}>
-                            <Skeleton variant="rectangular" width="100%" height={50 } />
+                            <Skeleton variant="rectangular" width="100%" height={50} />
                             <Skeleton />
                             <Skeleton width="60%" />
                         </Box>

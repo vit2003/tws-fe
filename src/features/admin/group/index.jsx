@@ -41,15 +41,15 @@ export default function GroupManagement() {
                                             <Link className="btn btn-edit" to={`/admin/group/${item.id}`}>
                                                 <EditIcon />
                                             </Link>
-                                            <button className="btn btn-delete" onClick={() => dispatch(deleteGroup(item.id))}>
+                                            {/* <button className="btn btn-delete" onClick={() => dispatch(deleteGroup(item.id))}>
                                                 <DeleteForeverIcon />
-                                            </button>
+                                            </button> */}
                                         </td>
                                     </tr>
                                 ))
                             }
                             {
-                                state.groups.length < 1 && 
+                                state.groups.length < 1 &&
                                 <tr>
                                     <td colSpan="3">
                                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>

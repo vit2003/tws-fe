@@ -71,7 +71,7 @@ export default function PostManagement() {
             pageNumber: 1,
             pageSize: 9,
         }
-        dispatch(getTradingPostsByGroupId(id, newFilter))
+        dispatch(getPostsByGroupId(id, newFilter))
         setFiltersGroup(prevFilters => ({
             ...prevFilters,
             pageNumber: 1

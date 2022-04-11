@@ -35,13 +35,13 @@ export const login = createAsyncThunk(
 )
 
 export const logout2 = createAsyncThunk(
-    'account/logout',
-    async (payload) => {
-        localStorage.removeItem(StorageKeys.TOKEN);
-        localStorage.removeItem(StorageKeys.ACCOUNT);
-        state.current = null;
-        return payload.push('/')
-    }
+    // 'account/logout',
+    // async (payload) => {
+    //     localStorage.removeItem(StorageKeys.TOKEN);
+    //     localStorage.removeItem(StorageKeys.ACCOUNT);
+    //     state.current = null;
+    //     return payload.push('/')
+    // }
 )
 
 
