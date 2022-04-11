@@ -15,6 +15,7 @@ import Bill from './Bill/Bill';
 
 
 
+
 function Message() {
     const location = useLocation();
     const tradingPostId = location.state
