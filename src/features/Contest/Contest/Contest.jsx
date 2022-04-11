@@ -649,7 +649,7 @@ function Contest(props) {
                 {isAttended & contest.status == 3 ?
                     <>
                         {
-                            postOfContestList?.data.length > 0 && contest?.status == 3 ?
+                            postOfContestList?.data?.length > 0 && contest?.status == 3 ?
                                 <div className="runner">
                                     <div className="runner__container">
                                         <h1>RUNNERS-UP</h1>

@@ -1,6 +1,25 @@
 import axioClient from '../../api/axiosClient'
 import { TRADINGPOST } from './types'
 
+// export const getTradingPostsByUserId = (userID) => {
+//     return (dispatch) => {
+//         const token = axioClient.getToken();
+//         dispatch(setTradingPosts([]));
+
+//         if (token) {
+//             axioClient.setHeaderAuth(token)
+//             axioClient.get('/posts/account/' + userID)
+//                 .then((response) => {
+//                     if (response.data) {
+//                         dispatch(setTradingPosts(response.data));
+//                     }
+//                 })
+//                 .catch((error) => {
+//                     console.log(error)
+//                 })
+//         }
+//     }
+// }
 
 export const getTradingPostsByGroupId = (groupID, params) => {
     return (dispatch) => {
@@ -83,8 +102,61 @@ export const disablePost = (postID, enableId, params) => {
     }
 }
 
+// export const approvePost = (postID) => {
+//     return (dispatch) => {
+//         const token = axioClient.getToken();
 
+//         if (token) {
+//             axioClient.setHeaderAuth(token)
+//             axioClient.put(`/posts/approve/${postID}`)
+//                 .then((response) => {
+//                     if (response) {
+//                         dispatch(getPostsWaiting(false));
+//                     }
+//                 })
+//                 .catch((error) => {
+//                     console.log(error)
+//                 })
+//         }
+//     }
+// }
 
+// export const denyPost = (postID) => {
+//     return (dispatch) => {
+//         const token = axioClient.getToken();
+
+//         if (token) {
+//             axioClient.setHeaderAuth(token)
+//             axioClient.put(`/posts/deny/${postID}`)
+//                 .then((response) => {
+//                     console.log(response)
+//                     if (response) {
+//                         dispatch(getPostsWaiting(false));
+//                     }
+//                 })
+//                 .catch((error) => {
+//                     console.log(error)
+//                 })
+//         }
+//     }
+// }
+
+export const deletePost = () => {
+    return (dispatch) => {
+        const token = axioClient.getToken();
+
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            axioClient.get('/posts')
+                .then((response) => {
+                    dispatch(getPosts())
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
+}
 
 export const setTradingPosts = (payload) => {
     return {

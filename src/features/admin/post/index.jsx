@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -54,35 +54,49 @@ export default function PostManagement() {
             dispatch(getPostsWaiting())
         }
     }
-    // =============================================
-    const options = ['Create a merge commit', 'Squash and merge', 'Rebase and merge'];
-    const [open, setOpen] = React.useState(false);
-    const anchorRef = React.useRef(null);
-    // const [selectedIndex, setSelectedIndex] = useState(1);
-    const [selectedName, setSelectedName] = useState("SELECT GROUP");
+    // ================GROUP STATE=============================
+    const anchorRefGroup = useRef(null);
+    const [selectedGroup, setSelectedGroup] = useState("SELECT GROUP");
+    const [selectedGroupId, setSelectedGroupId] = useState();
+    const [openGroup, setOpenGroup] = useState(false);
+    const [filtersGroup, setFiltersGroup] = useState({
+        pageNumber: 1,
+        pageSize: 9
+    });
 
-
-    const handleMenuItemClick = (event, index, name) => {
-        setSelectedName(name)
-        dispatch(getPostsByGroupId(index))
-        console.log("index: ", index);
-        setOpen(false);
+    const handleClickGroupItem = (event, id, name) => {
+        setSelectedGroup(name)
+        setSelectedGroupId(id)
+        const newFilter = {
+            pageNumber: 1,
+            pageSize: 9,
+        }
+        dispatch(getTradingPostsByGroupId(id, newFilter))
+        setFiltersGroup(prevFilters => ({
+            ...prevFilters,
+            pageNumber: 1
+        }))
+        console.log('filtersGroup: ', filtersGroup);
+        console.log('id: ', id);
+        setOpenGroup(false);
     };
 
-    const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
+    // Hanle selected Group
+    const handleToggleGroup = () => {
+        setOpenGroup((prevOpen) => !prevOpen);
         if (active !== 'group') {
             setActive('group');
         }
     };
 
-    const handleClose = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    const handleCloseGroup = (event) => {
+        if (anchorRefGroup.current && anchorRefGroup.current.contains(event.target)) {
             return;
         }
-
-        setOpen(false);
+        setOpenGroup(false);
     };
+
+
 
     // =============================================
     return (
@@ -92,7 +106,7 @@ export default function PostManagement() {
                 <span>Post management</span>
             </div>
 
-            <div className="btn-group">
+            {/* <div className="btn-group">
                 <ButtonGroup variant="contained" aria-label="outlined primary button group">
                     <Button onClick={getPostWaiting} className={active == 'waiting' && 'active'}>
                         <PendingIcon />
@@ -150,6 +164,68 @@ export default function PostManagement() {
                     )}
                 </Popper>
 
+
+            </div> */}
+
+            <div className="btn-group">
+                <ButtonGroup variant="contained" aria-label="split button">
+                    <Button onClick={getPostWaiting} className={active == 'waiting' && 'active'}>
+                        <PendingIcon />
+                        <span style={{ marginLeft: '5px' }}>Waiting</span>
+                    </Button>
+                    <Button onClick={getPostOfAccount} className={active == 'account' && 'active'}>
+                        <ManageAccountsIcon />
+                        <span style={{ marginLeft: '5px' }}>Account</span>
+                    </Button>
+                    <Button
+                        ref={anchorRefGroup}
+                        className={active == 'group' && 'active'}
+                        size="small"
+                        aria-controls={openGroup ? 'split-button-group' : undefined}
+                        aria-expanded={openGroup ? 'true' : undefined}
+                        aria-label="select merge strategy"
+                        aria-haspopup="group"
+                        onClick={handleToggleGroup}
+                    >
+                        <GroupIcon /> <span style={{ marginLeft: '5px' }}>{selectedGroup}</span>  <ArrowDropDownIcon />
+                    </Button>
+
+                    <Popper
+                        open={openGroup}
+                        anchorEl={anchorRefGroup.current}
+                        transition
+                        disablePortal
+
+                    >
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                                {...TransitionProps}
+                                style={{
+                                    transformOrigin:
+                                        placement === 'bottom' ? 'center top' : 'center bottom',
+                                }}
+                            >
+                                <Paper>
+                                    <ClickAwayListener onClickAway={handleCloseGroup}>
+                                        <MenuList id="split-button-menu" autoFocusItem>
+                                            {groups.groups?.map((group, index) => (
+                                                <MenuItem
+                                                    key={index}
+                                                    // selected={index === selectedIndex}
+                                                    onClick={(event) => handleClickGroupItem(event, group.id, group.name)}
+                                                >
+                                                    {group.name}
+                                                </MenuItem>
+                                            ))}
+                                        </MenuList>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Grow>
+                        )}
+                    </Popper>
+                </ButtonGroup>
+
+                {/* ================================== */}
 
             </div>
 

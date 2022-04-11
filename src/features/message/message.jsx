@@ -12,7 +12,7 @@ import { useRouteMatch, useLocation } from 'react-router-dom';
 import { useCollectionData, useCollection, useDocumentData } from 'react-firebase-hooks/firestore';
 import accountApi from '../../api/accountApi';
 import Bill from './Bill/Bill';
-import tradingPostApi from './../../api/TradingPostApi';
+
 
 message.propTypes = {
 
@@ -20,7 +20,9 @@ message.propTypes = {
 
 function message() {
     const location = useLocation();
-    const tradingPost = location.state
+    const tradingPostId = location.state
+
+    console.log("tradingPost id: ", tradingPostId);
 
     const currentUser = useSelector(state => state.account.current);
 
@@ -35,6 +37,9 @@ function message() {
 
     // STATE TRADINGPOST CLICK
     const [tradingPostClick, setTradingPostClick] = useState({});
+
+    // STATE TRADINGPOST CLICK
+    const [tradingPost, setTradingPost] = useState({});
 
     // STATE TAB CLICK
     const [tabStatus, setTabStatus] = useState('Trading');
@@ -55,6 +60,19 @@ function message() {
         fetchUser();
     }, [])
 
+    // STATE TRADINGPOST CLICK
+
+    useEffect(() => {
+        const fetchTradingpost = async () => {
+            try {
+                const response = await tradingPostApi.getDetail(tradingPostId);
+                setTradingPost(response)
+            } catch (error) {
+                console.log('Failed to fetch userList', error)
+            }
+        }
+        fetchTradingpost();
+    }, [])
 
     const onChangeTrading = (value) => {
         setTabStatus(value)
@@ -84,7 +102,8 @@ function message() {
                     <ChatView tradingPostState={tradingPostState} tradingPost={tradingPost} tabStatus={tabStatus} id={id} users={users} messages={messages} tradingmsgs={tradingmsgs} tradingConver={tradingConver} />
                 </Grid>
                 <Grid item xs={2}>
-                    <Bill tradingPost={tradingPost} tradingConver={tradingConver} id={id} />
+                    {/* <Bill tradingPost={tradingPost} tradingConver={tradingConver} id={id} /> */}
+                    <Bill tradingConver={tradingConver} id={id} />
                 </Grid>
             </Grid>
         </>

@@ -19,7 +19,7 @@
         width: 80% !important;
     }
     .sidebarContent {
-        height: calc(100% - 170px) !important;
+        height: calc(100% - 175px) !important;
         .sidebarList {
             max-height: 100% !important;
             max-width: 100% !important;
@@ -27,6 +27,6 @@
         }
     }
 }
-.sidebarView:hover ::-webkit-scrollbar{
+.sidebarView:hover ::-webkit-scrollbar {
     visibility: visible;
 }

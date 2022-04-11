@@ -88,34 +88,17 @@ export const approvePost = (postID) => {
 }
 
 export const denyPost = (postID) => {
-    // return (dispatch) => {
-    //     const token = axioClient.getToken();
-
-    //     if (token) {
-    //         axioClient.setHeaderAuth(token)
-    //         axioClient.put(`/posts/deny/${postID}`)
-    //             .then((response) => {
-    //                 console.log(response)
-    //                 if (response) {
-    //                     dispatch(getPostsWaiting(false));
-    //                 }
-    //             })
-    //             .catch((error) => {
-    //                 console.log(error)
-    //             })
-    //     }
-    // }
-}
-
-export const deletePost = () => {
     return (dispatch) => {
         const token = axioClient.getToken();
 
         if (token) {
             axioClient.setHeaderAuth(token)
-            axioClient.get('/posts')
+            axioClient.put(`/posts/deny/${postID}`)
                 .then((response) => {
-                    dispatch(getPosts())
+                    console.log(response)
+                    if (response) {
+                        dispatch(getPostsWaiting(false));
+                    }
                 })
                 .catch((error) => {
                     console.log(error)
@@ -123,6 +106,23 @@ export const deletePost = () => {
         }
     }
 }
+
+// export const deletePost = () => {
+//     return (dispatch) => {
+//         const token = axioClient.getToken();
+
+//         if (token) {
+//             axioClient.setHeaderAuth(token)
+//             axioClient.get('/posts')
+//                 .then((response) => {
+//                     dispatch(getPosts())
+//                 })
+//                 .catch((error) => {
+//                     console.log(error)
+//                 })
+//         }
+//     }
+// }
 
 export const setPosts = (payload) => {
     return {

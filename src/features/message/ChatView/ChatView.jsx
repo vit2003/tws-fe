@@ -46,6 +46,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import InputPostField from './../../../components/form-controls/InputPostFields/index';
 import tradingPostApi from './../../../api/TradingPostApi';
 import MultiInputField from './../../../components/form-controls/MultiInputField/MultiInputField';
+import { useHistory } from 'react-router';
 
 import Swal from 'sweetalert2'
 
@@ -122,8 +123,13 @@ const StyledRating = styled(Rating)({
 
 function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tradingConver, tradingPostState }) {
 
+    console.log("tradingpost bill: ", tradingPost);
+    console.log("tradingPostState bill: ", tradingPostState);
+
     // STYLED COMPONENT
     const classes = useStyle();
+
+    const history = useHistory();
 
     // CURRENT USER
     const currentUser = useSelector(state => state.account.current);
@@ -152,7 +158,9 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
     const isBillCreated = (myTradingConver?.filter(tradingPost => tradingPost.id == id))?.map(tdp => tdp.isBillCreated)[0];
     const billIdToRate = (myTradingConver?.filter(tradingPost => tradingPost.id == id))?.map(tdp => tdp.billId)[0]
-    console.log("myTradingConver: ", myTradingConver);
+    // console.log("myTradingConver: ", myTradingConver);
+
+
 
 
     //SCROLL CHAT VIEW MSG
@@ -229,7 +237,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             let billIdClick = (myTradingConver?.filter(tradingPost => tradingPost.id == id))?.map(tdp => tdp.billId)[0]
             console.log("billIdClick: ", billIdClick);
             const respones = await billApi.getBillDetail(billIdClick);
-            console.log('api Log Bill: ', respones);
+            // console.log('api Log Bill: ', respones);
             setBill(respones)
             setOpenCheckBill(true);
         } catch (error) {
@@ -420,7 +428,6 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                 tradingPostId: tradingPostId,
             }
 
-
             console.log('newBill: ', newBill);
             const response = await billApi.createBill(newBill)
             enqueueSnackbar('New bill successfully!!', { variant: 'success' })
@@ -593,7 +600,10 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                 break;
         }
     }
-
+    // Onclick redirect to Profile
+    const handleOpenProfile = () => {
+        history.push(`/account/${receiver?.id}`)
+    }
     const renderChatView = () => {
         switch (tabStatus) {
             case "Userlist":
@@ -603,10 +613,17 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                         {/* Header of Chat view */}
                         {
                             id ? <div className='ChatHeader'>
-                                <div className='info'>
+                                <Box onClick={handleOpenProfile} className='info'
+                                    sx={{
+                                        '&:hover': {
+                                            opacity: [0.9, 0.8, 0.7],
+                                            cursor: 'pointer',
+                                            transition: 'all 0.5s'
+                                        },
+                                    }}>
                                     <Avatar sx={{ mr: 1 }} alt="name" src={receiver?.avatar} />
                                     <Typography>{receiver?.name}</Typography>
-                                </div>
+                                </Box>
 
                                 <div>
                                     <IconButton>
@@ -677,10 +694,17 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                         {/* Header of Chat view */}
                         {
                             id ? <div className='ChatHeader'>
-                                <div className='info'>
+                                <Box onClick={handleOpenProfile} className='info'
+                                    sx={{
+                                        '&:hover': {
+                                            opacity: [0.9, 0.8, 0.7],
+                                            cursor: 'pointer',
+                                            transition: 'all 0.5s'
+                                        },
+                                    }}>
                                     <Avatar sx={{ mr: 1 }} alt="name" src={receiver?.avatar} />
                                     <Typography>{receiver?.name}</Typography>
-                                </div>
+                                </Box>
 
                                 <Box sx={{ display: 'flex', }}>
                                     {currentUserId == buyerId ?

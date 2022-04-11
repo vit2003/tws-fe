@@ -200,7 +200,7 @@ function TradingPostDetail({ tradingPost }) {
                 buyerId: currentUserId,
                 billId: null
             });
-        history.push(`/TradingMessage/${messageId}`, tradingPost);
+        history.push(`/TradingMessage/${messageId}`, tradingPost.id);
 
 
         // LƯU BILL

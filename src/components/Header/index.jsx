@@ -103,11 +103,13 @@ function Header() {
   const [anchorElNoti, setAnchorElNoti] = React.useState(null);
   const isNotiOpen = Boolean(anchorElNoti);
 
-  
 
-  
+
+
 
   const loggedInAccount = useSelector(state => state.account.current);
+
+  console.log("loggedInAccount: ", loggedInAccount);
   // console.log(loggedInAccount)
   const AccountAvatar = loggedInAccount.avatar;
   const AccountId = loggedInAccount.accountId;
@@ -121,7 +123,7 @@ function Header() {
   const handleNotifiMenuOpen = (event) => {
     setAnchorElNoti(event.currentTarget);
   };
-  
+
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -190,30 +192,30 @@ function Header() {
   );
 
 
-   // Menu in Notification
-   const notifiId = 'primary-search-account-menu';
-   const renderNotifi = (
-     <Menu
-       anchorEl={anchorElNoti}
-       anchorOrigin={{
-         vertical: 'bottom',
-         horizontal: 'right',
-       }}
-       transformOrigin={{
-         vertical: 'top',
-         horizontal: 'right',
-       }}
-       id={notifiId}
-       keepMounted
-       open={isNotiOpen}
-       onClose={handleMenuClose}
-     >
-       <MenuItem>Noti</MenuItem>
-       <MenuItem>Noti</MenuItem>
-       <MenuItem>Noti Noti</MenuItem>
-       <MenuItem>Noti Noti</MenuItem>
-     </Menu>
-   );
+  // Menu in Notification
+  const notifiId = 'primary-search-account-menu';
+  const renderNotifi = (
+    <Menu
+      anchorEl={anchorElNoti}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={notifiId}
+      keepMounted
+      open={isNotiOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem>Noti</MenuItem>
+      <MenuItem>Noti</MenuItem>
+      <MenuItem>Noti Noti</MenuItem>
+      <MenuItem>Noti Noti</MenuItem>
+    </Menu>
+  );
 
   // RENDER MOBILE RESSPONSIVE MENU
   const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -295,7 +297,7 @@ function Header() {
           <Box className={classes.middleHeader} sx={{ flexGrow: 1, textAlign: 'center', }} >
 
             {/* Home Icon */}
-            <NavLink exact  to="/home">
+            <NavLink exact to="/home">
               <IconButton size="large" >
                 <Home sx={{ fontSize: 38 }} />
               </IconButton>

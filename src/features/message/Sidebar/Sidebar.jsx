@@ -16,6 +16,7 @@ import './Sidebar.scss';
 
 import { makeStyles } from '@mui/styles';
 import { InputBase } from '@mui/material/';
+import { Redirect, Link } from 'react-router-dom';
 
 
 
@@ -124,15 +125,42 @@ function Sidebar({ users, tradingConver, onChangeTrading, tradingPost }) {
       onChangeTrading('Userlist')
     }
   }
+  // Onclick redirect to Profile
+  const handleOpenProfile = () => {
+    history.push(`/account/${currentUserId}`)
+  }
 
   return (
     <div className='sidebarView'>
 
       {/* HEADER OF SIDEBAR */}
       <div className='sidebarHeader'>
-        <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', pl: 3 }}>
-          <Avatar sx={{ mr: 1, }} alt="name" src={currentUser?.avatar} />
-          <Typography>{currentUser?.name}</Typography>
+        <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', pl: 3, justifyContent: 'space-between' }}>
+
+          <Box onClick={handleOpenProfile} sx={{
+            display: 'flex', alignItems: 'center',
+            '&:hover': {
+              opacity: [0.9, 0.8, 0.7],
+              cursor: 'pointer',
+              transition: 'all 0.5s'
+            },
+          }}>
+            <Avatar sx={{ mr: 1, }} alt="name" src={currentUser?.avatar} />
+            <Typography>{currentUser?.name}</Typography>
+          </Box>
+          <Link to="/" className="link">
+            <Box sx={{
+              display: 'flex', alignItems: 'center',
+              '&:hover': {
+                opacity: [0.9, 0.8, 0.7],
+                cursor: 'pointer',
+                transition: 'all 0.5s'
+              },
+            }}>
+              <Avatar src='/2.png' sx={{ height: '37px', width: '107px' }}></Avatar>
+            </Box>
+          </Link>
+
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

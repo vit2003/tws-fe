@@ -20,24 +20,24 @@
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid rgb(230, 230, 230);
-        box-shadow: 0px 15px 10px -15px #111;    
+        box-shadow: 0px 15px 10px -15px #111;
         .info {
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: center;
         }
-    }.ChatContent{
-        height: calc(100% - 85px);
+    }
+    .ChatContent {
+        height: calc(100% - 90px);
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         padding: 10px;
-        .MessageList{
+        .MessageList {
             max-height: 100%;
             max-width: 100%;
             overflow-y: auto;
         }
     }
-
 }

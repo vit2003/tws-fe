@@ -26,7 +26,26 @@ export const showPrize = (prizeId) => {
 }
 
 
+// export const getPostsByGroupId = (groupID) => {
+//     return (dispatch) => {
+//         const token = axioClient.getToken();
+//         dispatch(setPosts([]));
 
+//         if (token) {
+//             axioClient.setHeaderAuth(token)
+//             axioClient.get('/posts/group/' + groupID)
+//                 .then((response) => {
+//                     console.log(response)
+//                     if (response.data) {
+//                         dispatch(setPosts(response.data));
+//                     }
+//                 })
+//                 .catch((error) => {
+//                     console.log(error)
+//                 })
+//         }
+//     }
+// }
 
 export const getPrizes = (filters, loading = true) => {
     return (dispatch) => {
@@ -78,10 +97,6 @@ export const createPrize = createAsyncThunk(
     'prizes',
     async (payload) => {
         //call api to register
-        const filters = {
-            pageNumber: 1,
-            pageSize: 50,
-        }
         const response = await prizeApi.createPrize(payload)
         if (response) {
             dispatch(getPrizes(filters, false));
@@ -93,17 +108,14 @@ export const createPrize = createAsyncThunk(
 export const deletePrize = (prizeId) => {
     return (dispatch) => {
         const token = axioClient.getToken();
-        const filters = {
-            pageNumber: 1,
-            pageSize: 50,
-        }
+
         if (token) {
             axioClient.setHeaderAuth(token)
             axioClient.delete(`/prizes/${prizeId}`)
                 .then((response) => {
                     console.log(response)
                     if (response) {
-                        dispatch(getPrizes(filters, false));
+                        dispatch(getPrizes(false));
                     }
                 })
                 .catch((error) => {
@@ -113,6 +125,22 @@ export const deletePrize = (prizeId) => {
     }
 }
 
+// export const deletePost = () => {
+//     return (dispatch) => {
+//         const token = axioClient.getToken();
+
+//         if (token) {
+//             axioClient.setHeaderAuth(token)
+//             axioClient.get('/posts')
+//                 .then((response) => {
+//                     dispatch(getPosts())
+//                 })
+//                 .catch((error) => {
+//                     console.log(error)
+//                 })
+//         }
+//     }
+// }
 
 export const setPrizes = (payload) => {
     return {
