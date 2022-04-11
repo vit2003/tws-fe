@@ -88,23 +88,23 @@ export const approvePost = (postID) => {
 }
 
 export const denyPost = (postID) => {
-    return (dispatch) => {
-        const token = axioClient.getToken();
+    // return (dispatch) => {
+    //     const token = axioClient.getToken();
 
-        if (token) {
-            axioClient.setHeaderAuth(token)
-            axioClient.put(`/posts/deny/${postID}`)
-                .then((response) => {
-                    console.log(response)
-                    if (response) {
-                        dispatch(getPostsWaiting(false));
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-        }
-    }
+    //     if (token) {
+    //         axioClient.setHeaderAuth(token)
+    //         axioClient.put(`/posts/deny/${postID}`)
+    //             .then((response) => {
+    //                 console.log(response)
+    //                 if (response) {
+    //                     dispatch(getPostsWaiting(false));
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 console.log(error)
+    //             })
+    //     }
+    // }
 }
 
 export const deletePost = () => {
