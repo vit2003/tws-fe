@@ -18,7 +18,7 @@ message.propTypes = {
 
 };
 
-function message() {
+function Message() {
     const location = useLocation();
     const tradingPostId = location.state
 
@@ -110,5 +110,5 @@ function message() {
     );
 }
 
-export default message;
+export default Message;
 
