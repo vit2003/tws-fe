@@ -98,7 +98,7 @@ function Home(props) {
                 <GroupBar />
 
                 {/* Event Slider */}
-                <div className='EventSlider__around '>
+                {/* <div className='EventSlider__around '>
                     <Slider {...settings}>
                         {listHighLight.map((event) => {
                             return (
@@ -113,7 +113,7 @@ function Home(props) {
                             )
                         })}
                     </Slider>
-                </div>
+                </div> */}
 
                 {/* ================TOYS============== */}
                 <div className='hometoys'>

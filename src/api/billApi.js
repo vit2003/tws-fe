@@ -19,7 +19,7 @@ const billApi = {
         }
     },
 
-    Accept(id,data) {
+    Accept(id, data) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
@@ -27,29 +27,29 @@ const billApi = {
             return axioClient.putMiddleParams(`/bills/${id}/accept_or_deny?accept_or_deny=${data}`)
         }
     },
-    Deny(id,data) {
+    Deny(id, data) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
             return axioClient.putMiddleParams(`/bills/${id}/accept_or_deny?accept_or_deny=${data}`)
         }
     },
-    
-    Cancel(id,data) {
+
+    Cancel(id, data) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
             return axioClient.putMiddleParams(`/bills/${id}/accept_or_deny?accept_or_deny=${data}`)
         }
     },
-    Report(id,data) {
+    Rate(id, data) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
             return axioClient.post(`/accounts/rate/bill/${id}`, data)
         }
     },
-    ClosedPost(id,data) {
+    ClosedPost(id, data) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)

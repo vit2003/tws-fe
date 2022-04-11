@@ -9,9 +9,20 @@ const prizeApi = {
             return axioClient.getMiddleParams('/contest', id,'prizes')
         }
     },
+    getPrizeById(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.get(`/prizes/${id}/update`)
+        }
+    },
     
-    add(data) {
-        
+    createPrize(data) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.post('/prizes', data)
+        }
     },
 
     update(data) {

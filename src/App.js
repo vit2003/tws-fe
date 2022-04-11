@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import './assets/css/style.css';
 // import Admin from './features/admin/dashboard';
@@ -28,12 +28,21 @@ import AccountManagement from './features/admin/account/index';
 import EditAccount from './features/admin/account/edit';
 import Contest from './features/Contest/Contest/Contest';
 import message from './features/message/message';
-import ProposalManagerment from './features/admin/proposal/index';
-import approveProposal from './features/admin/proposal/approveProposal';
+// import approveProposal from './features/admin/proposal/approveProposal';
 import TradingPost from './features/exchange/components/TradingPost/TradingPost';
 import TradingPostDetailPage from './features/exchange/components/TradingPostDetailPage.jsx/TradingPostDetailPage';
+import ContestManagement from './features/admin/contest/index';
+import PrizeManagement from './features/admin/prize/prize';
+import EditPrize from './features/admin/prize/edit';
+import TradingPostManagement from './features/admin/tradingPost/index';
+import BillManagement from './features/admin/bill/bill';
+import FeedbackManagement from './features/admin/feedback/Feedback';
 
 function App() {
+  const currentUser = useSelector(state => state.account.current);
+
+  // if (!currentUser) return <Redirect to="/" />
+
   return (
     <div className="App">
       <Switch>
@@ -41,25 +50,84 @@ function App() {
         <Route path='/admin/:path?'>
           <AdminLayout>
             <Switch>
-              <Route path='/admin' exact component={Dashboard} />
-              <Route path='/admin/post' exact component={PostManagement} />
-              <Route path='/admin/account' exact component={AccountManagement} />
-              <Route path='/admin/account/:id' exact component={EditAccount} />
-              <Route path='/admin/group' exact component={GroupManagement} />
-              <Route path='/admin/group/:id' exact component={GroupManagement} />
-              <Route path='/admin/proposal' exact component={ProposalManagerment} />
-              <Route path='/admin/proposal/:id' exact component={approveProposal} />
+              {/* <Route path='/admin' exact component={Dashboard} roles={[0, 1]} />
+              <Route path='/admin/post' exact component={PostManagement} roles={[0]} />
+              <Route path='/admin/account' exact component={AccountManagement} roles={[0]} />
+              <Route path='/admin/account/:id' exact component={EditAccount} roles={[0]} />
+              <Route path='/admin/group' exact component={GroupManagement} roles={[0, 1]} />
+              <Route path='/admin/group/:id' exact component={GroupManagement} roles={[0, 1]} />
+              <Route path='/admin/contest' exact component={ContestManagement} roles={[0, 1]} />
+              <Route path='/admin/prize' exact component={PrizeManagement} roles={[0, 1]} />
+              <Route path='/admin/prize/:id' exact component={EditPrize} roles={[0, 1]} /> */}
+              <Route path='/' exact render={() => {
+                return <Authentication />
+              }} />
+              <Route path='/admin' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <Dashboard /> : <Redirect to="/" />
+              }} />
+
+              {/* ACCOUNT MANAGEMENT */}
+              <Route path='/admin/account' exact render={() => {
+                return currentUser && currentUser['role'] == 0 ? <AccountManagement /> : <Redirect to="/" />
+              }} />
+              <Route path='/admin/account/:id' exact render={() => {
+                return currentUser && currentUser['role'] == 0 ? <EditAccount /> : <Redirect to="/" />
+              }} />
+
+              {/* POST MANAGEMENT */}
+              <Route path='/admin/post' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <PostManagement /> : <Redirect to="/" />
+              }} />
+
+              {/* GROUP MANAGEMENT */}
+              <Route path='/admin/group' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <GroupManagement /> : <Redirect to="/" />
+              }} />
+              <Route path='/admin/group/:id' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <GroupManagement /> : <Redirect to="/" />
+              }} />
+
+              {/* CONTEST MANAGEMENT */}
+              <Route path='/admin/contest' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <ContestManagement /> : <Redirect to="/" />
+              }} />
+
+              {/* PRIZE MANAGEMENT */}
+              <Route path='/admin/prize' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <PrizeManagement /> : <Redirect to="/" />
+              }} />
+              <Route path='/admin/prize/:id' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <EditPrize /> : <Redirect to="/" />
+              }} />
+
+              {/* TRADING POST MANAGEMENT */}
+              <Route path='/admin/tradingPost' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <TradingPostManagement /> : <Redirect to="/" />
+              }} />
+
+              {/* BILL MANAGEMENT */}
+              <Route path='/admin/bill' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <BillManagement /> : <Redirect to="/" />
+              }} />
+
+              {/* BILL MANAGEMENT */}
+              <Route path='/admin/feedback' exact render={() => {
+                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <FeedbackManagement /> : <Redirect to="/" />
+              }} />
+
+
             </Switch>
           </AdminLayout>
         </Route>
 
         <Route path="/" component={Authentication} exact />
 
+        <PrivateRoute path="/home" component={Home} exact roles={[0, 1, 2]} />
 
-        <PrivateRoute path="/home" component={Home} exact roles={[2]} />
+        <Route path="/toys" component={Toys} exact roles={[1, 2]} />
+        <Route path="/toys/:toyId" component={DetailPage} exact roles={[1, 2]} />
 
-        <Route path="/toys" component={Toys} />
-        <Route path="/trading" component={Trading} exact />
+        <Route path="/trading" component={Trading} exact roles={[1, 2]} />
 
         <PrivateRoute path="/trading/:id" component={Trading} exact roles={[1, 2]} />
         <PrivateRoute path="/tradingPost/:postId" component={TradingPostDetailPage} exact roles={[0, 1, 2]} />
@@ -85,8 +153,9 @@ function App() {
         <PrivateRoute path="/TradingMessage/:id" component={message} exact roles={[0, 1, 2]} />
 
         {/* Admin */}'
-        
+
         <PrivateRoute path="/admin" component={Dashboard} exact roles={[0, 1]} />
+
         {/* <PrivateRoute path='/admin/post' component={PostManagement} exact roles={[0, 1]} />
         <PrivateRoute path='/admin/account' component={AccountManagement} exact roles={[0, 1]} />
         <PrivateRoute path='/admin/account/:id' component={EditAccount} exact roles={[0, 1]} />

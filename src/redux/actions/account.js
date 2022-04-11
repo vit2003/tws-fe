@@ -1,8 +1,9 @@
 import axioClient from '../../api/axiosClient'
 import {
+
     ACCOUNT
 } from './types'
-
+import StorageKeys from './../../constants/storage-keys';
 /*
 * Token
 * - Manager: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJSb2xlIjoiMSIsIkFjY291bnRJZCI6IjQiLCJuYmYiOjE2NDU4NDQzMzIsImV4cCI6MTY0NjQ1MDkzMiwiaWF0IjoxNjQ1ODQ0MzMyfQ.WLztfRoQh3HqEj9HNcVWpQM9VItgvWbo_FKngycvsB8
@@ -65,20 +66,21 @@ export const showAccount = (userID) => {
     }
 }
 
-export const updateRole = (userID, role) => {
+export const updateRole = (id, role) => {
     return (dispatch) => {
         const token = axioClient.getToken();
 
+        console.log("userId: ", id, role);
         if (token) {
             axioClient.setHeaderAuth(token)
 
             let url = '';
-            if (role == 0 || role == 1) {
-                url = `/accounts/${userID}/role/manager`;
+            if (role == 1) {
+                url = `/accounts/${id}/role/manager`;
             }
 
             if (role == 2) {
-                url = `/accounts/${userID}/role/member`;
+                url = `/accounts/${id}/role/member`;
             }
 
             axioClient.put(url)
@@ -90,6 +92,19 @@ export const updateRole = (userID, role) => {
                 })
         }
     }
+}
+
+export const logout3 = () => {
+    return (dispatch) => {
+        const token = axioClient.getToken();
+
+        if (token) {
+            localStorage.removeItem(StorageKeys.TOKEN);
+            localStorage.removeItem(StorageKeys.ACCOUNT);
+        }
+        // dispatch(setInfo())
+    }
+
 }
 
 
@@ -106,3 +121,9 @@ export const setAccount = (payload) => {
         payload
     }
 }
+// export const setInfo = (payload) => {
+//     return {
+//         type: ACCOUNT.SET_INFOUSER,
+//         payload
+//     }
+// }

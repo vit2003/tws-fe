@@ -45,19 +45,28 @@ const eventApi = {
         }
     },
 
-    getPostOfContest(id) {
+    getPostOfContest(id, params) {
+        console.log("params: ", params);
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
-            return axioClient.getMiddleParams('/contest', id, 'posts')
+            return axioClient.get2(`/contest/${id}/posts?PageNumber=${params.PageNumber}&PageSize=${params.PageSize}`)
         }
     },
 
-    rating(id, data) {
+    rating(contestId, postOfContestId, params) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
-            return axioClient.postWithId('/contest/rate', id, data)
+            return axioClient.post(`/contest/${contestId}/rate/${postOfContestId}`, params)
+        }
+    },
+
+    checkAttended(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.getMiddleParams('/contest', id, 'attended');
         }
     },
 
@@ -73,6 +82,38 @@ const eventApi = {
         if (token) {
             axioClient.setHeaderAuth(token)
             return axioClient.get('/contest/create/type')
+        }
+    },
+    createNewEvent(id, data) {
+        const token = axioClient.getToken();
+        console.log("data: ", data);
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.post(`/contest/group/${id}`, data)
+        }
+    },
+
+    joinToContest(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.post(`/contest/${id}/join`)
+        }
+    },
+
+    createRunnerPost(id, data) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.post(`/contest/${id}/post`, data)
+        }
+    },
+
+    getTop3(contestId) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.get(`/contest/${contestId}/top_3`);
         }
     },
 

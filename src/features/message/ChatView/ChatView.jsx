@@ -44,7 +44,10 @@ import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import InputPostField from './../../../components/form-controls/InputPostFields/index';
+import tradingPostApi from './../../../api/TradingPostApi';
+import MultiInputField from './../../../components/form-controls/MultiInputField/MultiInputField';
 
+import Swal from 'sweetalert2'
 
 const useStyle = makeStyles(theme => ({
     root: {
@@ -211,6 +214,9 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
     // HANDLE OPEN CHECK BILL DIALOG
     const [openCheckBill, setOpenCheckBill] = React.useState(false);
 
+    // HANDLE OPEN CHECK BILL DIALOG
+    const [openFeedback, setOpenFeedback] = React.useState(false);
+
     //OPEN RATE ACCOUNT DIALOG
     const [openRateAccount, setOpenRateAccount] = useState(false);
     const handleOpenRateAccount = async () => {
@@ -231,12 +237,18 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
         }
     };
 
+    const handleClickOpenFeedback = async () => {
+        setOpenCheckBill(false);
+        setOpenFeedback(true);
+    }
+
 
 
     const handleClose = () => {
         setOpen(false);
         setOpenCheckBill(false);
         setOpenRateAccount(false)
+        setOpenFeedback(false)
     };
 
     // CHOOSE IMAGE
@@ -425,25 +437,33 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
         }
     }
     const handleCreateRate = async (values) => {
-        console.log("billIdToRate: ",billIdToRate);
+        console.log("billIdToRate: ", billIdToRate);
         try {
             const newRate = {
-                rateNum: ratingNum,
-                feedback: values.feedback,
+                numOfStar: ratingNum,
+                content: values.rate,
             }
             console.log('newRate: ', newRate);
-            const response = await billApi.Report(billIdToRate, newRate)
+            const response = await billApi.Rate(billIdToRate, newRate)
             console.log("rate response: ", response);
-            enqueueSnackbar('Rate successfully!!', { variant: 'success' })
             setOpenRateAccount(false)
-
+            await Swal.fire(
+                'Rate successfully',
+                'Click Button to continute!',
+                'success'
+            )
         } catch (error) {
             console.log('Failed to rate account: ', error);
-            enqueueSnackbar('Failed to rate account:', { variant: 'error' })
+            setOpenRateAccount(false)
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
     }
 
-    
+
 
     const handleAcceptBill = async () => {
         try {
@@ -478,14 +498,37 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
     }
 
-    const handleReportBill = async () => {
+    // DEFAULT VALUE FOR BILL FORM
+    const formFeedback = useForm({
+        defaultValues: {
+            content: '',
+        },
+    })
+
+    const handleFeedbackBill = async (values) => {
+        console.log(" values: ", values);
         try {
             // console.log("bil id: ", bill.id);
-            // const response = await billApi.Accept(bill.id, 1)
-            // console.log("accept respone: ", response);
-            setOpenCheckBill(false)
+            const newFeedback = {
+                content: values.content,
+            }
+            const response = await tradingPostApi.feedbackPost(tradingPostId, newFeedback);
+            console.log("accept respone: ", response);
+            console.log(" newFeedback: ", newFeedback);
+            setOpenFeedback(false)
+            await Swal.fire(
+                'Rate successfully',
+                'Click Button to continute!',
+                'success'
+            )
         } catch (error) {
             console.log("Hanlde accetp bill failed: ", error);
+            setOpenFeedback(false)
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
     }
 
@@ -518,7 +561,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
     // DEFAULT VALUE FOR BILL FORM
     const formRate = useForm({
         defaultValues: {
-            feedback: '',
+            rate: '',
         },
     })
 
@@ -677,7 +720,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
                                                 <FormControl component="fieldset" variant="standard">
                                                     <FormControlLabel
-                                                        value="start"   
+                                                        value="start"
                                                         label="Change by Money"
                                                         control={
                                                             <Switch
@@ -752,7 +795,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                             {
                                                 bill?.status === 3 || bill?.status === 2 ? <></> :
                                                     isBillCreated && currentUserId == buyerId ?
-                                                        <Button onClick={handleReportBill}>Report</Button> :
+                                                        <Button onClick={handleClickOpenFeedback}>Feedback</Button> :
 
                                                         isBillCreated && currentUserId != buyerId ?
                                                             <>
@@ -800,13 +843,30 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                                         }
                                                     }}
                                                 />
-                                                <InputPostField name='feedback' label='feedback'  form={formRate} />
+                                                <InputPostField name='rate' label='rate' form={formRate} />
 
 
                                             </DialogContent>
                                             <DialogActions>
                                                 <Button onClick={handleClose}>Cancel</Button>
                                                 <Button type="submit">RATE ACCOUNT</Button>
+                                            </DialogActions>
+                                        </form>
+                                    </Dialog>
+
+                                    {/* DIALOG FEEDBACK TRADINGPOST */}
+                                    <Dialog open={openFeedback} onClose={handleClose}>
+                                        <DialogTitle sx={{ textAlign: 'center' }}>FEEDBACK THIS POST</DialogTitle>
+                                        <form onSubmit={formFeedback.handleSubmit(handleFeedbackBill)}>
+                                            <DialogContent>
+                                                <DialogContentText>
+                                                    Your trading info will be saved in our systemYour trading info will be saved in our systemYour trading info will be saved in our system
+                                                </DialogContentText>
+                                                <InputPostField name='content' label='Feedback' form={formFeedback} />
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button onClick={handleClose}>Cancel</Button>
+                                                <Button type="submit">Feedback Post</Button>
                                             </DialogActions>
                                         </form>
                                     </Dialog>

@@ -25,7 +25,8 @@ import InputField from './../../../components/form-controls/InputFields/index';
 import eventApi from './../../../api/eventApi';
 import { useSelector } from 'react-redux';
 import tradingPostApi from './../../../api/TradingPostApi';
-
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
 
 CreateTradingPost.propTypes = {
     onSubmit: PropTypes.func,
@@ -162,6 +163,17 @@ function CreateTradingPost({ tradingGroupId }) {
     }
 
     const control = useForm()
+
+    const schema = yup.object().shape({
+        title: yup.string()
+            .required('Please enter your Title')
+            .test('should has at least two words', 'Please Enter as least two words', (value) => {
+                return value.split(' ').length >= 2;
+            }),
+        toyName: yup.string().required('Please enter your Toy.'),
+
+    });
+
     const form = useForm({
         defaultValues: {
             title: '',
@@ -173,7 +185,8 @@ function CreateTradingPost({ tradingGroupId }) {
             value: 0,
             phone: '',
             postContent: '',
-        }
+        },
+        resolver: yupResolver(schema),
     })
 
     // UPLOAD ANG GET IMAGE URL FROM FIREBASE
@@ -411,7 +424,7 @@ function CreateTradingPost({ tradingGroupId }) {
 
                     <DialogActions>
                         <Button color='inherit' onClick={handleClose}>Cancel</Button>
-                        <Button className={classes.btn} type='submit' onClick={handleClose}>Post</Button>
+                        <Button className={classes.btn} type='submit'>Post</Button>
                     </DialogActions>
                 </form>
             </Dialog>

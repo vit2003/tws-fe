@@ -69,7 +69,6 @@ function Authentication(props) {
   const classes = useStyle();
 
   const currentUser = useSelector(state => state.account.current);
-  console.log("CurrentUser", currentUser);
 
 
   const [open, setOpen] = useState(false);

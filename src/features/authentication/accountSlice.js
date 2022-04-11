@@ -34,13 +34,31 @@ export const login = createAsyncThunk(
     }
 )
 
+export const logout2 = createAsyncThunk(
+    'account/logout',
+    async (payload) => {
+        localStorage.removeItem(StorageKeys.TOKEN);
+        localStorage.removeItem(StorageKeys.ACCOUNT);
+        state.current = null;
+        return payload.push('/')
+    }
+)
+
+
+// export const logout2 = () => {
+//     localStorage.removeItem(StorageKeys.TOKEN);
+//     localStorage.removeItem(StorageKeys.ACCOUNT);
+//     state.current = null;
+// }
+
+
 
 const accountSlice = createSlice({
 
     name: 'account',
 
     initialState: {
-        current:  JSON.parse(localStorage.getItem((StorageKeys.ACCOUNT))) || null,
+        current: JSON.parse(localStorage.getItem((StorageKeys.ACCOUNT))) || null,
     },
     reducers: {
         logout(state) {
@@ -55,7 +73,7 @@ const accountSlice = createSlice({
     extraReducers: {
         [register.fulfilled]: (state, action) => {
             state.current = action.payload;
-            
+
         },
         [login.fulfilled]: (state, action) => {
             state.current = action.payload;
@@ -63,7 +81,7 @@ const accountSlice = createSlice({
     }
 });
 
-const { actions, reducer} = accountSlice;
+const { actions, reducer } = accountSlice;
 
-export const {logout} = actions;
+export const { logout } = actions;
 export default reducer;

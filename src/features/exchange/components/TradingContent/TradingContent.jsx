@@ -14,14 +14,19 @@ TradingContent.propTypes = {
 function TradingContent(props) {
 
     const { id: tradingGroupId } = useParams();
-    
+
     const [listTradingPost, setListTradingPost] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [filters, setFilters] = useState({
+        pageNumber: 1,
+        pageSize: 99,
+    });
 
     useEffect(() => {
         const fetchListTradingPost = async () => {
             try {
-                const data = await tradingPostApi.getAll(tradingGroupId);
+                const data = await tradingPostApi.getAll(tradingGroupId, filters);
                 console.log("getlistTradingByGroup: ", data);
                 setListTradingPost(data.data)
             } catch (error) {
@@ -30,7 +35,7 @@ function TradingContent(props) {
             setLoading(false);
         }
         fetchListTradingPost();
-    }, [tradingGroupId])
+    }, [tradingGroupId, filters])
 
     const handleCreatePostSubmit = (values) => {
 
@@ -41,7 +46,7 @@ function TradingContent(props) {
             <Container>
                 <Grid container spacing={2}>
                     <Grid item xs={2}>
-                        
+
                     </Grid>
                     <Grid item xs={8}>
                         {/* Form to create a post */}
@@ -52,7 +57,7 @@ function TradingContent(props) {
                         {loading ? <PostSkeleton /> : <TradingPostList listTradingPost={listTradingPost} />}
                     </Grid>
                     <Grid item xs={2}>
-                       
+
                     </Grid>
                 </Grid>
             </Container>

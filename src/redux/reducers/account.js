@@ -1,12 +1,13 @@
 import axioClient from '../../api/axiosClient';
 import { ACCOUNT } from '../actions/types';
+import StorageKeys from './../../constants/storage-keys';
 
 const token = axioClient.getToken();
 let infoUser = '';
 if (token) {
-    infoUser = JSON.parse(atob(token.split('.')[1]));
+    infoUser = JSON.parse(localStorage.getItem((StorageKeys.ACCOUNT)))
 }
- 
+
 const initState = {
     error: '',
     role: '',
@@ -17,17 +18,22 @@ const initState = {
 
 const accountReducer = (state = initState, action) => {
     switch (action.type) {
-        case ACCOUNT.SET_ACCOUNTS: 
+        case ACCOUNT.SET_ACCOUNTS:
             return {
                 ...state,
                 accounts: action.payload
             }
-        case ACCOUNT.SET_ACCOUNT: 
+        case ACCOUNT.SET_ACCOUNT:
             return {
                 ...state,
                 role: action.payload.Role,
                 account: action.payload
             }
+        // case ACCOUNT.SET_INFOUSER:
+        //     return {
+        //         ...state,
+        //         infoUser: action.payload,
+        //     }
         case ACCOUNT.SET_ERROR_MESSAGE:
             return {
                 ...state,
@@ -38,7 +44,7 @@ const accountReducer = (state = initState, action) => {
                 ...state,
                 error: ''
             }
-        default: 
+        default:
             return state
     }
 }

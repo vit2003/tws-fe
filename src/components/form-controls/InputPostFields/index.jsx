@@ -43,7 +43,7 @@ InputPostField.propTypes = {
 };
 
 function InputPostField(props) {
-    const { form, name, label, disabled, value } = props;
+    const { form, name, label, disabled, value, placeholder } = props;
     const classes = useStyles();
 
     return (
@@ -55,7 +55,7 @@ function InputPostField(props) {
 
             label={label}
             disabled={disabled}
-            placeholder='How are you doing?'
+            placeholder={placeholder}
             fullWidth
             variant="filled"
             multiline

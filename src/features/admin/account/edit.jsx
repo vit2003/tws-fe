@@ -18,13 +18,16 @@ export default function EditAccount() {
     const history = useHistory();
     const params = useParams();
     const dispatch = useDispatch();
+    const userID = params.id;
+    console.log("params: ", params);
+
 
     const handleChange = (event) => {
         setRole(event.target.value);
     };
 
     const updateRoleAccount = () => {
-        dispatch(updateRole(state.infoUser.AccountId, role))
+        dispatch(updateRole(userID, role))
     }
 
     useEffect(() => {

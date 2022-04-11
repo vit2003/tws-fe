@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import { NotificationsNone, Language, Settings } from "@material-ui/icons";
 import "./Topbar.css";
 import { IconButton, Avatar, MenuItem, Menu } from '@mui/material/';
-import { logout } from '../../authentication/accountSlice';
+import { logout, logout2 } from '../../authentication/accountSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { logout3 } from './../../../redux/actions/account';
+import Authentication from '../../authentication';
 
 
 Topbar.propTypes = {
@@ -12,10 +15,11 @@ Topbar.propTypes = {
 };
 
 function Topbar(props) {
-    
+    const history = useHistory();
     const dispatch = useDispatch();
-    const currentUser = useSelector(state => state.account.current);
 
+    const currentUser = useSelector(state => state.account.infoUser);
+    console.log("infoUser: ", currentUser);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -23,7 +27,7 @@ function Topbar(props) {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
-      };
+    };
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
     };
@@ -33,10 +37,9 @@ function Topbar(props) {
         handleMobileMenuClose();
     };
     const handleLogoutClick = () => {
-        const action = logout();
-        console.log("currentU: ", currentUser);
-        console.log("action: ", action)
-        dispatch(action);
+        // dispatch(logout2(history));
+        dispatch(logout3());
+        return history.push('/home1121');
     }
 
     // Menu in avatar
@@ -65,7 +68,11 @@ function Topbar(props) {
         <div className="topbar">
             <div className="topbarWrapper">
                 <div className="topLeft">
-                    <span className="logo">ToyWorld Admin</span>
+                    {
+                        currentUser.role === 0 ? <span className="logo">ToyWorld Admin</span> :
+                            currentUser.role === 1 ? <span className="logo">ToyWorld Manager</span> : <></>
+                    }
+
                 </div>
                 <div className="topRight">
                     <div className="topbarIconContainer">

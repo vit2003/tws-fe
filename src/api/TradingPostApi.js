@@ -2,11 +2,12 @@ import axioClient from './axiosClient';
 
 const tradingPostApi = {
 
-    getAll(id) {
+    getAll(id, params) {
+        console.log('params: ', params);
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
-            return axioClient.get('/trading_posts/group', id)
+            return axioClient.getWithFilter('/trading_posts/group', id, { params })
         }
     },
 
@@ -49,7 +50,7 @@ const tradingPostApi = {
         }
     },
 
-    createNewTradingPost(id, data){
+    createNewTradingPost(id, data) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
@@ -57,8 +58,12 @@ const tradingPostApi = {
         }
     },
 
-    update(data) {
-
+    feedbackPost(id, data) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.post(`/trading_posts/${id}/feedback`, data)
+        }
     },
     remove(id) {
 
