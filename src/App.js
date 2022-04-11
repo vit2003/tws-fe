@@ -27,7 +27,7 @@ import GroupManagement from './features/admin/group';
 import AccountManagement from './features/admin/account/index';
 import EditAccount from './features/admin/account/edit';
 import Contest from './features/Contest/Contest/Contest';
-import Message from './features/Message/Message';
+import Message from './features/message/Message';
 // import approveProposal from './features/admin/proposal/approveProposal';
 import TradingPost from './features/exchange/components/TradingPost/TradingPost';
 import TradingPostDetailPage from './features/exchange/components/TradingPostDetailPage.jsx/TradingPostDetailPage';
