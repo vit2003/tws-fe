@@ -44,7 +44,7 @@
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.4.8",
     "sweetalert2-react-content": "^4.2.0",
-    "swiper": "^7.4.1",
+    "swiper": "^6.8.4",
     "web-vitals": "^2.1.2",
     "yup": "^0.32.11"
   },
