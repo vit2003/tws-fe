@@ -72,19 +72,19 @@ export const updatePrize = (prizeId, params) => {
 }
 
 export const createPrize = createAsyncThunk(
-    'prizes',
-    async (payload) => {
-        //call api to register
-        const filters = {
-            pageNumber: 1,
-            pageSize: 9
-        }
-        const response = await prizeApi.createPrize(payload)
-        if (response) {
-            dispatch(getPrizes(filters, false));
-        }
+    // 'prizes',
+    // async (payload) => {
+    //     //call api to register
+    //     const filters = {
+    //         pageNumber: 1,
+    //         pageSize: 9
+    //     }
+    //     const response = await prizeApi.createPrize(payload)
+    //     if (response) {
+    //         dispatch(getPrizes(filters, false));
+    //     }
 
-    }
+    // }
 )
 
 export const deletePrize = (prizeId) => {
