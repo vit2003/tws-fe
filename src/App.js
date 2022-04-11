@@ -27,7 +27,7 @@ import GroupManagement from './features/admin/group';
 import AccountManagement from './features/admin/account/index';
 import EditAccount from './features/admin/account/edit';
 import Contest from './features/Contest/Contest/Contest';
-import Message from './features/message/Message';
+// import Message from './features/message/message';
 // import approveProposal from './features/admin/proposal/approveProposal';
 import TradingPost from './features/exchange/components/TradingPost/TradingPost';
 import TradingPostDetailPage from './features/exchange/components/TradingPostDetailPage.jsx/TradingPostDetailPage';
@@ -37,6 +37,7 @@ import EditPrize from './features/admin/prize/edit';
 import TradingPostManagement from './features/admin/tradingPost/index';
 import BillManagement from './features/admin/bill/bill';
 import FeedbackManagement from './features/admin/feedback/Feedback';
+import Message from './features/message/Message';
 
 function App() {
   const currentUser = useSelector(state => state.account.current);
