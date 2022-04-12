@@ -1,0 +1,32 @@
+.sidebarView {
+    height: 98vh !important;
+    width: 100% !important;
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        visibility: hidden;
+    }
+    ::-webkit-scrollbar-track {
+        background: #ddd;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #f8cdda; /* fallback for old browsers */
+        border-radius: 10px;
+        transition: 1s;
+    }
+    .sidebarHeader {
+        height: 85px !important;
+        width: 80% !important;
+    }
+    .sidebarContent {
+        height: calc(100% - 175px) !important;
+        .sidebarList {
+            max-height: 100% !important;
+            max-width: 100% !important;
+            overflow-y: auto !important;
+        }
+    }
+}
+.sidebarView:hover ::-webkit-scrollbar {
+    visibility: visible;
+}

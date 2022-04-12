@@ -1,0 +1,17 @@
+.knowmore {
+    background-image: url(../../../../public/images/bg-main_01.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    background-attachment: fixed;
+    .text {
+        font-family: "Pacifico", cursive !important;
+        font-size: 4rem !important;
+        padding: 30px 0;
+        text-align: center;
+        font-weight: bold;
+    }
+    .textFont {
+        font-family: "Pacifico", cursive !important;
+    }
+}
