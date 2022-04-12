@@ -37,7 +37,7 @@ import DetailPage from './features/toys/ListPage.jsx/DetailPage';
 
 
 function App() {
-  // const currentUser = useSelector(state => state.login.login);
+
   const currentUser = useSelector(state => state.login.infoUser);
 
   // if (!currentUser) return <Redirect to="/" />

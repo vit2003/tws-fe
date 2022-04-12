@@ -74,7 +74,7 @@ const useStyle = makeStyles(theme => ({
 
 function PostDetail({ post }) {
 
-    const currentUser = useSelector(state => state.login.login);
+    const currentUser = useSelector(state => state.login.infoUser);
     console.log("currentUser: ", currentUser);
     console.log("post: ", post);
 

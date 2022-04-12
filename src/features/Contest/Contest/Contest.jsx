@@ -67,7 +67,7 @@ const StyledRating = styled(Rating)({
 
 function Contest(props) {
     const { params: { contestId }, } = useRouteMatch();
-    const currentAccount = useSelector((state) => state.login.login);
+    const currentAccount = useSelector((state) => state.login.infoUser);
     const currentAccountId = currentAccount.accountId;
     // console.log("currentAccount: ", currentAccount);
     // console.log("currentAccountId: ", currentAccountId);

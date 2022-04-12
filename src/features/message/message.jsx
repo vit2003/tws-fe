@@ -20,7 +20,7 @@ function Message() {
 
     console.log("tradingPost id: ", tradingPostId);
 
-    const currentUser = useSelector(state => state.login.login);
+    const currentUser = useSelector(state => state.login.infoUser);
 
     const { params: { id } } = useRouteMatch();
     // const { params: { TradingId } } = useRouteMatch();

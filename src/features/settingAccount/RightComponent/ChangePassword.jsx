@@ -51,7 +51,7 @@ function ChangePassword(props) {
     const classes = useStyles();
 
     // Current Account logged in
-    const currentAccount = useSelector(state => state.login.login);
+    const currentAccount = useSelector(state => state.login.infoUser);
     console.log(currentAccount)
 
 

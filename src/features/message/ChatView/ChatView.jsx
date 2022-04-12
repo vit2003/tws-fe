@@ -124,7 +124,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
     const history = useHistory();
 
     // CURRENT USER
-    const currentUser = useSelector(state => state.login.login);
+    const currentUser = useSelector(state => state.login.infoUser);
     const currentUserId = currentUser.accountId;
     const currrentUserName = currentUser.name;
 

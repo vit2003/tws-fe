@@ -15,7 +15,7 @@ function Topbar({ reload }) {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const currentUser = useSelector(state => state.login.login);
+    const currentUser = useSelector(state => state.login.infoUser);
     // console.log("infoUser: ", currentUser);
 
     // useEffect(() => {

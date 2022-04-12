@@ -110,7 +110,7 @@ function Header() {
 
 
 
-  let loggedInAccount = useSelector(state => state.login.login);
+  let loggedInAccount = useSelector(state => state.login.infoUser);
 
   console.log("loggedInAccount: ", loggedInAccount);
   // console.log(loggedInAccount)

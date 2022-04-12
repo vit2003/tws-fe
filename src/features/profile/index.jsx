@@ -60,7 +60,7 @@ function a11yProps(index) {
 
 function UserProfile(props) {
 
-    const currentAccount = useSelector(state => state.login.login);
+    const currentAccount = useSelector(state => state.login.infoUser);
     const [account, setAccount] = useState({});
     const [maxWidth, setMaxWidth] = React.useState('md');
     const { params: { accountId } } = useRouteMatch();

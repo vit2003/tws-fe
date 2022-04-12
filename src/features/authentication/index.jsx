@@ -68,7 +68,6 @@ function Authentication(props) {
   // Make styles for material
   const classes = useStyle();
 
-  // const currentUser = useSelector(state => state.login.login);
   const currentUser = useSelector(state => state.login.infoUser);
 
   console.log("currentUser: ", currentUser);

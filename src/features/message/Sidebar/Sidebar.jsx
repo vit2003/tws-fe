@@ -59,7 +59,7 @@ function a11yProps(index) {
 function Sidebar({ users, tradingConver, onChangeTrading, tradingPost }) {
 
   // CURRENT USER
-  const currentUser = useSelector(state => state.login.login);
+  const currentUser = useSelector(state => state.login.infoUser);
   const currentUserName = currentUser.name
   const currentUserId = currentUser.accountId
 

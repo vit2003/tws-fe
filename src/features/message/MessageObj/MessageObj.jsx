@@ -38,7 +38,7 @@ MessageObj.propTypes = {
 
 function MessageObj({ msg, users, receiver }) {
 
-    const currentUser = useSelector(state => state.login.login);
+    const currentUser = useSelector(state => state.login.infoUser);
     const currrentUserId = currentUser.accountId
 
     const classes = useStyles();

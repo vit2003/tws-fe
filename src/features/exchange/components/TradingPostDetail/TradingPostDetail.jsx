@@ -109,7 +109,7 @@ const useStyle = makeStyles(theme => ({
 
 function TradingPostDetail({ tradingPost }) {
 
-    const currentUser = useSelector(state => state.login.login);
+    const currentUser = useSelector(state => state.login.infoUser);
     const currentUserId = currentUser.accountId
     console.log("currentUser: ", currentUser);
     console.log("tradingPost: ", tradingPost);

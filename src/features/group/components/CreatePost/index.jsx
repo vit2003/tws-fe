@@ -50,7 +50,7 @@ const useStyle = makeStyles(theme => ({
 
 function CreatePost({ groupId }) {
 
-    const currentUser = useSelector(state => state.login.login);
+    const currentUser = useSelector(state => state.login.infoUser);
     // Style MUI
     const classes = useStyle();
 
