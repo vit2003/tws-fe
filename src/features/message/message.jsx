@@ -12,6 +12,7 @@ import { useRouteMatch, useLocation } from 'react-router-dom';
 import { useCollectionData, useCollection, useDocumentData } from 'react-firebase-hooks/firestore';
 import accountApi from '../../api/accountApi';
 import Bill from './Bill/Bill';
+import tradingPostApi from './../../api/TradingPostApi';
 
 
 
