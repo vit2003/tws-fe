@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
 import { Box, Container, Grid } from '@mui/material';
-import PostSkeleton from '../../../../components/PostSkeleton/PostSkeleton';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import tradingPostApi from '../../../../api/TradingPostApi';
-import TradingPostList from './../TradingPostList/TradingPostList';
+import PostSkeleton from '../../../../components/PostSkeleton/PostSkeleton';
 import CreateTradingPost from '../../CreateTradingPost/CreateTradingPost';
+import TradingPostList from './../TradingPostList/TradingPostList';
 
 TradingContent.propTypes = {
 

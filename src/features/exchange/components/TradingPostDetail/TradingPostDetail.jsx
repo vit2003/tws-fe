@@ -12,27 +12,26 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
-import { red } from '@mui/material/colors';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { makeStyles } from '@mui/styles';
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { addDoc, collection, serverTimestamp, setDoc, Timestamp, doc, updateDoc } from 'firebase/firestore';
-import tradingPostApi from './../../../../api/TradingPostApi';
-// Import Swiper styles
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
-import { Pagination, Navigation } from "swiper";
-
-
+// Import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
 import { db } from '../../../../Firebase/firebase';
+import tradingPostApi from './../../../../api/TradingPostApi';
+
+
 
 TradingPostDetail.propTypes = {
     post: PropTypes.object,
@@ -110,7 +109,7 @@ const useStyle = makeStyles(theme => ({
 
 function TradingPostDetail({ tradingPost }) {
 
-    const currentUser = useSelector(state => state.account.current);
+    const currentUser = useSelector(state => state.login.login);
     const currentUserId = currentUser.accountId
     console.log("currentUser: ", currentUser);
     console.log("tradingPost: ", tradingPost);

@@ -1,9 +1,9 @@
 
+import { Select } from '@mui/material/';
+import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {TextField, Select} from '@mui/material/';
 import { Controller } from 'react-hook-form';
-import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
 
@@ -52,9 +52,9 @@ function SelectFormField(props) {
             control={form.control}
             as={
                 <Select labelId={labelId} label={label}>
-                  {children}
+                    {children}
                 </Select>
-              }
+            }
 
             fullWidth
             label={label}

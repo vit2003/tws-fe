@@ -1,7 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 import Slider from "react-slick";
-import { Card, CardMedia } from '@mui/material';
 import './styles.scss';
 
 function SliderLogin() {
@@ -30,7 +28,7 @@ function SliderLogin() {
             url: 'images/figure.jpg',
             caption: 'Slide 3'
         },
-        
+
     ];
 
     return (
@@ -38,7 +36,7 @@ function SliderLogin() {
             {slideImages.map((photo, index) => {
                 return (
                     <div key={index} className='authenCarousel'>
-                        <img className='SliderImg'  src={photo.url} />
+                        <img className='SliderImg' src={photo.url} />
                     </div>
                 )
             })}

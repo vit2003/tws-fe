@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAccounts, deactiveAccount } from '../../../redux/actions/account';
-import { Link } from 'react-router-dom';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import Tooltip from '@mui/material/Tooltip';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import { IconButton } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { deactiveAccount, getAccounts } from '../../../redux/actions/account';
 
 export default function AccountManagement() {
     const state = useSelector(state => state.account)
@@ -60,7 +59,7 @@ export default function AccountManagement() {
                                         <td>
                                             <Link to={`/admin/account/${item.id}`}>
                                                 <Tooltip title="Edit">
-                                                    <IconButton sx={{backgroundColor: '#5886db', color: '#fff'}} size="normal">
+                                                    <IconButton sx={{ backgroundColor: '#5886db', color: '#fff' }} size="normal">
                                                         <EditIcon />
                                                     </IconButton>
 

@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
-import GroupIcon from '@mui/icons-material/Group';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useDispatch, useSelector } from 'react-redux';
-import { getGroups } from '../../../redux/actions/group';
-import { Link } from 'react-router-dom';
+import GroupIcon from '@mui/icons-material/Group';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getGroups } from '../../../redux/actions/group';
 
 export default function GroupManagement() {
     const state = useSelector(state => state.group)

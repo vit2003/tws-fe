@@ -1,11 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import CommentDetail from './CommentDetail';
-import InputField from './../../../components/form-controls/InputFields/index';
 import { makeStyles } from '@mui/styles';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import commentApi from './../../../api/commentApi';
-import { useState } from 'react';
+import InputField from './../../../components/form-controls/InputFields/index';
+import CommentDetail from './CommentDetail';
 
 CommentList.propTypes = {
 

@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import * as yup from "yup";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import SaveIcon from '@mui/icons-material/Save';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 import { InputLabel } from '@mui/material';
 import Button from '@mui/material/Button';
-import SaveIcon from '@mui/icons-material/Save';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
-import { useHistory, useParams } from 'react-router';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateRole, showAccount } from '../../../redux/actions/account';
+import { useHistory, useParams } from 'react-router';
+import { showAccount, updateRole } from '../../../redux/actions/account';
 
 export default function EditAccount() {
     const state = useSelector(state => state.account);

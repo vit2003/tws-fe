@@ -1,30 +1,26 @@
 import CloseIcon from '@mui/icons-material/Close';
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import {
-    Box, Button, Card,
-    CardMedia, Container, Dialog,
-    DialogContent, DialogContentText, DialogTitle, Grid, IconButton, ImageList, ImageListItem, Rating, Typography, DialogActions
+    Box, Button, Card, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, ImageList, ImageListItem, Rating, Typography
 } from "@mui/material/";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import React, { useEffect, useState } from "react";
+import { useForm } from 'react-hook-form';
+import LazyLoad from 'react-lazyload';
 import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
-
+import Swal from 'sweetalert2';
 import InputField from '../../../components/form-controls/InputFields';
 import eventApi from "./../../../api/eventApi";
 import prizeApi from "./../../../api/prizeApi";
 import Header from "./../../../components/Header/index";
-import { useForm } from 'react-hook-form';
 import Runner from './../Runner/Runner';
-import Swal from 'sweetalert2'
 import RunnerClosed from './../RunnerClosed/RunnerClosed';
-import LazyLoad from 'react-lazyload';
-
 import "./Contest.scss";
+
+
 
 
 
@@ -71,7 +67,7 @@ const StyledRating = styled(Rating)({
 
 function Contest(props) {
     const { params: { contestId }, } = useRouteMatch();
-    const currentAccount = useSelector((state) => state.account.current);
+    const currentAccount = useSelector((state) => state.login.login);
     const currentAccountId = currentAccount.accountId;
     // console.log("currentAccount: ", currentAccount);
     // console.log("currentAccountId: ", currentAccountId);

@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Typography, Box, Grid, Card, CardMedia } from '@mui/material/';
-import './styles.scss'
+import { Box, Card, CardMedia, Grid, Typography } from '@mui/material/';
 import { makeStyles } from '@mui/styles';
+import React, { useState } from 'react';
 import Header from './../../../components/Header/index';
-import { getStorage, ref, getDownloadURL, list } from "firebase/storage";
+import './styles.scss';
 
 KnowMore.propTypes = {
 

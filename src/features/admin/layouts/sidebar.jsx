@@ -1,36 +1,31 @@
-import React from 'react';
-import HomeIcon from '@mui/icons-material/Home';
-import DescriptionIcon from '@mui/icons-material/Description';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import GroupIcon from '@mui/icons-material/Group';
 import {
-    LineStyle,
-    Timeline,
-    TrendingUp,
-    PermIdentity,
-    Storefront,
-    AttachMoney,
-    BarChart,
-    MailOutline,
-    DynamicFeed,
-    ChatBubbleOutline,
-    WorkOutline,
-    Report,
-
+    AttachMoney, ChatBubbleOutline, LineStyle, PermIdentity, Report, Timeline,
+    TrendingUp, WorkOutline
 } from "@material-ui/icons";
+import DescriptionIcon from '@mui/icons-material/Description';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
-import { Link } from 'react-router-dom';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
-export default function SidebarAdmin() {
-    const currentUser = useSelector(state => state.account.infoUser)
+export default function SidebarAdmin({ reload }) {
+    const currentUser = useSelector(state => state.login.infoUser)
 
-    console.log("current: ", currentUser);
+    // useEffect(() => {
+    //     if (!currentUser) {
+    //         reload()
+    //     }
+    // }, [])
+    // const [reload, setReload] = useState(false)
+    // const reloadPage = () => {
+    //     setReload(true);
+    // }
     return (
-
         <div className='SidebarContainer'>
+
             <div className="sidebarWrapper">
                 <div className="sidebarMenu">
                     <div className="sidebarTitle">

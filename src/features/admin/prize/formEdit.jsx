@@ -1,18 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useSnackbar } from 'notistack';
-import { useForm } from 'react-hook-form';
-import AdminInputField from '../../../components/form-controls/AdminInputField/AdminInputField';
-import { Button, TextField } from '@mui/material/';
-import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 import SaveIcon from '@mui/icons-material/Save';
-import { useHistory } from 'react-router';
-import * as yup from "yup";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useState, useEffect } from 'react';
-// import EditPrize from './edit';
-import  { updatePrize } from '../../../redux/actions/prize';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
+import { Button, TextField } from '@mui/material/';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+// import EditPrize from './edit';
+import { updatePrize } from '../../../redux/actions/prize';
 
 FormEdit.propTypes = {
 

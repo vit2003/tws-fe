@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Sidebar from './Sidebar/Sidebar';
-import { useSelector } from 'react-redux';
-import ChatView from './ChatView/ChatView';
 import { Grid } from '@mui/material/';
-import { Form, Button } from 'react-bootstrap';
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { db } from '../../Firebase/firebase';
-import { collection, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
-import { useRouteMatch, useLocation } from 'react-router-dom';
-import { useCollectionData, useCollection, useDocumentData } from 'react-firebase-hooks/firestore';
+import { collection, orderBy, query } from "firebase/firestore";
+import React, { useEffect, useState } from 'react';
+import { useCollection, useCollectionData } from 'react-firebase-hooks/firestore';
+import { useSelector } from 'react-redux';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import accountApi from '../../api/accountApi';
-import Bill from './Bill/Bill';
+import { db } from '../../Firebase/firebase';
 import tradingPostApi from './../../api/TradingPostApi';
+import Bill from './Bill/Bill';
+import ChatView from './ChatView/ChatView';
+import Sidebar from './Sidebar/Sidebar';
 
 
 
@@ -23,7 +20,7 @@ function Message() {
 
     console.log("tradingPost id: ", tradingPostId);
 
-    const currentUser = useSelector(state => state.account.current);
+    const currentUser = useSelector(state => state.login.login);
 
     const { params: { id } } = useRouteMatch();
     // const { params: { TradingId } } = useRouteMatch();

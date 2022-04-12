@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Avatar, Card, CardMedia, Container, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Container, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import { makeStyles } from '@mui/styles';
+import React from 'react';
 
 CrawlDataUnit.propTypes = {
 
@@ -61,7 +60,7 @@ function CrawlDataUnit(props) {
                     })}
                 </Box>
                 <Box>
-                    
+
                 </Box>
             </Container>
         </div>

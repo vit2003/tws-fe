@@ -1,25 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import * as yup from "yup";
-import { InputLabel } from '@mui/material';
-import SaveIcon from '@mui/icons-material/Save';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
-import { useHistory, useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateRole, showAccount } from '../../../redux/actions/account';
-import { ButtonGroup } from '@mui/material/ButtonGroup';
-import AdminInputField from '../../../components/form-controls/AdminInputField/AdminInputField';
 // import { showPrize } from '../../../redux/actions/prize';
 import { useSnackbar } from 'notistack';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { showPrize } from './../../../redux/actions/prize';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router';
 import prizeApi from './../../../api/prizeApi';
 import FormEdit from './formEdit';
-import { Button, TextField } from '@mui/material/';
 
 
 export default function EditPrize() {
@@ -52,7 +38,7 @@ export default function EditPrize() {
             </div>
 
             <div className="card-box-custom">
-                <FormEdit prize={prize}/>
+                <FormEdit prize={prize} />
 
             </div>
         </>

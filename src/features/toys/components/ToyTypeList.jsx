@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material/';
-import categorysApi from '../../../api/categoryApi';
 import { makeStyles } from '@mui/styles';
-import ToyTypeSkeletionList from './ToyTypeSkeletionList';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import categorysApi from '../../../api/categoryApi';
 ToyTypeList.propTypes = {
     onChange: PropTypes.func,
 

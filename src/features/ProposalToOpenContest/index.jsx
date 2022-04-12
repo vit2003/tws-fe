@@ -1,10 +1,9 @@
+import { Box, Button, Card, Container, Grid, Typography } from '@mui/material';
 import React from 'react';
-import PropTypes from 'prop-types';
-import Header from './../../components/Header/index';
-import { Box, Grid, Card, Typography, Button, Container } from '@mui/material';
-import ProposalForm from './ProposalForm/ProposalForm';
 import { useHistory } from 'react-router';
-import './style.scss'
+import Header from './../../components/Header/index';
+import ProposalForm from './ProposalForm/ProposalForm';
+import './style.scss';
 
 ProposalToOpenContest.propTypes = {
 

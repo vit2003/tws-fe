@@ -1,5 +1,4 @@
-import axios from "axios"
-import StorageKeys from './../constants/storage-keys';
+import axios from "axios";
 
 // const axioClient = axios.create({
 //   // baseURL: 'https://api.ezfrontend.com/',
@@ -12,7 +11,8 @@ import StorageKeys from './../constants/storage-keys';
 axios.defaults.baseURL = 'https://tws-system-release.herokuapp.com/api/'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
-axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*'
+// axios.defaults.headers.put['Access-Control-Allow-Origin'] = '*'
+// axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*'
 
 export const axioClient = {
     get(url, slug = '') {

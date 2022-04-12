@@ -68,7 +68,10 @@ function Authentication(props) {
   // Make styles for material
   const classes = useStyle();
 
-  const currentUser = useSelector(state => state.account.current);
+  // const currentUser = useSelector(state => state.login.login);
+  const currentUser = useSelector(state => state.login.infoUser);
+
+  console.log("currentUser: ", currentUser);
 
 
   const [open, setOpen] = useState(false);
@@ -88,11 +91,8 @@ function Authentication(props) {
 
   return (
 
-
     currentUser && currentUser.role === 2 ? <Redirect to='/home' /> :
       currentUser && currentUser.role === 0 || currentUser && currentUser.role === 1 ? <Redirect to='/admin' /> :
-
-
         <div className='authentication'>
           <div className='authentication__left'>
             <h1>TOYS</h1>

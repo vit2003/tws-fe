@@ -1,29 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { yupResolver } from '@hookform/resolvers/yup';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAccounts, deactiveAccount } from '../../../redux/actions/account';
-import { Link } from 'react-router-dom';
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import Tooltip from '@mui/material/Tooltip';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import { Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import { ButtonGroup, Dialog, DialogContent, DialogActions, DialogTitle, IconButton, Avatar, Card, CardHeader, Typography, Switch, Button, Select, FormControlLabel, FormControl, InputLabel, Input, MenuItem } from '@mui/material';
-import DoDisturbIcon from '@mui/icons-material/DoDisturb';
-import { useForm, Controller } from 'react-hook-form';
-import PendingIcon from '@mui/icons-material/Pending';
-import GroupIcon from '@mui/icons-material/Group';
-import { createPrize, deletePrize, getPrizes } from './../../../redux/actions/prize';
-import { yupResolver } from '@hookform/resolvers/yup';
+import Tooltip from '@mui/material/Tooltip';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import * as yup from "yup";
 import AdminInputField from '../../../components/form-controls/AdminInputField/AdminInputField';
-import currencyFormat from './../../../utils/formatPrize';
-import DeleteIcon from '@mui/icons-material/Delete';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import { createPrize, deletePrize, getPrizes } from './../../../redux/actions/prize';
 
-import { useSnackbar } from 'notistack';
 function PrizeManagement() {
     const state = useSelector(state => state.prize)
     const dispatch = useDispatch();

@@ -1,16 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { Button, Container } from '@mui/material';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Button, Card, Container } from '@mui/material';
 import groupApi from './../../api/groupApi';
-import { useHistory } from "react-router-dom";
-
-GroupBar.propTypes = {
-
-};
-
 function GroupBar(props) {
 
 
@@ -46,7 +38,7 @@ function GroupBar(props) {
                 }}
             >
                 {groupList?.map((group) => (
-                    pathName[1] === "trading"?
+                    pathName[1] === "trading" ?
                         <NavLink key={group.id} style={{ textDecoration: 'none', }} activeClassName="active" to={`/trading/${group.id}`}>
                             <Button style={{ color: 'black', }} variant="text">{group.name}</Button>
                         </NavLink> :

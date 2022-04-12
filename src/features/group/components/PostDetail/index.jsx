@@ -9,24 +9,23 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
-import { red } from '@mui/material/colors';
 import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-// Import Swiper styles
-import { Swiper, SwiperSlide } from "swiper/react";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
-import { Pagination, Navigation } from "swiper";
-import { useHistory } from 'react-router';
+// Import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
 import postApi from './../../../../api/postApi';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 
 PostDetail.propTypes = {
     post: PropTypes.object,
@@ -75,7 +74,7 @@ const useStyle = makeStyles(theme => ({
 
 function PostDetail({ post }) {
 
-    const currentUser = useSelector(state => state.account.current);
+    const currentUser = useSelector(state => state.login.login);
     console.log("currentUser: ", currentUser);
     console.log("post: ", post);
 

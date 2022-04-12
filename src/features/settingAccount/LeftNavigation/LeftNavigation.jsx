@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/material/';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 LeftNavigation.propTypes = {
 

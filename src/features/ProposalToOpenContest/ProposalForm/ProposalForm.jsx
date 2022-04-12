@@ -1,22 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Box, Grid, Button, Input, Avatar, Typography, Card } from '@mui/material';
-import InputEditBioField from './../../../components/form-controls/InputEditBioField/InputEditBioField';
-import InputField from './../../../components/form-controls/InputFields/index';
-import { makeStyles } from '@mui/styles';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
-import { useForm } from 'react-hook-form';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { Box, Button, Card, Grid, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 import { getStorage, ref, uploadBytes } from "firebase/storage";
-import eventApi from './../../../api/eventApi';
-import CircularProgressWithLabel from '../../../components/CircularWithLabel/CircularProgressWithLabel'
 import { useSnackbar } from 'notistack';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from "yup";
+import CircularProgressWithLabel from '../../../components/CircularWithLabel/CircularProgressWithLabel';
+import eventApi from './../../../api/eventApi';
+import InputEditBioField from './../../../components/form-controls/InputEditBioField/InputEditBioField';
+import InputField from './../../../components/form-controls/InputFields/index';
 
 
 const useStyles = makeStyles(theme => ({
@@ -55,12 +54,12 @@ ProposalForm.propTypes = {
 
 };
 
-function ProposalForm({value}) {
+function ProposalForm({ value }) {
 
     // Make Styles 
     const classes = useStyles();
 
-    const {enqueueSnackbar} = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
     const Input = styled('input')({
         display: 'none',
@@ -91,7 +90,7 @@ function ProposalForm({value}) {
         resolver: yupResolver(schema),
     })
 
-    
+
 
     const [inputImage, setInputImage] = React.useState([]);
     const [strgImg, setStrgImg] = React.useState([]);
@@ -142,11 +141,11 @@ function ProposalForm({value}) {
         console.log('newProposal: ', newProposal)
         try {
             const response = await eventApi.proposalToOpenContest(newProposal)
-            enqueueSnackbar('New Proposal successfully!!', {variant: 'success'})
+            enqueueSnackbar('New Proposal successfully!!', { variant: 'success' })
             console.log("response: ", response);
         } catch (error) {
             console.log('Failed create comment: ', error);
-            enqueueSnackbar('Failed to Proposal !!', {variant: 'error'})
+            enqueueSnackbar('Failed to Proposal !!', { variant: 'error' })
         }
         form.reset();
         setInputImage([]);
@@ -158,7 +157,7 @@ function ProposalForm({value}) {
     return (
         <div>
             <Typography variant="h4" sx={{ textAlign: 'center', margin: '30px 0' }}>Proposal Here</Typography>
-            
+
 
             <Box sx={{ display: 'flex', padding: '0 50px', }}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className={classes.form}>
@@ -270,7 +269,7 @@ function ProposalForm({value}) {
                         <Button disabled={isSubmitting} type='submit' className={classes.button} variant='contained'>
                             Proposal
                         </Button>
-                        { isSubmitting && <CircularProgressWithLabel value={100} />}
+                        {isSubmitting && <CircularProgressWithLabel value={100} />}
                     </Grid>
                 </form>
             </Box>

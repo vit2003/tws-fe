@@ -1,17 +1,15 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import { Avatar, Button, Grid, Input } from '@mui/material';
-import { Typography, Box } from '@mui/material/';
-import InputField from './../../../components/form-controls/InputFields/index';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import { PhotoCamera } from '@mui/icons-material/';
+import { Avatar, Button, Grid } from '@mui/material';
+import { Box, Typography } from '@mui/material/';
+import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import * as yup from "yup";
 import InputEditBioField from './../../../components/form-controls/InputEditBioField/InputEditBioField';
-import { IconButton } from '@mui/material/';
-import { PhotoCamera } from '@mui/icons-material/';
-import { styled } from '@mui/material/styles';
+import InputField from './../../../components/form-controls/InputFields/index';
 EditAccount.propTypes = {
 
 };
@@ -56,7 +54,7 @@ function EditAccount(props) {
     const classes = useStyles();
 
     // Current Account logged in
-    const currentAccount = useSelector(state => state.account.current);
+    const currentAccount = useSelector(state => state.login.login);
 
 
     console.log(currentAccount)
@@ -106,12 +104,12 @@ function EditAccount(props) {
                             <Avatar sx={{ margin: '20px 0', height: '100px', width: '100px' }} src={image} />
                         </Grid>
                         <Grid item xs={8}>
-                            <Box sx={{paddingTop: '20px'}}>
+                            <Box sx={{ paddingTop: '20px' }}>
                                 <Typography>{currentAccount.email}</Typography>
                                 <label htmlFor="icon-button-file">
-                                    <Input accept="image/*" id="icon-button-file" type="file" onChange={onImageChange}/>
+                                    <Input accept="image/*" id="icon-button-file" type="file" onChange={onImageChange} />
                                     {/* <Avatar sx={{ margin: '20px 0', height: '70px', width: '70px' }} src={image} /> */}
-                                    <Button sx={{ backgroundColor: "db36a4 !important", color:'#db36a4' }} variant="text" aria-label="upload picture" component="span" endIcon={<PhotoCamera />}>
+                                    <Button sx={{ backgroundColor: "db36a4 !important", color: '#db36a4' }} variant="text" aria-label="upload picture" component="span" endIcon={<PhotoCamera />}>
                                         Change Avatar
                                     </Button>
                                 </label>

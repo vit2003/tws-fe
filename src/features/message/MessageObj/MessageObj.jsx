@@ -1,20 +1,15 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Avatar, Typography, Box, CardMedia, DialogContent, Dialog } from '@mui/material/';
-import { useSelector } from 'react-redux';
-import { useCollection } from 'react-firebase-hooks/firestore';
-import { collection } from 'firebase/firestore';
-import { db } from '../../../Firebase/firebase';
-import { makeStyles } from '@mui/styles';
-import { format, compareAsc } from 'date-fns'
-import endOfDay from './../../../../node_modules/date-fns/esm/endOfDay/index';
 import { Tooltip } from '@mui/material';
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Avatar, Box, CardMedia, Dialog, DialogContent, Typography } from '@mui/material/';
+import { makeStyles } from '@mui/styles';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
-import { Pagination, Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 // import { Navigation, Pagination } from 'swiper';
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +38,7 @@ MessageObj.propTypes = {
 
 function MessageObj({ msg, users, receiver }) {
 
-    const currentUser = useSelector(state => state.account.current);
+    const currentUser = useSelector(state => state.login.login);
     const currrentUserId = currentUser.accountId
 
     const classes = useStyles();

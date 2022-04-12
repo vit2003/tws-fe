@@ -1,7 +1,6 @@
-import axioClient from '../../api/axiosClient'
-import { PRIZE } from './types'
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import prizeApi from './../../api/prizeApi';
+import axioClient from '../../api/axiosClient';
+import { PRIZE } from './types';
 
 
 

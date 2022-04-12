@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import StorageKeys from './../constants/storage-keys';
 import { useSelector } from 'react-redux';
 
 function PrivateRoute({ path, component: Component, exact, roles }) {

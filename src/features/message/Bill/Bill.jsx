@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { CardContent, Typography, Divider, Button, Card, ImageListItem, ImageList, Box, Dialog, DialogContent, CardMedia } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import BalanceIcon from '@mui/icons-material/Balance';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import BalanceIcon from '@mui/icons-material/Balance';
+import { Box, Button, CardContent, CardMedia, Dialog, DialogContent, Divider, ImageList, ImageListItem, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useLocation } from 'react-router-dom';
-import tradingPostApi from './../../../api/TradingPostApi';
-// Import Swiper styles
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
-import { Pagination, Navigation } from "swiper";
+// Import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
+import tradingPostApi from './../../../api/TradingPostApi';
 
 const useStyle = makeStyles(theme => ({
     root: {

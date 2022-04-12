@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import CreatePost from './../CreatePost/index';
-import PostList from './../PostList/index';
-import { Grid, Container, Box, Card } from '@mui/material';
+import { Box, Card, Container, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import eventApi from './../../../../api/eventApi';
 import postApi from './../../../../api/postApi';
 import PostSkeleton from './../../../../components/PostSkeleton/PostSkeleton';
 import ContestList from './../ContestList/ContestList';
-import eventApi from './../../../../api/eventApi';
+import CreatePost from './../CreatePost/index';
+import PostList from './../PostList/index';
 
 function GroupContent(props) {
 
@@ -26,9 +25,9 @@ function GroupContent(props) {
                     postApi.getAll(groupId),
                     eventApi.getListContestByGroup(groupId),
                 ]);
-                if(listPost){
+                if (listPost) {
                     setPostList(listPost.data)
-                }if(listContest){
+                } if (listContest) {
                     setContestList(listContest.data);
                 }
                 console.log("listPost: ", listPost)
@@ -50,7 +49,7 @@ function GroupContent(props) {
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
                         {/* Form to create a post */}
-                        <CreatePost groupId={groupId}  />
+                        <CreatePost groupId={groupId} />
 
                         {/* get List post */}
 

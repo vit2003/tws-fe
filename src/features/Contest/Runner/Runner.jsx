@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Grid, Box, CardMedia, Typography, Dialog, DialogContent, Rating, CardContent, CardActions, Card, DialogTitle, Tooltip, DialogContentText, DialogActions, Button, Avatar, Divider } from '@mui/material/';
-import { styled } from '@mui/material/styles';
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import eventApi from '../../../api/eventApi';
-import { makeStyles } from '@mui/styles';
 import StarIcon from '@mui/icons-material/Star';
-import IconButton from '@mui/material/IconButton';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import { useTheme } from '@mui/material/styles';
+import { Avatar, Box, Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Rating, Tooltip, Typography } from '@mui/material/';
+import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import InputPostField from './../../../components/form-controls/InputPostFields/index';
 import LazyLoad from 'react-lazyload';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import eventApi from '../../../api/eventApi';
+import InputPostField from './../../../components/form-controls/InputPostFields/index';
 
 const useStyle = makeStyles((theme) => ({
     onClickOpenImgDiv: {

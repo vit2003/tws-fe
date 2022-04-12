@@ -1,25 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { NotificationsNone, Language, Settings } from "@material-ui/icons";
-import "./Topbar.css";
-import { IconButton, Avatar, MenuItem, Menu } from '@mui/material/';
-import { logout, logout2 } from '../../authentication/accountSlice';
+import { NotificationsNone } from "@material-ui/icons";
+import { Avatar, IconButton, Menu, MenuItem } from '@mui/material/';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { logout3 } from './../../../redux/actions/account';
-import Authentication from '../../authentication';
+import { logoutAccount } from "../../../redux/actions/login";
+import "./Topbar.css";
 
 
 Topbar.propTypes = {
 
 };
 
-function Topbar(props) {
+function Topbar({ reload }) {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const currentUser = useSelector(state => state.account.infoUser);
-    console.log("infoUser: ", currentUser);
+    const currentUser = useSelector(state => state.login.login);
+    // console.log("infoUser: ", currentUser);
+
+    // useEffect(() => {
+    //     if (!currentUser) {
+    //         reload()
+    //     }
+    // }, [])
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -37,9 +40,8 @@ function Topbar(props) {
         handleMobileMenuClose();
     };
     const handleLogoutClick = () => {
-        // dispatch(logout2(history));
-        dispatch(logout3());
-        return history.push('/home1121');
+        dispatch(logoutAccount(true));
+        history.push("/")
     }
 
     // Menu in avatar
@@ -87,7 +89,7 @@ function Topbar(props) {
                         aria-haspopup="true"
                         onClick={handleProfileMenuOpen}
                     >
-                        <Avatar src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"></Avatar>
+                        <Avatar src={currentUser?.avatar}></Avatar>
                     </IconButton>
                     {/* <img src="" alt="" className="topAvatar" /> */}
                 </div>

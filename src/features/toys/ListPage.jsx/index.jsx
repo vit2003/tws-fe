@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Box } from '@mui/material/';
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import { makeStyles } from '@mui/styles';
-import Paper from '@mui/material/Paper';
-import toysApi from '../../../api/toysApi';
-import { useState } from 'react';
-import ToysSkeletonList from '../components/ToysSkeletonList';
-import ToyList from '../components/ToyList';
+import Grid from '@mui/material/Grid';
 import Pagination from '@mui/material/Pagination';
+import Paper from '@mui/material/Paper';
+import { makeStyles } from '@mui/styles';
+import React, { useEffect, useState } from 'react';
+import toysApi from '../../../api/toysApi';
+import ToyList from '../components/ToyList';
+import ToysSkeletonList from '../components/ToysSkeletonList';
 import ToyTypeList from '../components/ToyTypeList';
 import ToyTypeSkeletionList from './../components/ToyTypeSkeletionList';
 
@@ -63,10 +61,10 @@ function ListPage(props) {
                     console.log("fix data: ", data)
                     setToyList(data.data);
                     setCount(data.count);
-                    
+
                 } else {
                     const params = new URLSearchParams(filters);
-                    const data  = await toysApi.getToyByTypeName(typeName + '?' + params);
+                    const data = await toysApi.getToyByTypeName(typeName + '?' + params);
                     console.log("TypeName: ", typeName)
                     console.log("gettoybytypeName: ", data)
                     setToyList(data.data);

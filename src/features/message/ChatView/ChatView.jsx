@@ -1,54 +1,46 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import CloseIcon from '@mui/icons-material/Close';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ImageIcon from '@mui/icons-material/Image';
 import InfoIcon from '@mui/icons-material/Info';
 import SendIcon from '@mui/icons-material/Send';
-import { Box, IconButton, Typography, Avatar, Card, ImageList, ImageListItem, Divider } from '@mui/material/';
-import PropTypes from 'prop-types';
-import React, { useRef, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import ChatField from '../../../components/form-controls/ChatField/ChatField';
-import MessageObj from './../MessageObj/MessageObj';
-import './ChatView.scss';
-import { useSelector } from 'react-redux';
-import { addDoc, collection, serverTimestamp, setDoc, Timestamp, doc, updateDoc } from 'firebase/firestore';
-import { Switch } from '@mui/material/';
-import { useLocation, useParams } from 'react-router-dom';
-import Grid from '@mui/material/Grid';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
-import { db } from '../../../Firebase/firebase';
-import ImageIcon from '@mui/icons-material/Image';
-import { styled } from '@mui/material/styles';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { Button } from '@mui/material/';
-import { PhotoCamera } from '@mui/icons-material/';
-import { makeStyles } from '@mui/styles';
-import CloseIcon from '@mui/icons-material/Close';
-import TextField from '@mui/material/TextField';
+import { Avatar, Box, Button, Card, FormControlLabel, IconButton, ImageList, ImageListItem, Switch, Typography } from '@mui/material/';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import InputField from './../../../components/form-controls/InputFields/index';
-import { FormControlLabel } from '@mui/material/';
 import FormControl from '@mui/material/FormControl';
-import billApi from './../../../api/billApi';
-import { useSnackbar } from 'notistack';
+import Paper from '@mui/material/Paper';
+import Rating from '@mui/material/Rating';
+import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Rating from '@mui/material/Rating';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import InputPostField from './../../../components/form-controls/InputPostFields/index';
-import tradingPostApi from './../../../api/TradingPostApi';
-import MultiInputField from './../../../components/form-controls/MultiInputField/MultiInputField';
+import { makeStyles } from '@mui/styles';
+import { addDoc, collection, doc, Timestamp, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import Swal from 'sweetalert2';
+import * as yup from "yup";
+import ChatField from '../../../components/form-controls/ChatField/ChatField';
+import { db } from '../../../Firebase/firebase';
+import billApi from './../../../api/billApi';
+import tradingPostApi from './../../../api/TradingPostApi';
+import InputField from './../../../components/form-controls/InputFields/index';
+import InputPostField from './../../../components/form-controls/InputPostFields/index';
+import MessageObj from './../MessageObj/MessageObj';
+import './ChatView.scss';
 
-import Swal from 'sweetalert2'
 
 const useStyle = makeStyles(theme => ({
     root: {
@@ -132,7 +124,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
     const history = useHistory();
 
     // CURRENT USER
-    const currentUser = useSelector(state => state.account.current);
+    const currentUser = useSelector(state => state.login.login);
     const currentUserId = currentUser.accountId;
     const currrentUserName = currentUser.name;
 

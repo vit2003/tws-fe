@@ -1,14 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Avatar, Button, Grid, Input } from '@mui/material';
-import { Typography, Box } from '@mui/material/';
-import InputField from './../../../components/form-controls/InputFields/index';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import { Avatar, Button, Grid } from '@mui/material';
+import { Box, Typography } from '@mui/material/';
 import { makeStyles } from '@mui/styles';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import InputEditBioField from './../../../components/form-controls/InputEditBioField/InputEditBioField';
+import * as yup from "yup";
+import InputField from './../../../components/form-controls/InputFields/index';
 ChangePassword.propTypes = {
 
 };
@@ -53,7 +51,7 @@ function ChangePassword(props) {
     const classes = useStyles();
 
     // Current Account logged in
-    const currentAccount = useSelector(state => state.account.current);
+    const currentAccount = useSelector(state => state.login.login);
     console.log(currentAccount)
 
 

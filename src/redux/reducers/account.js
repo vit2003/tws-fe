@@ -29,7 +29,7 @@ const accountReducer = (state = initState, action) => {
                 role: action.payload.Role,
                 account: action.payload
             }
-        // case ACCOUNT.SET_INFOUSER:
+        // case ACCOUNT.LOGIN:
         //     return {
         //         ...state,
         //         infoUser: action.payload,

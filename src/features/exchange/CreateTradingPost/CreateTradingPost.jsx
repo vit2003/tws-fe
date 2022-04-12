@@ -1,32 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Avatar, Card, CardHeader, Typography, Switch, Button, Select, FormControlLabel, FormControl, InputLabel, MenuItem } from '@mui/material';
-
-import IconButton from '@mui/material/IconButton';
-import { grey } from '@mui/material/colors';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { yupResolver } from '@hookform/resolvers/yup';
+import CloseIcon from '@mui/icons-material/Close';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { styled } from '@mui/material/styles';
+import { Avatar, Button, Card, CardHeader, FormControl, FormControlLabel, InputLabel, MenuItem, Switch, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
+import { grey } from '@mui/material/colors';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { makeStyles } from '@mui/styles';
-import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useForm, Controller } from 'react-hook-form';
+import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useSnackbar } from 'notistack';
-import InputPostField from './../../../components/form-controls/InputPostFields/index';
-import InputField from './../../../components/form-controls/InputFields/index';
-import eventApi from './../../../api/eventApi';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import tradingPostApi from './../../../api/TradingPostApi';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import eventApi from './../../../api/eventApi';
+import tradingPostApi from './../../../api/TradingPostApi';
+import InputField from './../../../components/form-controls/InputFields/index';
+import InputPostField from './../../../components/form-controls/InputPostFields/index';
+import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
+
 
 CreateTradingPost.propTypes = {
     onSubmit: PropTypes.func,
@@ -62,7 +61,7 @@ const useStyle = makeStyles(theme => ({
 
 function CreateTradingPost({ tradingGroupId }) {
 
-    const currentUser = useSelector(state => state.account.current);
+    const currentUser = useSelector(state => state.login.login);
     // console.log("currentUser: ", currentUser);
 
     // Style MUI

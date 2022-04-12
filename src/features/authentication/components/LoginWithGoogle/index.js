@@ -1,23 +1,20 @@
-import React, { createContext, useContext,useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import React, { createContext, useState } from 'react';
+import GoogleButton from 'react-google-button';
 import { auth } from './../../../../Firebase/firebase';
-import { signInWithPopup, GoogleAuthProvider} from "firebase/auth"
-import GoogleButton from 'react-google-button'
-import accountApi from './../../../../api/accountApi';
-import StorageKeys from './../../../../constants/storage-keys';
+
 
 
 AuthContextProvider.propTypes = {
-    
+
 };
 const AuthContext = createContext({
     currentUser: null
 })
-function AuthContextProvider({children}) {
+function AuthContextProvider({ children }) {
 
     // // onAuthStateChanged
-    const [tokentId, setTokenId ] = useState('');
+    const [tokentId, setTokenId] = useState('');
 
 
     const LoginWithGg = () => {
@@ -30,9 +27,9 @@ function AuthContextProvider({children}) {
             setTokenId(re.user.accessToken);
             // firebaseToken = tokenId;
         })
-        .catch((error) => {
-            console.log(error)
-        })
+            .catch((error) => {
+                console.log(error)
+            })
         // const result = apiAccountService.signIn(firebaseToken);
         // iff result != null => msg success
     }
@@ -51,8 +48,8 @@ function AuthContextProvider({children}) {
     // },)
 
     return (
-        <GoogleButton style={{width: '100%',}} onClick={LoginWithGg}>
-           {/* Login in with google  */}
+        <GoogleButton style={{ width: '100%', }} onClick={LoginWithGg}>
+            {/* Login in with google  */}
         </GoogleButton>
     );
 }

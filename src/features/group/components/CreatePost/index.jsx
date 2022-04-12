@@ -1,29 +1,28 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Avatar, Card, CardHeader, Typography, Button } from '@mui/material';
-
-import IconButton from '@mui/material/IconButton';
-import { grey } from '@mui/material/colors';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CloseIcon from '@mui/icons-material/Close';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { styled } from '@mui/material/styles';
+import { Avatar, Button, Card, CardHeader, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-
+import { grey } from '@mui/material/colors';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { makeStyles } from '@mui/styles';
-import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import postApi from './../../../../api/postApi';
 // import FileThumbnail from "react-uploaded-video-preview";
 import InputPostField from './../../../../components/form-controls/InputPostFields/index';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useForm } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
-import postApi from './../../../../api/postApi';
-import { useSelector } from 'react-redux';
+
+
 
 
 CreatePost.propTypes = {
@@ -51,7 +50,7 @@ const useStyle = makeStyles(theme => ({
 
 function CreatePost({ groupId }) {
 
-    const currentUser = useSelector(state => state.account.current);
+    const currentUser = useSelector(state => state.login.login);
     // Style MUI
     const classes = useStyle();
 
@@ -163,11 +162,11 @@ function CreatePost({ groupId }) {
             console.log('newPost: ', newPost);
 
             const response = await postApi.createNewPost(newPost)
-            enqueueSnackbar('New Post successfully!!', {variant: 'success'})
+            enqueueSnackbar('New Post successfully!!', { variant: 'success' })
             console.log("response: ", response);
         } catch (error) {
             console.log('Failed create new post: ', error);
-            enqueueSnackbar('Failed to New Post !!', {variant: 'error'})
+            enqueueSnackbar('Failed to New Post !!', { variant: 'error' })
         }
         setStrgImg([]);
         form.reset();

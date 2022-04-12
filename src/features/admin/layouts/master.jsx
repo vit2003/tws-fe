@@ -1,33 +1,31 @@
-import React from 'react';
-import store from '../../../redux/store';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { Provider, useDispatch } from 'react-redux';
 import '../../../assets/css/admin.css';
-import SidebarAdmin from './sidebar';
+import store from '../../../redux/store';
 import Topbar from './../topbar/Topbar';
-import Authentication from './../../authentication/index';
-import { Redirect } from 'react-router-dom';
+import SidebarAdmin from './sidebar';
 
 function AdminLayout({ children }) {
 
     const dispatch = useDispatch();
+    const [reload, setReload] = useState(false)
 
     return (
-
-        <Provider store={store}>
-            <React.Fragment>
-                <Topbar />
-                <div className='container'>
-                    <SidebarAdmin />
-                    <div className="main-content">
-                        <main>
-                            {children}
-                        </main>
-                    </div>
+        // <Provider store={store}>
+        <React.Fragment>
+            <Topbar reload={() => setReload(!reload)} />
+            <div className='container'>
+                <SidebarAdmin reload={() => setReload(!reload)} />
+                <div className="main-content">
+                    <main>
+                        {children}
+                    </main>
                 </div>
+            </div>
 
 
-            </React.Fragment>
-        </Provider>
+        </React.Fragment>
+        // </Provider>
     );
 }
 

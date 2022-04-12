@@ -1,15 +1,14 @@
-import { Button, Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import Slider from 'react-slick';
-
+import eventApi from './../../api/eventApi';
 import GroupBar from './../../components/GroupBar/index';
 import Header from './../../components/Header/index';
 import CrawlDataUnit from './CrawlDataUnit/index';
 import './styles.scss';
-import eventApi from './../../api/eventApi';
+
 
 Home.propTypes = {
 
@@ -37,6 +36,8 @@ function Home(props) {
     const classes = useStyle();
 
     const [listHighLight, setListHighLight] = useState([]);
+    const [reload, setReload] = useState(false);
+
 
     useEffect(() => {
         (async () => {

@@ -13,14 +13,14 @@ InputDateTimeField.propTypes = {
 };
 
 function InputDateTimeField(props) {
-    const { form,id, name, type, InputLabelProps, label, disabled } = props;
+    const { form, id, name, type, label, disabled } = props;
     const { errors } = form;
 
     const hasError = errors[name];
 
     return (
         <Controller
-        sx={{mr: 2}}
+            sx={{ mr: 2 }}
             name={name}
             control={form.control}
             as={TextField}
@@ -28,12 +28,12 @@ function InputDateTimeField(props) {
             label={label}
             type={type}
             disabled={disabled}
-            InputLabelProps={{shrink: true}}
+            InputLabelProps={{ shrink: true }}
             id={id}
             variant="outlined"
             margin="normal"
             // fullWidth
-            rows={4}            
+            rows={4}
 
             error={!!hasError}
             helperText={errors[name]?.message}

@@ -1,31 +1,24 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Header from './../../components/Header/index';
-import { Box, Avatar, Typography, Button } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { useRouteMatch } from 'react-router-dom';
-import accountApi from './../../api/accountApi';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import { Card } from '@mui/material';
-import CardHeader from '@mui/material/CardHeader';
+import { Avatar, Box, Button, Card, Container, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
-import AppBar from '@mui/material/AppBar';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { Container } from '@mui/material';
-import { useState } from 'react';
-import postApi from './../../api/postApi';
-import PostList from './../group/components/PostList/index';
-import PostSkeleton from './../../components/PostSkeleton/PostSkeleton';
+import CardHeader from '@mui/material/CardHeader';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useRouteMatch } from 'react-router-dom';
+import accountApi from './../../api/accountApi';
+import postApi from './../../api/postApi';
+import Header from './../../components/Header/index';
+import PostSkeleton from './../../components/PostSkeleton/PostSkeleton';
+import PostList from './../group/components/PostList/index';
 
 
 UserProfile.propTypes = {
@@ -67,7 +60,7 @@ function a11yProps(index) {
 
 function UserProfile(props) {
 
-    const currentAccount = useSelector(state => state.account.current);
+    const currentAccount = useSelector(state => state.login.login);
     const [account, setAccount] = useState({});
     const [maxWidth, setMaxWidth] = React.useState('md');
     const { params: { accountId } } = useRouteMatch();
@@ -196,7 +189,7 @@ function UserProfile(props) {
                                     <Typography >{account.noOfFollower}</Typography>
                                     <Typography>Follower</Typography>
                                 </Box>
-                                <Box  onClick={handleClickOpenFollowing} sx={{
+                                <Box onClick={handleClickOpenFollowing} sx={{
                                     '&:hover': {
                                         cursor: 'pointer',
                                         transition: 'all 0.5s'

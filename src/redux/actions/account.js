@@ -10,6 +10,7 @@ import StorageKeys from './../../constants/storage-keys';
 * - Admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJSb2xlIjoiMCIsIkFjY291bnRJZCI6IjMiLCJuYmYiOjE2NDU4NDQ0OTIsImV4cCI6MTY0NjQ1MTA5MiwiaWF0IjoxNjQ1ODQ0NDkyfQ.3mVK_-MbDeeyHkqiU8X_456bmmyPFvKFFLjc4Kzy8GM
 */
 
+
 export const getAccounts = () => {
     return (dispatch) => {
         const token = axioClient.getToken();

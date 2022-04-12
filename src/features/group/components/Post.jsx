@@ -14,13 +14,12 @@ import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { Swiper, SwiperSlide } from "swiper/react";
+import { useHistory } from 'react-router';
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
-import { Pagination, Navigation } from "swiper";
-import { useHistory } from 'react-router';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 
 Post.propTypes = {

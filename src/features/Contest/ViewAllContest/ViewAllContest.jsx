@@ -1,11 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-ViewAllContest.propTypes = {
-    
-};
 
-function ViewAllContest(props) {
+
+function ViewAllContest() {
     return (
         <div>
             ViewAllContest

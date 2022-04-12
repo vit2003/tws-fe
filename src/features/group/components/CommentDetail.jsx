@@ -1,7 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Box, Avatar, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import React from 'react';
 
 CommentDetail.propTypes = {
 
@@ -26,9 +25,9 @@ function CommentDetail({ comment }) {
 
     return (
         <Box className={classes.cmtBox}>
-            <Avatar sx={{mr: 2}} src={comment.ownerAvatar}></Avatar>
+            <Avatar sx={{ mr: 2 }} src={comment.ownerAvatar}></Avatar>
             <Box>
-                <Typography sx={{fontWeight: 'bold'}}>{comment.ownerName}</Typography>
+                <Typography sx={{ fontWeight: 'bold' }}>{comment.ownerName}</Typography>
                 <Typography>{comment.content} </Typography>
             </Box>
         </Box>

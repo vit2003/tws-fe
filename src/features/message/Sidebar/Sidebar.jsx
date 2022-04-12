@@ -1,22 +1,19 @@
 import SearchIcon from '@mui/icons-material/Search';
+import { InputBase } from '@mui/material/';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import Input from '@mui/material/Input';
-import { TextField } from '@mui/material/';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import './Sidebar.scss';
 
-import { makeStyles } from '@mui/styles';
-import { InputBase } from '@mui/material/';
-import { Redirect, Link } from 'react-router-dom';
 
 
 
@@ -62,7 +59,7 @@ function a11yProps(index) {
 function Sidebar({ users, tradingConver, onChangeTrading, tradingPost }) {
 
   // CURRENT USER
-  const currentUser = useSelector(state => state.account.current);
+  const currentUser = useSelector(state => state.login.login);
   const currentUserName = currentUser.name
   const currentUserId = currentUser.accountId
 

@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material/';
 import Grid from '@mui/material/Grid';
-import Skeleton from '@mui/material/Skeleton';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Toy from './Toy';
 
 ToyList.propTypes = {
@@ -17,7 +16,7 @@ function ToyList({ data }) {
     return (
         <Box>
             {data.length <= 0 ?
-                <Box sx={{p : 15}}>
+                <Box sx={{ p: 15 }}>
                     <Typography sx={{ textAlign: 'center' }}>Opps, have no toys here</Typography>
                 </Box>
 

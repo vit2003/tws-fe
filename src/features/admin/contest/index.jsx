@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import CloseIcon from "@mui/icons-material/Close";
-import DoDisturbIcon from "@mui/icons-material/DoDisturb";
+import DeleteIcon from "@mui/icons-material/Delete";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
@@ -8,7 +8,6 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 import InsertInvitationIcon from "@mui/icons-material/InsertInvitation";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import DeleteIcon from "@mui/icons-material/Delete";
 import {
     Box,
     Button,
@@ -24,9 +23,7 @@ import {
     ImageList,
     ImageListItem,
     InputLabel,
-    MenuItem,
-    Tooltip,
-    Pagination
+    MenuItem, Pagination, Tooltip
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
@@ -43,13 +40,10 @@ import InputDateTimeField from "./../../../components/form-controls/InputDateTim
 import MultiInputField from "./../../../components/form-controls/MultiInputField/MultiInputField";
 import SelectFormField from "./../../../components/form-controls/SelectField/SelectFormField";
 import {
-    addPrize,
-    getAllContestABC,
+    addPrize, deleteContest, deleteSubcriber, getAllContestABC,
     getAllSubcribers,
     getBrand,
-    getType,
-    deleteSubcriber,
-    deleteContest,
+    getType
 } from "./../../../redux/actions/contest";
 import { getGroups } from "./../../../redux/actions/group";
 import { getPrizes } from "./../../../redux/actions/prize";
