@@ -75,12 +75,9 @@ const useStyle = makeStyles(theme => ({
 function PostDetail({ post }) {
 
     const currentUser = useSelector(state => state.login.infoUser);
-    // console.log("currentUser: ", currentUser);
-    console.log("post: ", post);
 
     const classes = useStyle();
 
-    const srcList = post.images;
     const history = useHistory();
     const [fullWidth, setFullWidth] = useState(true);
     const [maxWidth, setMaxWidth] = useState('md');
@@ -131,9 +128,7 @@ function PostDetail({ post }) {
     };
     const handleCloseDelete = async () => {
         try {
-            // console.log("post.id: ", post.id)
             const response = await postApi.deletePost(post.id)
-            // console.log('delete: ', response)
         } catch (error) {
             console.log("error: ", error);
         }

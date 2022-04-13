@@ -88,19 +88,22 @@ const useStyle = makeStyles(theme => ({
         paddingBottom: '10px'
     },
     open: {
-        color: '#de6161',
+        color: '#45a247',
         letterSpacing: '5px !important',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        fontWeight: 'bold !important'
     },
     exchanging: {
-        color: '#de6161',
+        color: '#FFD200',
         letterSpacing: '5px !important',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        fontWeight: 'bold !important'
     },
     close: {
-        color: 'green',
+        color: '#4286f4',
         letterSpacing: '5px !important',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        fontWeight: 'bold !important'
     }
 
 }))
@@ -194,13 +197,13 @@ function TradingPost({ tradingPost }) {
 
     const handleEmotionClick = async () => {
 
-        // try {
-        //     const response = await postApi.reactPost(post.id);
-        //     setIsLiked(response.isLiked);
-        //     setNumOfLiked(response.numOfReact);
-        // } catch (error) {
-        //     console.log('Failed to reactPost', error)
-        // }
+        try {
+            const response = await tradingPostApi.reactPost(tradingPost.id);
+            setIsLiked(response.isLiked);
+            setNumOfLiked(response.numOfReact);
+        } catch (error) {
+            console.log('Failed to reactPost', error)
+        }
     }
     const handleRedirectMsg = async () => {
 

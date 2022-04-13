@@ -44,7 +44,6 @@ const useStyles = makeStyles(theme => ({
 function CommentList({ postId, reload }) {
 
     const classes = useStyles();
-    // const [listCmt, setListCmt] = useState(comments);
 
 
     const [listComment, setListComment] = useState([])

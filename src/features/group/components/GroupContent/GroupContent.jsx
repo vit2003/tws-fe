@@ -1,5 +1,5 @@
 import { Box, Card, Container, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import eventApi from './../../../../api/eventApi';
 import postApi from './../../../../api/postApi';
@@ -18,11 +18,19 @@ function GroupContent(props) {
     const [contestList, setContestList] = useState([]);
     const [loading, setLoading] = useState(false);
 
+
+    const [filter, setFilter] = useState({
+        PageNumber: 1,
+        PageSize: 20,
+    })
+
+
+
     useEffect(() => {
         (async () => {
             try {
                 const [listPost, listContest] = await Promise.all([
-                    postApi.getAll(groupId),
+                    postApi.getAll(groupId, filter),
                     eventApi.getListContestByGroup(groupId),
                 ]);
                 if (listPost) {
@@ -30,8 +38,6 @@ function GroupContent(props) {
                 } if (listContest) {
                     setContestList(listContest.data);
                 }
-                // console.log("listPost: ", listPost)
-                // console.log("listContest: ", listContest)
                 setLoading(true)
             } catch (error) {
                 console.log('Failed to fetch api', error)

@@ -2,11 +2,12 @@ import axioClient from './axiosClient';
 
 const postApi = {
 
-    getAll(id) {
+    getAll(id, params) {
         const token = axioClient.getToken();
+        console.log("param: ", params);
         if (token) {
             axioClient.setHeaderAuth(token)
-            return axioClient.get('/posts/group', id)
+            return axioClient.get2(`/posts/group/${id}`, { params })
         }
     },
 

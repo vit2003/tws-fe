@@ -91,13 +91,14 @@ function Bill({ tradingConver, id }) {
         const fetchTradingpost = async () => {
             try {
                 const response = await tradingPostApi.getDetail(tradingPostId);
+                console.log("response response: ", response);
                 setTradingPost(response)
             } catch (error) {
                 console.log('Failed to fetch userList', error)
             }
         }
         fetchTradingpost();
-    }, [])
+    }, [tradingPostId])
 
     console.log("tradingPost: ", tradingPost);
     const handleGoToPost = () => {
@@ -138,7 +139,7 @@ function Bill({ tradingConver, id }) {
                     <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
                         <AttachMoneyIcon sx={{ color: '#DB36A4', mr: 1 }} />
                         {/* Exchange: {tradingPost && tradingPostState ? tradingPost.toyName : tradingPostState.toyName} */}
-                        Expected exchange: {tradingPost ? tradingPost.trading : ''}
+                        Expected exchange: {tradingPost.trading ? tradingPost.trading : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tradingPost.value)}
                     </Typography>
 
                     <Box sx={{ maxHeight: "600px", overflowY: 'scroll', pt: 2 }}>

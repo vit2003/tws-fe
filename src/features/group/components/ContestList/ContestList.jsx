@@ -14,9 +14,6 @@ ContestList.defaultProps = {
 
 function ContestList({ contestList }) {
 
-    // console.log("contestList :", contestList)
-
-
     return (
         <Card>
             <CardHeader

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Grid, Typography, Box } from '@mui/material/';
 import { CardMedia } from '@mui/material/';
 import { makeStyles } from '@mui/styles';
-import {useHistory} from 'react-router';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
     subtitle: {
@@ -22,7 +22,6 @@ ContestDetail.propTypes = {
 function ContestDetail({ contest }) {
     // Style MUI
     const classes = useStyles();
-    console.log("contest: ", contest)
 
     const history = useHistory();
 
@@ -35,11 +34,11 @@ function ContestDetail({ contest }) {
         <Card onClick={handleClick} sx={{ padding: '10px', borderTop: '1px solid #ddd' }}>
             <Grid container spacing={2}>
                 <Grid item xs={6}>
-                        <Typography>{contest.title}</Typography>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between',  height: '100%', alignItems: 'center'}}>
-                            <Typography className={classes.subtitle}>{contest.slogan}</Typography>
-                            <Typography className={classes.subtitle}>{contest.startDate}</Typography>
-                        </Box>
+                    <Typography>{contest.title}</Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', height: '100%', alignItems: 'center' }}>
+                        <Typography className={classes.subtitle}>{contest.slogan}</Typography>
+                        <Typography className={classes.subtitle}>{contest.startDate}</Typography>
+                    </Box>
                 </Grid>
                 <Grid item xs={6}>
                     <CardMedia
