@@ -506,7 +506,7 @@ function TradingPostDetail({ tradingPost }) {
                     <Typography>{numOfCmt}</Typography>
                 </CardActions>
                 {
-                    currentUserId === tradingPost.ownerId ?
+                    currentUserId === tradingPost.ownerId || tradingPost.status == 2 ?
                         <></> :
                         <Button onClick={handleRedirectMsg}>
                             Contact me
