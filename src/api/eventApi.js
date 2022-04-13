@@ -5,9 +5,8 @@ const eventApi = {
     getHighLight() {
         const token = axioClient.getToken();
         if (token) {
-            let url = '/contest/highlight'
             axioClient.setHeaderAuth(token)
-            return axioClient.query(url)
+            return axioClient.get('/contest/highlight')
         }
     },
 

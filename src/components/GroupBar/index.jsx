@@ -24,7 +24,6 @@ function GroupBar(props) {
         fetchGroup();
     }, [])
 
-
     return (
         <Container>
             <Box

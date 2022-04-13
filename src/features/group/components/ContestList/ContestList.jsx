@@ -25,9 +25,9 @@ function ContestList({ contestList }) {
             />
             <div>
                 <>
-                    {contestList.length? contestList.map((contest) => (
+                    {contestList.length ? contestList.map((contest) => (
                         <ContestDetail key={contest.id} contest={contest} />
-                    )) : <Typography>Have no contest now</Typography>}
+                    )) : <></>}
                 </>
             </div>
         </Card>

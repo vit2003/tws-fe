@@ -7,12 +7,12 @@ TradingPostList.propTypes = {
     listTradingPost: PropTypes.array,
 };
 
-function TradingPostList({listTradingPost}) {
+function TradingPostList({ listTradingPost }) {
     return (
         <>
-            {listTradingPost.length? listTradingPost.map((tradingPost) => (
+            {listTradingPost.length ? listTradingPost.map((tradingPost) => (
                 <TradingPostDetail key={tradingPost.id} tradingPost={tradingPost} />
-            )): <Typography> Have no tradingPost yet</Typography>}
+            )) : <></>}
         </>
     );
 }

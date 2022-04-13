@@ -16,7 +16,7 @@ function GroupContent(props) {
 
     const [postList, setPostList] = useState([]);
     const [contestList, setContestList] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -30,13 +30,13 @@ function GroupContent(props) {
                 } if (listContest) {
                     setContestList(listContest.data);
                 }
-                console.log("listPost: ", listPost)
-                console.log("listContest: ", listContest)
+                // console.log("listPost: ", listPost)
+                // console.log("listContest: ", listContest)
                 setLoading(true)
             } catch (error) {
                 console.log('Failed to fetch api', error)
             }
-            setLoading(false)
+            setLoading(true)
         })()
     }, [groupId])
 
@@ -53,12 +53,12 @@ function GroupContent(props) {
 
                         {/* get List post */}
 
-                        {loading ? <PostSkeleton /> : <PostList postList={postList} />}
+                        {loading ? <PostList postList={postList} /> : <PostSkeleton />}
 
                     </Grid>
                     <Grid item xs={4}>
                         <Card>
-                            {loading ? <PostSkeleton /> : <ContestList contestList={contestList} />}
+                            {loading ? <ContestList contestList={contestList} /> : <PostSkeleton />}
                         </Card>
                     </Grid>
                 </Grid>

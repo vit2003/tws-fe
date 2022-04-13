@@ -65,6 +65,28 @@ const tradingPostApi = {
             return axioClient.post(`/trading_posts/${id}/feedback`, data)
         }
     },
+
+    getTradingPostImage(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.getMiddleParams('/trading_posts', id, 'images');
+        }
+    },
+    getNumOfComment(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.getMiddleParams('/trading_posts', id, 'num_of_comment');
+        }
+    },
+    getCmtOfPost(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.getMiddleParams('/trading_posts', id, 'comment_detail');
+        }
+    },
     remove(id) {
 
     }

@@ -18,7 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { makeStyles } from '@mui/styles';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Navigation, Pagination } from "swiper";
@@ -34,7 +34,7 @@ import tradingPostApi from './../../../../api/TradingPostApi';
 
 
 TradingPostDetail.propTypes = {
-    post: PropTypes.object,
+    tradingPost: PropTypes.object,
 };
 
 const useStyle = makeStyles(theme => ({
@@ -116,14 +116,42 @@ function TradingPostDetail({ tradingPost }) {
 
     const classes = useStyle();
 
-    const srcList = tradingPost.images;
     const history = useHistory();
-    const [fullWidth, setFullWidth] = React.useState(true);
-    const [maxWidth, setMaxWidth] = React.useState('md');
-    const [open, setOpen] = React.useState(false);
+    const [fullWidth, setFullWidth] = useState(true);
+    const [maxWidth, setMaxWidth] = useState('md');
+    const [open, setOpen] = useState(false);
 
-    const [isLiked, setIsLiked] = React.useState(tradingPost.isLikedPost);
-    const [numOfLiked, setNumOfLiked] = React.useState(tradingPost.noOfReact);
+    const [isLiked, setIsLiked] = useState(tradingPost.isLikedPost);
+    const [numOfLiked, setNumOfLiked] = useState(tradingPost.noOfReact);
+
+    const [imageOfTradingPost, setImageOfTradingPost] = useState([]);
+    const [numOfCmt, setNumOfCmt] = useState(0);
+
+
+    useEffect(() => {
+        (async () => {
+            try {
+                if (tradingPost.id) {
+                    const [listImg, numCmt] = await Promise.all([
+                        tradingPostApi.getTradingPostImage(tradingPost.id),
+                        tradingPostApi.getNumOfComment(tradingPost.id),
+                    ]);
+                    if (listImg) {
+                        setImageOfTradingPost(listImg);
+                    } if (numCmt) {
+                        setNumOfCmt(numCmt);
+                    }
+                }
+
+            } catch (error) {
+                console.log('Failed to fetch api', error)
+            }
+        })()
+    }, [tradingPost.id])
+
+
+    console.log("imageOfTradingPost: ", imageOfTradingPost)
+    console.log("numOfCmt: ", numOfCmt)
 
     const handleShowImageDialog = () => {
         setOpen(true);
@@ -294,8 +322,8 @@ function TradingPostDetail({ tradingPost }) {
 
             {/* RENDER IMAGE */}
             <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={1}>
-                {srcList.length === 1 ?
-                    srcList.map((source, index) => (
+                {imageOfTradingPost.length === 1 ?
+                    imageOfTradingPost.map((source, index) => (
                         <Box onClick={handleShowImageDialog} key={index} gridColumn="span 12" sx={{
                             '&:hover': {
                                 opacity: [0.9, 0.8, 0.7],
@@ -303,11 +331,11 @@ function TradingPostDetail({ tradingPost }) {
                                 transition: 'all 0.5s'
                             },
                         }}>
-                            <CardMedia height="200" component="img" src={source.url}></CardMedia>
+                            <CardMedia height="600" component="img" src={source.url}></CardMedia>
                         </Box>
                     ))
-                    : srcList?.length === 2 || srcList?.length === 4 ?
-                        srcList?.map((source, index) => (
+                    : imageOfTradingPost?.length === 2 || imageOfTradingPost?.length === 4 ?
+                        imageOfTradingPost?.map((source, index) => (
                             <Box onClick={handleShowImageDialog} key={index} gridColumn="span 6" sx={{
                                 '&:hover': {
                                     opacity: [0.9, 0.8, 0.7],
@@ -315,10 +343,10 @@ function TradingPostDetail({ tradingPost }) {
                                     transition: 'all 0.5s'
                                 },
                             }}>
-                                <CardMedia height="200" component="img" src={source.url}></CardMedia>
+                                <CardMedia height="300" component="img" src={source.url}></CardMedia>
                             </Box>
                         ))
-                        : srcList?.length === 3 ?
+                        : imageOfTradingPost?.length === 3 ?
                             <>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 12" sx={{
                                     '&:hover': {
@@ -327,7 +355,7 @@ function TradingPostDetail({ tradingPost }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="200" component="img" src={srcList[0].url}></CardMedia>
+                                    <CardMedia height="600" component="img" src={imageOfTradingPost[0].url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -336,7 +364,7 @@ function TradingPostDetail({ tradingPost }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="200" component="img" src={srcList[1].url}></CardMedia>
+                                    <CardMedia height="600" component="img" src={imageOfTradingPost[1].url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -345,11 +373,11 @@ function TradingPostDetail({ tradingPost }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="200" component="img" src={srcList[2].url}></CardMedia>
+                                    <CardMedia height="600" component="img" src={imageOfTradingPost[2].url}></CardMedia>
                                 </Box>
                             </>
 
-                            : srcList?.length > 4 ?
+                            : imageOfTradingPost?.length >= 4 ?
                                 <>
                                     <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                         '&:hover': {
@@ -358,7 +386,7 @@ function TradingPostDetail({ tradingPost }) {
                                             transition: 'all 0.5s'
                                         },
                                     }}>
-                                        <CardMedia height="200" component="img" src={srcList[0].url}></CardMedia>
+                                        <CardMedia height="300" component="img" src={imageOfTradingPost[0].url}></CardMedia>
                                     </Box>
                                     <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                         '&:hover': {
@@ -367,7 +395,7 @@ function TradingPostDetail({ tradingPost }) {
                                             transition: 'all 0.5s'
                                         },
                                     }}>
-                                        <CardMedia height="200" component="img" src={srcList[1].url}></CardMedia>
+                                        <CardMedia height="300" component="img" src={imageOfTradingPost[1].url}></CardMedia>
                                     </Box>
                                     <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                         '&:hover': {
@@ -376,7 +404,7 @@ function TradingPostDetail({ tradingPost }) {
                                             transition: 'all 0.5s'
                                         },
                                     }}>
-                                        <CardMedia height="200" component="img" src={srcList[2].url}></CardMedia>
+                                        <CardMedia height="300" component="img" src={imageOfTradingPost[2].url}></CardMedia>
                                     </Box>
                                     <Box onClick={handleShowImageDialog} className={classes.onClickOpenImgDiv} gridColumn="span 6" sx={{
                                         '&:hover': {
@@ -385,8 +413,8 @@ function TradingPostDetail({ tradingPost }) {
                                             transition: 'all 0.5s'
                                         },
                                     }}>
-                                        <CardMedia className={classes.onClickOpenImg} height="200" component="img" src={srcList[3].url}></CardMedia>
-                                        <Typography className={classes.text} >{srcList.length - 4} +</Typography>
+                                        <CardMedia className={classes.onClickOpenImg} height="300" component="img" src={imageOfTradingPost[3].url}></CardMedia>
+                                        <Typography className={classes.text} >{imageOfTradingPost.length - 4} +</Typography>
                                     </Box>
                                 </>
                                 : <></>}
@@ -399,24 +427,35 @@ function TradingPostDetail({ tradingPost }) {
                 open={open}
                 onClose={handleClose}
             >
+                <DialogContent sx={{
+                    display: 'flex',
+                    justifyContent: 'space-around'
+                }}>
+                    {
+                        imageOfTradingPost ? <Swiper
+                            modules={[Navigation, Pagination]}
+                            navigation
+                            spaceBetween={50}
+                            slidesPerView={1}
+                            pagination={{ clickable: true }}
+                            onSlideChange={() => console.log('slide change')}
+                            onSwiper={(swiper) => console.log(swiper)}
+                        >
+                            {imageOfTradingPost?.map((src, index) => (
+                                <SwiperSlide className={classes.boxContainImg} key={index}>
+                                    <CardMedia
+                                        sx={{
+                                            width: "600px",
+                                            width: "auto",
+                                            height: "600px",
+                                            maxHeight: "600px",
+                                        }}
+                                        className={classes.media} height="700" component="img" src={src.url}></CardMedia>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper> : <></>
+                    }
 
-                <DialogContent>
-                    <Swiper
-                        modules={[Navigation, Pagination]}
-                        navigation
-                        spaceBetween={50}
-                        slidesPerView={1}
-                        pagination={{ clickable: true }}
-                        onSlideChange={() => console.log('slide change')}
-                        onSwiper={(swiper) => console.log(swiper)}
-                    >
-                        {srcList?.map((src, index) => (
-
-                            <SwiperSlide className={classes.boxContainImg} key={index}>
-                                <CardMedia className={classes.media} height="700" component="img" src={src.url}></CardMedia>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
                 </DialogContent>
             </Dialog>
 

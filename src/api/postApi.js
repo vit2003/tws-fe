@@ -19,7 +19,7 @@ const postApi = {
     },
 
 
-    get(id){
+    get(id) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
@@ -27,7 +27,7 @@ const postApi = {
         }
     },
 
-    reactPost(id){
+    reactPost(id) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
@@ -35,7 +35,7 @@ const postApi = {
         }
     },
 
-    createNewPost(data){
+    createNewPost(data) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
@@ -44,7 +44,7 @@ const postApi = {
     },
 
 
-    deletePost(id){
+    deletePost(id) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
@@ -52,8 +52,26 @@ const postApi = {
         }
     },
 
-    add(data) {
-
+    getPostImage(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.getMiddleParams('/posts', id, 'images');
+        }
+    },
+    getNumOfComment(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.getMiddleParams('/posts', id, 'num_of_comment');
+        }
+    },
+    getCmtOfPost(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.getMiddleParams('/posts', id, 'comment_detail');
+        }
     },
 
     update(data) {

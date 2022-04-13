@@ -17,7 +17,7 @@ function PostList(props) {
         <>
             {postList.length ? postList.map((post) => (
                 <PostDetail key={post.id} post={post} />
-            )) : <Typography> Have no post yet</Typography>}
+            )) : <></>}
         </>
 
 

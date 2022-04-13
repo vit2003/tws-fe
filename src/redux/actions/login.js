@@ -6,9 +6,9 @@ import StorageKeys from './../../constants/storage-keys';
 
 
 export const login = (params) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         console.log("params: ", params);
-        axioClient.post('/accounts/login_by_system_account', params)
+        await axioClient.post('/accounts/login_by_system_account', params)
             .then((response) => {
                 axioClient.saveToken(response.token)
                 localStorage.setItem(StorageKeys.ACCOUNT, JSON.stringify(response));

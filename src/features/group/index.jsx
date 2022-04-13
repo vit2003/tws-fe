@@ -9,7 +9,7 @@ import GroupContent from './components/GroupContent/GroupContent';
 Group.propTypes = {
 
 };
-function Group(props) {
+function Group() {
     return (
         <div>
             <Header />

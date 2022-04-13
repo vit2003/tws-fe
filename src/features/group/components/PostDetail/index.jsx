@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Navigation, Pagination } from "swiper";
@@ -60,9 +60,9 @@ const useStyle = makeStyles(theme => ({
         justifyContent: 'center',
     },
     media: {
-        objectFit: 'contain',
-        minWidth: 'auto',
-        minHeight: 'auto',
+        objectFit: "contain",
+        minWidth: "auto",
+        minHeight: "auto",
     },
     heartIcon: {
         color: '#ED213A'
@@ -75,19 +75,44 @@ const useStyle = makeStyles(theme => ({
 function PostDetail({ post }) {
 
     const currentUser = useSelector(state => state.login.infoUser);
-    console.log("currentUser: ", currentUser);
+    // console.log("currentUser: ", currentUser);
     console.log("post: ", post);
 
     const classes = useStyle();
 
     const srcList = post.images;
     const history = useHistory();
-    const [fullWidth, setFullWidth] = React.useState(true);
-    const [maxWidth, setMaxWidth] = React.useState('md');
-    const [open, setOpen] = React.useState(false);
+    const [fullWidth, setFullWidth] = useState(true);
+    const [maxWidth, setMaxWidth] = useState('md');
+    const [open, setOpen] = useState(false);
 
-    const [isLiked, setIsLiked] = React.useState(post.isLikedPost);
-    const [numOfLiked, setNumOfLiked] = React.useState(post.numOfReact);
+    const [isLiked, setIsLiked] = useState(post.isLikedPost);
+    const [numOfLiked, setNumOfLiked] = useState(post.numOfReact);
+
+    const [imageOfPost, setImageOfPost] = useState([]);
+    const [numOfCmt, setNumOfCmt] = useState(0);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                if (post.id) {
+                    const [listImg, numCmt] = await Promise.all([
+                        postApi.getPostImage(post.id),
+                        postApi.getNumOfComment(post.id),
+                    ]);
+                    if (listImg) {
+                        setImageOfPost(listImg);
+                    } if (numCmt) {
+                        setNumOfCmt(numCmt);
+                    }
+                }
+                console.log("listImg: ", listImg)
+                console.log("numCmt: ", numCmt)
+            } catch (error) {
+                console.log('Failed to fetch api', error)
+            }
+        })()
+    }, [post.id])
 
     const handleShowImageDialog = () => {
         setOpen(true);
@@ -108,9 +133,9 @@ function PostDetail({ post }) {
     };
     const handleCloseDelete = async () => {
         try {
-            console.log("post.id: ", post.id)
+            // console.log("post.id: ", post.id)
             const response = await postApi.deletePost(post.id)
-            console.log('delete: ', response)
+            // console.log('delete: ', response)
         } catch (error) {
             console.log("error: ", error);
         }
@@ -193,8 +218,8 @@ function PostDetail({ post }) {
 
             </Menu>
             <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={1}>
-                {srcList.length === 1 ?
-                    srcList.map((source, index) => (
+                {imageOfPost?.length === 1 ?
+                    imageOfPost?.map((source, index) => (
                         <Box onClick={handleShowImageDialog} key={index} gridColumn="span 12" sx={{
                             '&:hover': {
                                 opacity: [0.9, 0.8, 0.7],
@@ -202,11 +227,11 @@ function PostDetail({ post }) {
                                 transition: 'all 0.5s'
                             },
                         }}>
-                            <CardMedia height="200" component="img" src={source.url}></CardMedia>
+                            <CardMedia height="600" component="img" src={source.url}></CardMedia>
                         </Box>
                     ))
-                    : srcList?.length === 2 || srcList?.length === 4 ?
-                        srcList?.map((source, index) => (
+                    : imageOfPost?.length === 2 || imageOfPost?.length === 4 ?
+                        imageOfPost?.map((source, index) => (
                             <Box onClick={handleShowImageDialog} key={index} gridColumn="span 6" sx={{
                                 '&:hover': {
                                     opacity: [0.9, 0.8, 0.7],
@@ -214,10 +239,10 @@ function PostDetail({ post }) {
                                     transition: 'all 0.5s'
                                 },
                             }}>
-                                <CardMedia height="200" component="img" src={source.url}></CardMedia>
+                                <CardMedia height="300" component="img" src={source.url}></CardMedia>
                             </Box>
                         ))
-                        : srcList?.length === 3 ?
+                        : imageOfPost?.length === 3 ?
                             <>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 12" sx={{
                                     '&:hover': {
@@ -226,7 +251,7 @@ function PostDetail({ post }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="200" component="img" src={srcList[0].url}></CardMedia>
+                                    <CardMedia height="600" component="img" src={imageOfPost[0]?.url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -235,7 +260,7 @@ function PostDetail({ post }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="200" component="img" src={srcList[1].url}></CardMedia>
+                                    <CardMedia height="600" component="img" src={imageOfPost[1]?.url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -244,11 +269,11 @@ function PostDetail({ post }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="200" component="img" src={srcList[2].url}></CardMedia>
+                                    <CardMedia height="600" component="img" src={imageOfPost[2]?.url}></CardMedia>
                                 </Box>
                             </>
 
-                            : srcList?.length > 4 ?
+                            : imageOfPost?.length > 4 ?
                                 <>
                                     <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                         '&:hover': {
@@ -257,7 +282,7 @@ function PostDetail({ post }) {
                                             transition: 'all 0.5s'
                                         },
                                     }}>
-                                        <CardMedia height="200" component="img" src={srcList[0].url}></CardMedia>
+                                        <CardMedia height="200" component="img" src={imageOfPost[0]?.url}></CardMedia>
                                     </Box>
                                     <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                         '&:hover': {
@@ -266,7 +291,7 @@ function PostDetail({ post }) {
                                             transition: 'all 0.5s'
                                         },
                                     }}>
-                                        <CardMedia height="200" component="img" src={srcList[1].url}></CardMedia>
+                                        <CardMedia height="200" component="img" src={imageOfPost[1]?.url}></CardMedia>
                                     </Box>
                                     <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                         '&:hover': {
@@ -275,7 +300,7 @@ function PostDetail({ post }) {
                                             transition: 'all 0.5s'
                                         },
                                     }}>
-                                        <CardMedia height="200" component="img" src={srcList[2].url}></CardMedia>
+                                        <CardMedia height="200" component="img" src={imageOfPost[2]?.url}></CardMedia>
                                     </Box>
                                     <Box onClick={handleShowImageDialog} className={classes.onClickOpenImgDiv} gridColumn="span 6" sx={{
                                         '&:hover': {
@@ -284,8 +309,8 @@ function PostDetail({ post }) {
                                             transition: 'all 0.5s'
                                         },
                                     }}>
-                                        <CardMedia className={classes.onClickOpenImg} height="200" component="img" src={srcList[3].url}></CardMedia>
-                                        <Typography className={classes.text} >{srcList.length - 4} +</Typography>
+                                        <CardMedia className={classes.onClickOpenImg} height="200" component="img" src={imageOfPost[3].url}></CardMedia>
+                                        <Typography className={classes.text} >{imageOfPost?.length - 4} +</Typography>
                                     </Box>
                                 </>
                                 : <></>}
@@ -297,23 +322,35 @@ function PostDetail({ post }) {
                 onClose={handleClose}
             >
 
-                <DialogContent>
-                    <Swiper
-                        modules={[Navigation, Pagination]}
-                        navigation
-                        spaceBetween={50}
-                        slidesPerView={1}
-                        pagination={{ clickable: true }}
-                        onSlideChange={() => console.log('slide change')}
-                        onSwiper={(swiper) => console.log(swiper)}
-                    >
-                        {srcList?.map((src, index) => (
+                <DialogContent sx={{
+                    display: 'flex',
+                    justifyContent: 'space-around'
+                }}>
+                    {
+                        imageOfPost ? <Swiper
+                            modules={[Navigation, Pagination]}
+                            navigation
+                            spaceBetween={50}
+                            slidesPerView={1}
+                            pagination={{ clickable: true }}
+                            onSlideChange={() => console.log('slide change')}
+                            onSwiper={(swiper) => console.log(swiper)}
+                        >
+                            {imageOfPost?.map((src, index) => (
+                                <SwiperSlide className={classes.boxContainImg} key={index}>
+                                    <CardMedia
+                                        sx={{
+                                            width: "600px",
+                                            width: "auto",
+                                            height: "600px",
+                                            maxHeight: "600px",
+                                        }}
+                                        className={classes.media} height="700" component="img" src={src.url}></CardMedia>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper> : <></>
+                    }
 
-                            <SwiperSlide className={classes.boxContainImg} key={index}>
-                                <CardMedia className={classes.media} height="700" component="img" src={src.url}></CardMedia>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
                 </DialogContent>
             </Dialog>
 
@@ -335,7 +372,7 @@ function PostDetail({ post }) {
                 <IconButton onClick={handleClick} aria-label="share">
                     <CommentIcon />
                 </IconButton>
-                <Typography>{post.numOfComment}</Typography>
+                <Typography>{numOfCmt}</Typography>
             </CardActions>
         </Card>
     );

@@ -25,7 +25,7 @@ import tradingPostApi from './../../../api/TradingPostApi';
 import InputField from './../../../components/form-controls/InputFields/index';
 import InputPostField from './../../../components/form-controls/InputPostFields/index';
 import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
-
+import Swal from 'sweetalert2';
 
 CreateTradingPost.propTypes = {
     onSubmit: PropTypes.func,
@@ -38,6 +38,10 @@ const useStyle = makeStyles(theme => ({
     },
     btn: {
         color: '#db36a4 !important',
+        ":disabled": {
+            backgroundColor: 'grey !important',
+            color: 'black !important'
+        },
     },
     closeBtn: {
         position: 'absolute !important',
@@ -187,7 +191,6 @@ function CreateTradingPost({ tradingGroupId }) {
         },
         resolver: yupResolver(schema),
     })
-
     // UPLOAD ANG GET IMAGE URL FROM FIREBASE
     const imagesLink = [];
     const uploadAndGetLinkImg = async () => {
@@ -208,7 +211,7 @@ function CreateTradingPost({ tradingGroupId }) {
         }
     }
 
-
+    const { isSubmitting } = form.formState;
     const handleSubmitTradingPost = async (values) => {
         await uploadAndGetLinkImg()
         // Call API to create a post
@@ -228,11 +231,21 @@ function CreateTradingPost({ tradingGroupId }) {
             console.log('newPost: ', newTradingPost);
 
             const response = await tradingPostApi.createNewTradingPost(tradingGroupId, newTradingPost)
-            enqueueSnackbar('New Post successfully!!', { variant: 'success' })
+            setOpen(false);
+            await Swal.fire(
+                'Create Trading Post Successfully',
+                'Click Button to continute!',
+                'success'
+            )
             console.log("response: ", response);
         } catch (error) {
-            console.log('Failed create new post: ', error);
-            enqueueSnackbar('Failed to New Post !!', { variant: 'error' })
+            setOpen(false);
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "Something go wrong",
+                // footer: '<a href="">Why do I have this issue?</a>'
+            })
         }
         setStrgImg([]);
         form.reset();
@@ -242,7 +255,9 @@ function CreateTradingPost({ tradingGroupId }) {
     //     history.push(`/account/${account.id}`)
     // }
 
-    // const { isSubmitting } = form.formState;
+
+
+    console.log("isSubmitting: ", isSubmitting);
 
     return (
         <div className='CreatePost'>
@@ -292,16 +307,16 @@ function CreateTradingPost({ tradingGroupId }) {
                 {/* TEXTFIELD TO FILL STATUS */}
                 <form onSubmit={form.handleSubmit(handleSubmitTradingPost)}>
                     {/* DIALOG'S TITLE */}
-                    <DialogTitle sx={{ textAlign: 'center', borderBottom: '1px solid #d3d3d3' }}>Create A Post</DialogTitle>
+                    <DialogTitle sx={{ textAlign: 'center', borderBottom: '1px solid #d3d3d3' }}>Create A Trading Post</DialogTitle>
                     <DialogContent sx={{ marginTop: '10px' }}>
                         {/* AVATAR */}
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Avatar sx={{ marginRight: '10px' }} src={currentUser?.avatar}></Avatar>
                             <h4>{currentUser?.name}</h4>
                         </Box>
-                        <InputField name='title' label='title' form={form} />
+                        <InputField name='title' label='Title' form={form} />
                         <InputField name='toyName' label='Toy Name' form={form} />
-                        <InputField name='address' label='address' form={form} />
+                        <InputField name='address' label='Address' form={form} />
 
                         <FormControl component="fieldset" variant="standard">
                             <FormControlLabel
@@ -326,8 +341,8 @@ function CreateTradingPost({ tradingGroupId }) {
 
 
 
-                        <InputField name='phone' label='phone' form={form} />
-                        <InputPostField name="postContent" form={form} />
+                        <InputField name='phone' label='Phone' form={form} />
+                        <InputPostField name="postContent" label='Description' form={form} />
 
                         <FormControl sx={{ mt: 1 }} fullWidth>
                             <InputLabel id="select-role">Brand</InputLabel>
@@ -377,7 +392,6 @@ function CreateTradingPost({ tradingGroupId }) {
                             <Input accept="image/* video/*" id="contained-button-file" multiple type="file" onChange={handleFileChange} />
                             <Button sx={{ backgroundColor: "#db36a4 !important" }} variant="contained" aria-label="upload picture" onClick={handleChoose} component="span" endIcon={<PhotoCamera />}>
                                 Photo/Video
-
                             </Button>
                         </label>
 
@@ -423,7 +437,7 @@ function CreateTradingPost({ tradingGroupId }) {
 
                     <DialogActions>
                         <Button color='inherit' onClick={handleClose}>Cancel</Button>
-                        <Button className={classes.btn} type='submit'>Post</Button>
+                        <Button disabled={isSubmitting} className={classes.btn} type='submit'>Post</Button>
                     </DialogActions>
                 </form>
             </Dialog>

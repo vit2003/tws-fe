@@ -23,6 +23,7 @@ function CommentDetail({ comment }) {
 
     const classes = useStyles();
 
+
     return (
         <Box className={classes.cmtBox}>
             <Avatar sx={{ mr: 2 }} src={comment.ownerAvatar}></Avatar>
@@ -31,6 +32,7 @@ function CommentDetail({ comment }) {
                 <Typography>{comment.content} </Typography>
             </Box>
         </Box>
+
     );
 }
 

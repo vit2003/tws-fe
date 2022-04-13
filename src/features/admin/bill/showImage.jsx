@@ -7,7 +7,6 @@ import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
-// import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const useStyle = makeStyles(theme => ({

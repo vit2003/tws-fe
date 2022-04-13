@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Container, Typography, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import React, { Fragment, useEffect, useState } from 'react';
@@ -7,6 +7,12 @@ import eventApi from './../../api/eventApi';
 import GroupBar from './../../components/GroupBar/index';
 import Header from './../../components/Header/index';
 import CrawlDataUnit from './CrawlDataUnit/index';
+import { Navigation, Pagination } from "swiper";
+// Import Swiper styles
+import "swiper/css";
+import 'swiper/css/navigation';
+import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
 import './styles.scss';
 
 
@@ -26,6 +32,22 @@ const useStyle = makeStyles(theme => ({
         margin: '30px 0 !important',
         color: '#db36a4',
     },
+    media: {
+        objectFit: 'contain',
+        minWidth: 'auto',
+        minHeight: 'auto',
+        filter: "brightness(65%)",
+    },
+    boxContainImg: {
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    btn: {
+        "&:hover": {
+            color: 'black !IMPORTANT',
+            backgroundColor: '#fff !IMPORTANT',
+        }
+    }
 
 }));
 
@@ -43,7 +65,7 @@ function Home(props) {
         (async () => {
             try {
                 const response = await eventApi.getHighLight()
-                setListHighLight(response.data)
+                setListHighLight(response)
                 return () => {
                     setListHighLight({})
                 }
@@ -53,14 +75,7 @@ function Home(props) {
         })()
     }, [])
 
-    var settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-    };
+
 
     var ToysHomePage = [
         {
@@ -86,7 +101,7 @@ function Home(props) {
     ];
 
 
-
+    console.log("listHighLight: ", listHighLight);
     const { sx, ...other } = props;
     return (
         <div className='gradient-background'>
@@ -113,6 +128,30 @@ function Home(props) {
                         })}
                     </Slider>
                 </div> */}
+                <div className='EventSlider__around '>
+                    <Swiper
+                        modules={[Navigation, Pagination]}
+                        navigation
+                        spaceBetween={50}
+                        slidesPerView={1}
+                        autoplay
+                        pagination={{ clickable: true }}
+                        onSlideChange={() => console.log('slide change')}
+                        onSwiper={(swiper) => console.log(swiper)}
+                    >
+                        {listHighLight?.map((hightLight, index) => (
+                            <SwiperSlide className={classes.boxContainImg} key={index}>
+                                <div className="EventSlider__detail">
+                                    <CardMedia className={classes.media} height="700" component="img" src={hightLight?.coverImage}></CardMedia>
+                                    <h1>{hightLight.title}</h1>
+                                    <h2>{hightLight.slogan}</h2>
+                                    <Button className={classes.btn} variant="contained">VIEW MORE</Button>
+                                </div>
+
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
 
                 {/* ================TOYS============== */}
                 <div className='hometoys'>
