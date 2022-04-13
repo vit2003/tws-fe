@@ -106,8 +106,6 @@ function PostDetail({ post }) {
                         setNumOfCmt(numCmt);
                     }
                 }
-                console.log("listImg: ", listImg)
-                console.log("numCmt: ", numCmt)
             } catch (error) {
                 console.log('Failed to fetch api', error)
             }

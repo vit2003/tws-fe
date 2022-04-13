@@ -1,9 +1,11 @@
 import { makeStyles } from '@mui/styles';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import commentApi from './../../../api/commentApi';
 import InputField from './../../../components/form-controls/InputFields/index';
 import CommentDetail from './CommentDetail';
+import tradingPostApi from './../../../api/TradingPostApi';
+
 
 CommentList.propTypes = {
 
@@ -44,16 +46,32 @@ const useStyles = makeStyles(theme => ({
 function CommentList({ comments, postId, reload }) {
 
     const classes = useStyles();
-    const [listCmt, setListCmt] = useState(comments);
+
+    const [listComment, setListComment] = useState([])
+
+    useEffect(() => {
+        (async () => {
+            try {
+                if (postId) {
+                    const reponse = await tradingPostApi.getCmtOfPost(postId);
+
+                    setListComment(reponse.comments);
+                }
+            } catch (error) {
+                console.log('Failed to fetch api', error)
+            }
+        })()
+    }, [])
 
     const form = useForm({
         defaultValues: {
             comment: '',
         },
     })
+
+
     // const { isSubmitting } = form.formState;
     const handleSubmit = async (values) => {
-        console.log("value: ", values)
         const newComment = {
             postId: postId,
             content: values.comment,
@@ -61,13 +79,12 @@ function CommentList({ comments, postId, reload }) {
         try {
             if (!newComment.content) return;
             const response = await commentApi.addNewCommentTrading(newComment)
-            console.log("call reload");
             reload();
             console.log("response: ", response)
         } catch (error) {
             console.log('Failed create comment: ', error);
         }
-        setListCmt(comments)
+        setListComment(comments)
         form.reset();
     }
 
@@ -77,7 +94,7 @@ function CommentList({ comments, postId, reload }) {
                 <InputField className="inputField" className={classes.inputtext} name="comment" label="Comment" form={form} />
             </form>
 
-            {listCmt.map((comment) => (
+            {listComment?.map((comment) => (
                 <CommentDetail key={comment.id} comment={comment} />
             ))}
         </div>

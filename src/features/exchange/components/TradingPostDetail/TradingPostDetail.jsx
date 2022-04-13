@@ -500,7 +500,7 @@ function TradingPostDetail({ tradingPost }) {
                     <IconButton onClick={handleClick} aria-label="share">
                         <CommentIcon />
                     </IconButton>
-                    <Typography>{tradingPost.noOfComment}</Typography>
+                    <Typography>{numOfCmt}</Typography>
                 </CardActions>
                 {
                     currentUserId === tradingPost.ownerId ?
