@@ -160,10 +160,10 @@ function Sidebar({ users, tradingConver, onChangeTrading, tradingPost }) {
 
         </Box>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Contacts" {...a11yProps(0)} />
-            <Tab label="Conversation" {...a11yProps(1)} />
-            <Tab label="Tradings" {...a11yProps(2)} />
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
+            <Tab label="Contacts" {...a11yProps(0)} sx={{ color: '#db36e4' }} />
+            {/* <Tab label="Conversation" {...a11yProps(1)} /> */}
+            <Tab label="Tradings" {...a11yProps(1)} sx={{ color: '#db36e4' }} />
           </Tabs>
         </Box>
       </div>
@@ -195,7 +195,7 @@ function Sidebar({ users, tradingConver, onChangeTrading, tradingPost }) {
         <div className='sidebarList'>
           <TabPanel onClick={handleOnChangeUSerList} value={value} index={0}>
             {
-              search(users)?.map(user => user.id !== currentUserId ? (
+              search(users)?.filter(user => user.role == 2).map(user => user.id !== currentUserId ? (
                 <Box key={Math.random()}
                   sx={{
                     display: 'fex',
@@ -222,7 +222,7 @@ function Sidebar({ users, tradingConver, onChangeTrading, tradingPost }) {
           </TabPanel>
         </div>
 
-        <div className='sidebarList'>
+        {/* <div className='sidebarList'>
           <TabPanel value={value} index={1}>
             {
               search(users)?.map(user => user.id !== currentUserId ? (
@@ -321,11 +321,11 @@ function Sidebar({ users, tradingConver, onChangeTrading, tradingPost }) {
                 <></>)
             }
           </TabPanel>
-        </div>
+        </div> */}
 
         {/* TRADING MESSAGES */}
         <div className='sidebarList'>
-          <TabPanel onClick={handleOnChangeTrading} value={value} index={2}>
+          <TabPanel onClick={handleOnChangeTrading} value={value} index={1}>
             {myTradingConver?.map(conver => (
               <Box key={Math.random()}
                 sx={{

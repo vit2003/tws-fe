@@ -7,6 +7,8 @@ import ToyThumbnails from './../components/ToyThumbnails';
 import { useRouteMatch } from 'react-router-dom';
 import useToyDetails from './../hooks/useToyDetails';
 import ToyInfo from '../components/ToyInfo';
+import PostSkeleton from './../../../components/PostSkeleton/PostSkeleton';
+import Header from './../../../components/Header/index';
 
 
 const useStyles = makeStyles(theme => ({
@@ -37,25 +39,31 @@ function DetailPage() {
     const { params: { toyId } } = useRouteMatch();
 
     const { toy, loading } = useToyDetails(toyId)
-    if (loading) {
-        return <Box>Loading</Box>
-    }
+
+
+
 
     return (
-        <Box>
-            <Container>
-                <Paper elevation={0}>
-                    <Grid container>
-                        <Grid item className={classes.left}>
-                            <ToyThumbnails toy={toy} />
+        <div>
+            <Header />
+            <Box sx={{ paddingTop: '80px' }}></Box>
+            <Box>
+                <Container>
+                    <Paper elevation={0}>
+                        <Grid container>
+                            <Grid item className={classes.left}>
+                                {loading ? <PostSkeleton length={1} /> : <ToyThumbnails toy={toy} />}
+                            </Grid>
+                            <Grid item className={classes.right}>
+                                {loading ? <PostSkeleton length={1} /> : <ToyInfo toy={toy} />}
+
+                            </Grid>
                         </Grid>
-                        <Grid item className={classes.right}>
-                            <ToyInfo toy={toy} />
-                        </Grid>
-                    </Grid>
-                </Paper>
-            </Container>
-        </Box>
+                    </Paper>
+                </Container>
+            </Box>
+        </div>
+
     );
 }
 

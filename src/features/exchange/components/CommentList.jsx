@@ -54,14 +54,13 @@ function CommentList({ comments, postId, reload }) {
             try {
                 if (postId) {
                     const reponse = await tradingPostApi.getCmtOfPost(postId);
-
                     setListComment(reponse.comments);
                 }
             } catch (error) {
                 console.log('Failed to fetch api', error)
             }
         })()
-    }, [])
+    }, [reload])
 
     const form = useForm({
         defaultValues: {
@@ -80,11 +79,10 @@ function CommentList({ comments, postId, reload }) {
             if (!newComment.content) return;
             const response = await commentApi.addNewCommentTrading(newComment)
             reload();
-            console.log("response: ", response)
         } catch (error) {
             console.log('Failed create comment: ', error);
         }
-        setListComment(comments)
+        // setListComment(comments)
         form.reset();
     }
 

@@ -81,14 +81,19 @@ function RegisterForm(props) {
 
     const handleSubmit = async (values) => {
         const { onSubmit } = props;
+        const newRegister = {
+            name: values.fullName,
+            email: values.email,
+            password: values.password
+        }
         if (onSubmit) {
-            await onSubmit(values);
+            await onSubmit(newRegister);
         }
     }
 
     return (
         <div className={classes.root}>
-            {isSubmitting && <LinearProgress className={classes.progres}/>}
+            {isSubmitting && <LinearProgress className={classes.progres} />}
 
             <Avatar sx={{ height: '50px', width: '50px' }} className={classes.avatar} src='/1.png'>
             </Avatar>

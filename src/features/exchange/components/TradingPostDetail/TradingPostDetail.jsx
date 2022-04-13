@@ -145,7 +145,6 @@ function TradingPostDetail({ tradingPost }) {
                         setNumOfCmt(numCmt);
                     }
                 }
-
             } catch (error) {
                 console.log('Failed to fetch api', error)
             }

@@ -3,11 +3,14 @@ import Box from '@mui/material/Box';
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import groupApi from './../../api/groupApi';
+import './Groupbar.scss'
+
 function GroupBar(props) {
 
 
     const [groupList, setGroupList] = useState([]);
     const [url, setUrl] = useState('');
+
 
     let location = useLocation();
     const pathName = location.pathname.split('/');
@@ -38,11 +41,19 @@ function GroupBar(props) {
             >
                 {groupList?.map((group) => (
                     pathName[1] === "trading" ?
-                        <NavLink key={group.id} style={{ textDecoration: 'none', }} activeClassName="active" to={`/trading/${group.id}`}>
-                            <Button style={{ color: 'black', }} variant="text">{group.name}</Button>
+                        <NavLink key={group.id} style={{ textDecoration: 'none', }}
+                            to={`/trading/${group.id}`}
+                            activeClassName="active"
+                            className={({ isActive }) => (isActive ? 'active' : 'inactive')}
+                        >
+                            <Button style={{ color: 'black', }} className='groupBtn' variant="text">{group.name}</Button>
                         </NavLink> :
-                        <NavLink key={group.id} style={{ textDecoration: 'none', }} activeClassName="active" to={`/group/${group.id}`}>
-                            <Button style={{ color: 'black', }} variant="text">{group.name}</Button>
+                        <NavLink key={group.id} style={{ textDecoration: 'none', }}
+                            to={`/group/${group.id}`}
+                            activeClassName="active"
+                            className={({ isActive }) => (isActive ? 'active' : 'inactive')}
+                        >
+                            <Button style={{ color: 'black', }} className='groupBtn' variant="text">{group.name}</Button>
                         </NavLink>
                 ))}
             </Box>

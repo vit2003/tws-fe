@@ -6,6 +6,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import { Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import CircularProgress from '@mui/material/CircularProgress';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -21,7 +22,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getGroups } from '../../../redux/actions/group';
 import { enablePost, getTradingPostsByGroupId } from '../../../redux/actions/tradingPost';
 import { disablePost, getTradingPostsByEnableStatus } from './../../../redux/actions/tradingPost';
-import ShowImage from './../bill/showImage';
+import ShowImage from './showImage';
+import formatDate from './../../../utils/formatDate';
 // Style CSS
 const useStyle = makeStyles((theme) => ({
     pagination: {
@@ -347,12 +349,12 @@ export default function TradingPostManagement() {
                                     <td>{item.ownerName}</td>
                                     <td>
                                         <div className="avatar">
-                                            <img src={item.ownerAvatar} />
+                                            <Avatar src={item.ownerAvatar} alt="avatar"></Avatar>
                                         </div>
                                     </td>
                                     <td className="td-images" >
                                         <div className="images">
-                                            <ShowImage images={item.images} />
+                                            <ShowImage id={item.id} />
                                         </div>
                                     </td>
                                     <td>
@@ -370,7 +372,7 @@ export default function TradingPostManagement() {
                                     <td>
                                         <div>{item.status}</div>
                                     </td>
-                                    <td>{item.postDate}</td>
+                                    <td>{formatDate(item.postDate)}</td>
                                     {
                                         active === 'enable' && selectedEnableId == 2 ?
                                             <td>

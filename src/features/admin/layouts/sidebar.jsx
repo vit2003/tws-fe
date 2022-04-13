@@ -14,15 +14,7 @@ import { useEffect } from 'react';
 export default function SidebarAdmin({ reload }) {
     const currentUser = useSelector(state => state.login.infoUser)
 
-    // useEffect(() => {
-    //     if (!currentUser) {
-    //         reload()
-    //     }
-    // }, [])
-    // const [reload, setReload] = useState(false)
-    // const reloadPage = () => {
-    //     setReload(true);
-    // }
+
     return (
         <div className='SidebarContainer'>
 
@@ -30,22 +22,52 @@ export default function SidebarAdmin({ reload }) {
                 <div className="sidebarMenu">
                     <div className="sidebarTitle">
                         <h3 className="sidebarTitle">Dashboard</h3>
-                        <ul className="sidebarList">
-                            <Link to="/admin" className="link">
-                                <li className="sidebarListItem active">
-                                    <LineStyle className="sidebarIcon" />
-                                    Home
-                                </li>
-                            </Link>
-                            <li className="sidebarListItem">
-                                <Timeline className="sidebarIcon" />
-                                Analytics
-                            </li>
-                            <li className="sidebarListItem">
-                                <TrendingUp className="sidebarIcon" />
-                                Sales
-                            </li>
-                        </ul>
+
+
+                        {
+                            currentUser.role === 0 &&
+                            <div className="sidebarMenu">
+                                <ul className="sidebarList">
+                                    <Link to="/admin" className="link">
+                                        <li className="sidebarListItem active">
+                                            <LineStyle className="sidebarIcon" />
+                                            Home
+                                        </li>
+                                    </Link>
+                                    {/* <li className="sidebarListItem">
+                                        <Timeline className="sidebarIcon" />
+                                        Analytics
+                                    </li>
+                                    <li className="sidebarListItem">
+                                        <TrendingUp className="sidebarIcon" />
+                                        Sales
+                                    </li> */}
+                                </ul>
+                            </div>
+                        }
+                        {
+                            currentUser.role === 1 &&
+                            <div className="sidebarMenu">
+                                <ul className="sidebarList">
+                                    <Link to="/manager" className="link">
+                                        <li className="sidebarListItem active">
+                                            <LineStyle className="sidebarIcon" />
+                                            Home
+                                        </li>
+                                    </Link>
+                                    <li className="sidebarListItem">
+                                        <Timeline className="sidebarIcon" />
+                                        Analytics
+                                    </li>
+                                    <li className="sidebarListItem">
+                                        <TrendingUp className="sidebarIcon" />
+                                        Sales
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+
+
                     </div>
                     {
                         currentUser.role === 0 && <div className="sidebarMenu">
@@ -66,7 +88,7 @@ export default function SidebarAdmin({ reload }) {
                             <div className="sidebarMenu">
                                 <h3 className="sidebarTitle">Manager</h3>
                                 <ul className="sidebarList">
-                                    <Link to="/admin/group" className="link">
+                                    <Link to="/manager/group" className="link">
                                         <li className="sidebarListItem">
                                             <AttachMoney className="sidebarIcon" />
                                             Group
@@ -79,13 +101,13 @@ export default function SidebarAdmin({ reload }) {
                             <div className="sidebarMenu">
                                 <h3 className="sidebarTitle">Manage Post</h3>
                                 <ul className="sidebarList">
-                                    <Link to="/admin/post" className="link">
+                                    <Link to="/manager/post" className="link">
                                         <li className="sidebarListItem">
                                             <DynamicFeedIcon className="sidebarIcon" />
                                             Post
                                         </li>
                                     </Link>
-                                    <Link to="/admin/tradingPost" className="link">
+                                    <Link to="/manager/tradingPost" className="link">
                                         <li className="sidebarListItem">
                                             <DynamicFeedIcon className="sidebarIcon" />
                                             Trading Post
@@ -96,13 +118,13 @@ export default function SidebarAdmin({ reload }) {
                             <div className="sidebarMenu">
                                 <h3 className="sidebarTitle">Manage Contest</h3>
                                 <ul className="sidebarList">
-                                    <Link to="/admin/contest" className="link">
+                                    <Link to="/manager/contest" className="link">
                                         <li className="sidebarListItem">
                                             <EmojiEventsIcon className="sidebarIcon" />
                                             Contest
                                         </li>
                                     </Link>
-                                    <Link to="/admin/prize" className="link">
+                                    <Link to="/manager/prize" className="link">
                                         <li className="sidebarListItem">
                                             <WorkspacePremiumIcon className="sidebarIcon" />
                                             Prize
@@ -114,13 +136,13 @@ export default function SidebarAdmin({ reload }) {
                                 <h3 className="sidebarTitle">Orther</h3>
                                 <ul className="sidebarList">
 
-                                    <Link to="/admin/bill" className="link">
+                                    <Link to="/manager/bill" className="link">
                                         <li className="sidebarListItem">
                                             <DescriptionIcon className="sidebarIcon" />
                                             Bill
                                         </li>
                                     </Link>
-                                    <Link to="/admin/feedback" className="link">
+                                    <Link to="/manager/feedback" className="link">
                                         <li className="sidebarListItem">
                                             <ChatBubbleOutline className="sidebarIcon" />
                                             Feedback

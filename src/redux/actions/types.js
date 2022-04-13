@@ -3,6 +3,7 @@ export const SET_LOADING = 'SET_LOADING'
 export const LOGIN = {
     SET_LOGIN: 'SET_LOGIN',
     SET_LOGOUT: 'SET_LOGOUT',
+    SET_REGISTER: 'SET_REGISTER'
 }
 
 export const ACCOUNT = {

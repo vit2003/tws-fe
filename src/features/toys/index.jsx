@@ -15,8 +15,7 @@ function Toys(props) {
     return (
         <div>
             <Header />
-            <Box sx={{paddingTop: '80px'}}>
-                </Box>
+            <Box sx={{ paddingTop: '80px' }}></Box>
             <Box pt={4}>
                 <Switch>
                     <Route path={match.url} exact component={ListPage} />

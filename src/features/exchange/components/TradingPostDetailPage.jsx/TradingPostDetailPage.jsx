@@ -41,7 +41,7 @@ function TradingPostDetailPage() {
             <Container maxWidth="md">
                 <Card>
                     {loading ? <PostSkeleton length={1} /> : <TradingPost tradingPost={tradingPost} />}
-                    {loading ? <CommentSkeleton /> : <CommentList postId={postId} reload={() => setReload(!reload)} />}
+                    {loading ? <CommentSkeleton length={3} /> : <CommentList postId={postId} reload={() => setReload(!reload)} />}
                 </Card>
 
 

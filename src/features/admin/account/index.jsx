@@ -2,7 +2,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { IconButton } from '@mui/material';
+import { IconButton, Avatar } from '@mui/material';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
@@ -34,6 +34,7 @@ export default function AccountManagement() {
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Status</th>
+                                <th>Role</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -44,11 +45,12 @@ export default function AccountManagement() {
                                         <td>{item.id}</td>
                                         <td>
                                             <div className="avatar">
-                                                <img src={item.avatar} />
+                                                <Avatar src={item.avatar} contained alt="avatar" />
                                             </div>
                                         </td>
                                         <td>{item.name}</td>
                                         <td>{item.phone}</td>
+
                                         <td>
                                             {
                                                 item.status === 'Active' ?
@@ -56,13 +58,15 @@ export default function AccountManagement() {
                                                     <label className="label label-disabled">{item.status}</label>
                                             }
                                         </td>
+                                        {
+                                            item.role == 0 ? <td>Admin</td> : item.role == 1 ? <td>Manager</td> : <td>User</td>
+                                        }
                                         <td>
                                             <Link to={`/admin/account/${item.id}`}>
                                                 <Tooltip title="Edit">
                                                     <IconButton sx={{ backgroundColor: '#5886db', color: '#fff' }} size="normal">
                                                         <EditIcon />
                                                     </IconButton>
-
                                                 </Tooltip>
                                             </Link>
                                             {

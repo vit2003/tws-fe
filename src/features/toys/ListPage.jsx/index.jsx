@@ -48,7 +48,6 @@ function ListPage(props) {
     const [filters, setFilters] = useState({
         pageNumber: 1,
         pageSize: 9,
-        // typeName: 'Action Figure'
     });
 
 
@@ -88,6 +87,10 @@ function ListPage(props) {
     const handleTypeName = (newTypeName) => {
         console.log("afterClick: ", newTypeName)
         setTypeName(newTypeName);
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            pageNumber: 1
+        }))
     }
 
     return (

@@ -39,10 +39,15 @@ function Topbar({ reload }) {
         setAnchorEl(null);
         handleMobileMenuClose();
     };
+
+    const handleOpenMemberPage = () => {
+        history.push("/home")
+    }
     const handleLogoutClick = () => {
         dispatch(logoutAccount(true));
         history.push("/")
     }
+
 
     // Menu in avatar
     const menuId = 'primary-search-account-menu';
@@ -62,7 +67,9 @@ function Topbar({ reload }) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
+            <MenuItem onClick={handleOpenMemberPage}>Go to member page</MenuItem>
             <MenuItem onClick={handleLogoutClick}>Log out</MenuItem>
+
         </Menu>
     );
 

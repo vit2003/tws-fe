@@ -64,67 +64,78 @@ function App() {
                 return currentUser && currentUser['role'] == 0 ? <EditAccount /> : <Redirect to="/" />
               }} />
 
+            </Switch>
+          </AdminLayout>
+        </Route>
+
+
+        <Route path='/manager/:path?'>
+          <AdminLayout>
+            <Switch>
+              <Route path='/' exact render={() => {
+                return <Authentication />
+              }} />
+              <Route path='/manager' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <Dashboard /> : <Redirect to="/" />
+              }} />
+
               {/* POST MANAGEMENT */}
-              <Route path='/admin/post' exact render={() => {
-                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <PostManagement /> : <Redirect to="/" />
+              <Route path='/manager/post' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <PostManagement /> : <Redirect to="/" />
               }} />
 
               {/* GROUP MANAGEMENT */}
-              <Route path='/admin/group' exact render={() => {
-                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <GroupManagement /> : <Redirect to="/" />
+              <Route path='/manager/group' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <GroupManagement /> : <Redirect to="/" />
               }} />
-              <Route path='/admin/group/:id' exact render={() => {
-                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <GroupManagement /> : <Redirect to="/" />
+              <Route path='/manager/group/:id' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <GroupManagement /> : <Redirect to="/" />
               }} />
 
               {/* CONTEST MANAGEMENT */}
-              <Route path='/admin/contest' exact render={() => {
-                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <ContestManagement /> : <Redirect to="/" />
+              <Route path='/manager/contest' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <ContestManagement /> : <Redirect to="/" />
               }} />
 
               {/* PRIZE MANAGEMENT */}
-              <Route path='/admin/prize' exact render={() => {
-                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <PrizeManagement /> : <Redirect to="/" />
+              <Route path='/manager/prize' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <PrizeManagement /> : <Redirect to="/" />
               }} />
-              <Route path='/admin/prize/:id' exact render={() => {
-                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <EditPrize /> : <Redirect to="/" />
+              <Route path='/manager/prize/:id' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <EditPrize /> : <Redirect to="/" />
               }} />
 
               {/* TRADING POST MANAGEMENT */}
-              <Route path='/admin/tradingPost' exact render={() => {
-                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <TradingPostManagement /> : <Redirect to="/" />
+              <Route path='/manager/tradingPost' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <TradingPostManagement /> : <Redirect to="/" />
               }} />
 
               {/* BILL MANAGEMENT */}
-              <Route path='/admin/bill' exact render={() => {
-                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <BillManagement /> : <Redirect to="/" />
+              <Route path='/manager/bill' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <BillManagement /> : <Redirect to="/" />
               }} />
 
               {/* BILL MANAGEMENT */}
-              <Route path='/admin/feedback' exact render={() => {
-                return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <FeedbackManagement /> : <Redirect to="/" />
+              <Route path='/manager/feedback' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <FeedbackManagement /> : <Redirect to="/" />
               }} />
+
+
 
 
             </Switch>
           </AdminLayout>
         </Route>
 
-        {/* <Route path='/' exact render={() => {
-          return currentUser ? <Home /> : <Redirect to="/home" />
-        }} /> */}
-        <Route path="/" component={Authentication} exact />
 
+
+        {/* USER PAGE */}
+        <Route path="/" component={Authentication} exact />
         <Route path='/home' exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <Home /> : <Redirect to="/" />
         }} />
 
-        {/* <PrivateRoute path="/home" component={Home} exact roles={[0, 1, 2]} /> */}
-
-        {/* <Route path="/toys" component={Toys} exact roles={[1, 2]} /> */}
-        {/* <Route path="/toys/:toyId" component={DetailPage} exact roles={[1, 2]} /> */}
-
-
+        {/* TOY PAGE */}
         <Route path="/toys" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <Toys /> : <Redirect to="/" />
         }} />
@@ -133,9 +144,7 @@ function App() {
         }} />
 
 
-        {/* <Route path="/trading" component={Trading} exact roles={[1, 2]} /> */}
-        {/* <PrivateRoute path="/trading/:id" component={Trading} exact roles={[1, 2]} />
-        <PrivateRoute path="/tradingPost/:postId" component={TradingPostDetailPage} exact roles={[0, 1, 2]} /> */}
+        {/* TRADING EXCHANGE */}
         <Route path="/trading" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <Trading /> : <Redirect to="/" />
         }} />
@@ -146,39 +155,30 @@ function App() {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <TradingPostDetailPage /> : <Redirect to="/" />
         }} />
 
-
-
-
+        {/* GROUP POST */}
         <Route path="/group/:id" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <Group /> : <Redirect to="/" />
         }} />
-        {/* <PrivateRoute path="/group/:id" component={Group} exact roles={[0, 1, 2]} /> */}
 
         <Route path="/post/:postId" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <PostDetailPage /> : <Redirect to="/" />
         }} />
-        {/* <PrivateRoute path="/post/:postId" component={PostDetailPage} exact roles={[0, 1, 2]} /> */}
 
+
+        {/* PROFILE EDIT */}
         <Route path="/setting/account/:accountId" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <SettingAccount /> : <Redirect to="/" />
         }} />
-        {/* <PrivateRoute path="/setting/account/:accountId" component={SettingAccount} exact roles={[2]} /> */}
-        {/* <PrivateRoute path="/setting/account/:accountId/edit" component={SettingAccount} exact roles={[2]} /> */}
-
         <Route path="/account/:accountId" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <UserProfile /> : <Redirect to="/" />
         }} />
-        {/* <PrivateRoute path="/account/:accountId" component={UserProfile} exact roles={[1, 2]} /> */}
-        {/* 
-        <PrivateRoute path="/proposalContest" component={ProposalToOpenContest} exact roles={[1, 2]} />
-        <PrivateRoute path="/proposalContest/knowmore" component={KnowMore} exact roles={[1, 2]} /> */}
-        {/* <PrivateRoute path="/viewAllContest" component={ViewAllContest} exact roles={[1, 2]} /> */}
+
+        {/* CONTEST */}
         <Route path="/contest/:contestId" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <Contest /> : <Redirect to="/" />
         }} />
-        {/* <PrivateRoute path="/contest/:contestId" component={Contest} exact roles={[1, 2]} /> */}
 
-        {/* Message */}
+        {/* MESSAGE */}
         <Route path="/message" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <Message /> : <Redirect to="/" />
         }} />
@@ -191,18 +191,8 @@ function App() {
         <Route path="/TradingMessage/:id" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <Message /> : <Redirect to="/" />
         }} />
-        {/* <PrivateRoute path="/message" component={Message} exact roles={[0, 1, 2]} />
-        <PrivateRoute path="/message/:id" component={Message} exact roles={[0, 1, 2]} />
-        <PrivateRoute path="/TradingMessage" component={Message} exact roles={[0, 1, 2]} />
-        <PrivateRoute path="/TradingMessage/:id" component={Message} exact roles={[0, 1, 2]} /> */}
 
-        {/* Admin */}'
-
-        {/* <PrivateRoute path="/admin" component={Dashboard} exact roles={[0, 1]} /> */}
-
-        {/* <Route exact render={() => {
-          return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <NotFound /> : <Redirect to="/" />
-        }} /> */}
+        {/* NOT FOUND */}
         <Route component={NotFound} />
       </Switch>
     </div>

@@ -7,6 +7,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PendingIcon from '@mui/icons-material/Pending';
 import { Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -20,6 +21,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { approvePost, denyPost, getPostsByGroupId, getPostsByUserId, getPostsWaiting } from '../../../redux/actions/post';
 import { getGroups } from './../../../redux/actions/group';
+import ShowImage from './showImage';
+import formatDate from './../../../utils/formatDate';
 
 export default function PostManagement() {
     console.log('post management')
@@ -250,24 +253,18 @@ export default function PostManagement() {
                                     <td>{item.ownerName}</td>
                                     <td>
                                         <div className="avatar">
-                                            <img src={item.ownerAvatar} />
+                                            <Avatar src={item.ownerAvatar} alt="avatar"></Avatar>
                                         </div>
                                     </td>
-                                    <td className="td-images">
+                                    <td className="td-images" >
                                         <div className="images">
-                                            {item.images.length > 0 && item.images.map((image, keyImage) => (
-                                                <div className="image" key={keyImage}>
-                                                    <img src={image.url} alt="" />
-                                                </div>
-                                            ))}
+                                            <ShowImage id={item.id} />
                                         </div>
                                     </td>
                                     <td>
                                         <div>{item.content}</div>
                                     </td>
-                                    <td>
-                                        {item.publicDate ? item.publicDate : item.postDate}
-                                    </td>
+                                    <td>{formatDate(item.publicDate ? item.publicDate : item.postDate)}</td>
                                     {active === 'waiting' && (
                                         <td>
                                             <a className="btn btn-edit" onClick={() => dispatch(approvePost(item.id))}>

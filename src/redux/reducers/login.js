@@ -28,6 +28,11 @@ const loginReducer = (state = initState, action) => {
                 ...state,
                 infoUser: null
             }
+        case LOGIN.SET_REGISTER:
+            return {
+                ...state,
+                infoUser: action.payload
+            }
 
         default:
             return state

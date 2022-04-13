@@ -274,7 +274,7 @@ function BillManagement(props) {
                                     <td>{item.dateCreate}</td>
                                     <td className="td-images" >
                                         <div className="images">
-                                            <ShowImage images={item.images} />
+                                            <ShowImage id={item.id} />
                                         </div>
                                     </td>
                                     {/* <td className="td-images">

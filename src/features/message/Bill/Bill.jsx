@@ -85,22 +85,50 @@ function Bill({ tradingConver, id }) {
     //   FETCH TRADING POST DETAIL
 
     // STATE TRADINGPOST CLICK
-    const [tradingPost, setTradingPost] = useState({});
+
 
     useEffect(() => {
         const fetchTradingpost = async () => {
-            try {
-                const response = await tradingPostApi.getDetail(tradingPostId);
-                console.log("response response: ", response);
-                setTradingPost(response)
-            } catch (error) {
-                console.log('Failed to fetch userList', error)
+            if (tradingPostId) {
+                try {
+                    const response = await tradingPostApi.getDetail(tradingPostId);
+                    console.log("response response: ", response);
+                    setTradingPost(response)
+                } catch (error) {
+                    console.log('Failed to fetch userList', error)
+                }
             }
         }
         fetchTradingpost();
     }, [tradingPostId])
 
+
+    const [tradingPost, setTradingPost] = useState({});
+    const [imageOfTradingPost, setImageOfTradingPost] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                if (tradingPostId) {
+                    const [traPost, listImg] = await Promise.all([
+                        tradingPostApi.getDetail(tradingPostId),
+                        tradingPostApi.getTradingPostImage(tradingPostId),
+
+                    ]);
+                    if (traPost) {
+                        setTradingPost(traPost);
+                    } if (listImg) {
+                        setImageOfTradingPost(listImg);
+                    }
+                }
+            } catch (error) {
+                console.log('Failed to fetch api', error)
+            }
+        })()
+    }, [tradingPostId])
+
     console.log("tradingPost: ", tradingPost);
+
     const handleGoToPost = () => {
         history.push(`/tradingPost/${tradingPostId}`);
     }
@@ -114,7 +142,6 @@ function Bill({ tradingConver, id }) {
     const handleClose = () => {
         setOpen(false);
     };
-
 
     return (
         <>
@@ -139,13 +166,13 @@ function Bill({ tradingConver, id }) {
                     <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
                         <AttachMoneyIcon sx={{ color: '#DB36A4', mr: 1 }} />
                         {/* Exchange: {tradingPost && tradingPostState ? tradingPost.toyName : tradingPostState.toyName} */}
-                        Expected exchange: {tradingPost.trading ? tradingPost.trading : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tradingPost.value)}
+                        Expected exchange: {tradingPost?.trading ? tradingPost?.trading : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tradingPost?.value)}
                     </Typography>
 
                     <Box sx={{ maxHeight: "600px", overflowY: 'scroll', pt: 2 }}>
-                        {tradingPost?.images?.length ?
+                        {imageOfTradingPost?.length ?
                             <ImageList sx={{ width: "100%", height: "auto", maxHeight: "600px" }} variant="masonry" cols={1} rowHeight={164}>
-                                {tradingPost.images.map((image, index) => (
+                                {imageOfTradingPost.map((image, index) => (
                                     <div key={index} className="image-item">
                                         <ImageListItem key={index} onClick={handleShowImageDialog} sx={{
                                             '&:hover': {
@@ -183,8 +210,7 @@ function Bill({ tradingConver, id }) {
                                 onSlideChange={() => console.log('slide change')}
                                 onSwiper={(swiper) => console.log(swiper)}
                             >
-                                {tradingPost?.images?.map((src, index) => (
-
+                                {imageOfTradingPost?.map((src, index) => (
                                     <SwiperSlide className={classes.boxContainImg} key={index}>
                                         <CardMedia className={classes.media} height="700" component="img" src={src.url}></CardMedia>
                                     </SwiperSlide>
@@ -192,7 +218,11 @@ function Bill({ tradingConver, id }) {
                             </Swiper>
                         </DialogContent>
                     </Dialog>
-                    <Button onClick={handleGoToPost} sx={{ margin: 2 }}>Go To Post</Button>
+                    <Button onClick={handleGoToPost} variant="contained" sx={{
+                        margin: 2, backgroundColor: '#db36a4', "&:hover": {
+                            backgroundColor: "#0f0c29 !important",
+                        },
+                    }}>Go To Post</Button>
                 </CardContent>
                     : <></>
             }

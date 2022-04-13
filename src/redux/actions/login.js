@@ -23,6 +23,26 @@ export const login = (params) => {
     }
 }
 
+export const register = (params) => {
+    return async (dispatch) => {
+        console.log("params: ", params);
+        await axioClient.post('/accounts/AccountSystem', params)
+            .then((response) => {
+                console.log("register: ", response);
+                // localStorage.setItem(StorageKeys.TOKEN, data.jwt);
+                // localStorage.setItem(StorageKeys.ACCOUNT, JSON.stringify(data.user));
+
+                console.log("response: ", response);
+                // if (response) {
+                //     dispatch(setRegister(response))
+                // }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+}
+
 export const logoutAccount = (loading = true) => {
     return (dispatch) => {
         localStorage.removeItem(StorageKeys.TOKEN);
@@ -47,3 +67,10 @@ export const setLogout = (payload) => {
         payload
     }
 }
+export const setRegister = (payload) => {
+    return {
+        type: LOGIN.SET_REGISTER,
+        payload
+    }
+}
+

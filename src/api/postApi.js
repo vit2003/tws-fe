@@ -11,11 +11,13 @@ const postApi = {
         }
     },
 
-    getAllByAccount(id) {
+    getAllByAccount(id, params) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
-            return axioClient.get('/posts/account', id)
+            return axioClient.get2(`/posts/account/${id}`, { params })
+            // return axioClient.get2(`/posts/account/${id}?PageNumber=${params.PageNumber}&PageSize=${params.PageSize}`)
+
         }
     },
 
@@ -49,7 +51,7 @@ const postApi = {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
-            return axioClient.delete(`/posts/${id}`, id)
+            return axioClient.delete(`/posts/${id}`)
         }
     },
 

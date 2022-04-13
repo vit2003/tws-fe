@@ -3,7 +3,8 @@ import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { Navigation, Pagination } from "swiper";
-import billApi from './../../../api/billApi';
+import postApi from './../../../api/postApi';
+import tradingPostApi from './../../../api/TradingPostApi';
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';
@@ -31,7 +32,6 @@ const useStyle = makeStyles(theme => ({
     },
 
 
-
     boxContainImg: {
         display: 'flex',
         justifyContent: 'center',
@@ -55,20 +55,21 @@ function ShowImage({ id }) {
     const [maxWidth, setMaxWidth] = React.useState('md');
     const classes = useStyle();
 
-    const [listBillImage, setListBillImage] = useState([])
+    const [listPostImage, setListPostImage] = useState([])
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await billApi.getImgBill(id)
+                const response = await tradingPostApi.getTradingPostImage(id)
                 console.log("response: ", response);
-                setListBillImage(response)
+                setListPostImage(response)
             } catch (error) {
                 console.log("Failed to fetch contest data", error);
             }
         })();
     }, [id]);
 
+    console.log("listPostImage ", listPostImage);
 
     const handleClickOpenImage = () => {
         setOpen(true);
@@ -81,12 +82,12 @@ function ShowImage({ id }) {
     return (
         <>
             {
-                listBillImage?.length > 0 ? <div onClick={handleClickOpenImage} className={classes.onClickOpenImgDiv} className="image" >
-                    <img src={listBillImage && listBillImage[0]?.url} alt="" />
-                    <Typography className={classes.textOnImg}>{listBillImage?.length}+</Typography>
+                listPostImage?.length > 0 ? <div onClick={handleClickOpenImage} className={classes.onClickOpenImgDiv} className="image" >
+                    <img src={listPostImage && listPostImage[0]?.url} alt="" />
+                    <Typography className={classes.textOnImg}>{listPostImage?.length}+</Typography>
                 </div> : <div className={classes.onClickOpenImgDiv} className="image" >
-                    <img src={listBillImage && listBillImage[0]?.url} alt="" />
-                    <Typography className={classes.NoTextOnImg}>No listBillImage</Typography>
+                    <img src={listPostImage && listPostImage[0]?.url} alt="" />
+                    <Typography className={classes.NoTextOnImg}>No listPostImage</Typography>
                 </div>
             }
 
@@ -107,7 +108,7 @@ function ShowImage({ id }) {
                         onSlideChange={() => console.log('slide change')}
                         onSwiper={(swiper) => console.log(swiper)}
                     >
-                        {listBillImage?.map((img, index) => (
+                        {listPostImage?.map((img, index) => (
 
                             <SwiperSlide className={classes.boxContainImg} key={index}>
                                 <CardMedia className={classes.media} height="700" component="img" src={img?.url}></CardMedia>

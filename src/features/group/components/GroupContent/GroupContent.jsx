@@ -6,7 +6,7 @@ import postApi from './../../../../api/postApi';
 import PostSkeleton from './../../../../components/PostSkeleton/PostSkeleton';
 import ContestList from './../ContestList/ContestList';
 import CreatePost from './../CreatePost/index';
-import PostList from './../PostList/index';
+import PostDetail from './../PostDetail/index';
 
 function GroupContent(props) {
 
@@ -18,6 +18,7 @@ function GroupContent(props) {
     const [contestList, setContestList] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const [reload, setReload] = useState(false)
 
     const [filter, setFilter] = useState({
         PageNumber: 1,
@@ -44,7 +45,7 @@ function GroupContent(props) {
             }
             setLoading(true)
         })()
-    }, [groupId])
+    }, [groupId, reload])
 
 
 
@@ -59,7 +60,7 @@ function GroupContent(props) {
 
                         {/* get List post */}
 
-                        {loading ? <PostList postList={postList} /> : <PostSkeleton />}
+                        {loading ? postList?.map((post) => <PostDetail key={post.id} post={post} reload={() => setReload(!reload)} />) : PostSkeleton}
 
                     </Grid>
                     <Grid item xs={4}>

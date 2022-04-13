@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import Swal from 'sweetalert2';
 import { Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
@@ -72,7 +73,7 @@ const useStyle = makeStyles(theme => ({
     }
 }))
 
-function PostDetail({ post }) {
+function PostDetail({ post, reload }) {
 
     const currentUser = useSelector(state => state.login.infoUser);
 
@@ -128,9 +129,20 @@ function PostDetail({ post }) {
     };
     const handleCloseDelete = async () => {
         try {
-            const response = await postApi.deletePost(post.id)
+            const response = await postApi.deletePost(post.id);
+            reload();
+            await Swal.fire(
+                'Delete post successfully!!',
+                'Click Button to continute!',
+                'success'
+            )
         } catch (error) {
             console.log("error: ", error);
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
         setAnchorEl(null);
     }
@@ -244,7 +256,7 @@ function PostDetail({ post }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="600" component="img" src={imageOfPost[0]?.url}></CardMedia>
+                                    <CardMedia height="300" component="img" src={imageOfPost[0]?.url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -253,7 +265,7 @@ function PostDetail({ post }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="600" component="img" src={imageOfPost[1]?.url}></CardMedia>
+                                    <CardMedia height="300" component="img" src={imageOfPost[1]?.url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -262,7 +274,7 @@ function PostDetail({ post }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="600" component="img" src={imageOfPost[2]?.url}></CardMedia>
+                                    <CardMedia height="300" component="img" src={imageOfPost[2]?.url}></CardMedia>
                                 </Box>
                             </>
 

@@ -2,15 +2,15 @@ import axioClient from './axiosClient';
 
 const toysApi = {
 
-    getAll() {
+    getAll(params) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
-            return axioClient.get('/toys')
+            return axioClient.get2('/toys', { params })
         }
     },
 
-    getToyByTypeName(typeName){
+    getToyByTypeName(typeName) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
@@ -18,7 +18,7 @@ const toysApi = {
         }
     },
 
-    get(id){
+    get(id) {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)

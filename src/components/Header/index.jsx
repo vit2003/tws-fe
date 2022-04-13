@@ -106,14 +106,9 @@ function Header() {
   const [anchorElNoti, setAnchorElNoti] = React.useState(null);
   const isNotiOpen = Boolean(anchorElNoti);
 
-
-
-
-
   let loggedInAccount = useSelector(state => state.login.infoUser);
+  console.log("loggedInAccount", loggedInAccount);
 
-  console.log("loggedInAccount: ", loggedInAccount);
-  // console.log(loggedInAccount)
   const AccountAvatar = loggedInAccount.avatar;
   const AccountId = loggedInAccount.accountId;
 
@@ -155,10 +150,11 @@ function Header() {
     // <Redirect to="/setting/account/edit" />
   }
 
-  const handleOpenProposalContest = () => {
-    // if(!AccountId) return;
-    history.push(`/proposalContest`)
-    // <Redirect to="/setting/account/edit" />
+  const handleOpenAdmin = () => {
+    history.push(`/admin`)
+  }
+  const handleOpenManager = () => {
+    history.push(`/manager`)
   }
 
   const handleMobileMenuOpen = (event) => {
@@ -187,7 +183,11 @@ function Header() {
     >
       <MenuItem onClick={handleOpenProfile}>Profile</MenuItem>
       <MenuItem onClick={handleOpenSetting}>Setting</MenuItem>
-      <MenuItem onClick={handleOpenProposalContest}>proposal Contest</MenuItem>
+      {/* <MenuItem onClick={handleOpenProposalContest}>proposal Contest</MenuItem> */}
+      {
+        loggedInAccount.role == 0 ? <MenuItem onClick={handleOpenAdmin}>Admin Page</MenuItem> :
+          loggedInAccount.role == 1 ? <MenuItem onClick={handleOpenManager}>Manager Page</MenuItem> : <></>
+      }
       <MenuItem onClick={handleLogoutClick}>Log out</MenuItem>
     </Menu>
   );
@@ -306,7 +306,7 @@ function Header() {
 
 
             {/* Notification icon */}
-            <NavLink to="/trading/1">
+            <NavLink activeClassName="active" to="/trading">
               <IconButton size="large">
                 <BalanceIcon sx={{ fontSize: 38 }} />
               </IconButton>

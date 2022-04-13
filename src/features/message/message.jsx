@@ -24,7 +24,7 @@ function Message() {
 
     const { params: { id } } = useRouteMatch();
     // const { params: { TradingId } } = useRouteMatch();
-    // console.log("id: ", id);
+    console.log("id: ", id);
     // console.log("id: ", TradingId);
     // console.log("messageId: ", messageId);
 
@@ -60,11 +60,13 @@ function Message() {
 
     useEffect(() => {
         const fetchTradingpost = async () => {
-            try {
-                const response = await tradingPostApi.getDetail(tradingPostId);
-                setTradingPost(response)
-            } catch (error) {
-                console.log('Failed to fetch userList', error)
+            if (tradingPostId) {
+                try {
+                    const response = await tradingPostApi.getDetail(tradingPostId);
+                    setTradingPost(response)
+                } catch (error) {
+                    console.log('Failed to fetch userList', error)
+                }
             }
         }
         fetchTradingpost();
@@ -87,6 +89,7 @@ function Message() {
 
     let tradingPostState = tradingConver?.filter(tdPost => tdPost.id == id)[0];
 
+    console.log("user: ", users);
 
     return (
         <>

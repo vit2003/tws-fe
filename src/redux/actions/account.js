@@ -49,13 +49,11 @@ export const deactiveAccount = (userID) => {
 }
 
 export const showAccount = (userID) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         const token = axioClient.getToken();
-
         if (token) {
             axioClient.setHeaderAuth(token)
-
-            axioClient.get(`/accounts/detail/${userID}`)
+            await axioClient.get(`/accounts/detail/${userID}`)
                 .then((response) => {
                     if (response)
                         dispatch(setAccount(response))
@@ -68,10 +66,8 @@ export const showAccount = (userID) => {
 }
 
 export const updateRole = (id, role) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         const token = axioClient.getToken();
-
-        console.log("userId: ", id, role);
         if (token) {
             axioClient.setHeaderAuth(token)
 
@@ -83,8 +79,7 @@ export const updateRole = (id, role) => {
             if (role == 2) {
                 url = `/accounts/${id}/role/member`;
             }
-
-            axioClient.put(url)
+            await axioClient.put(url)
                 .then((response) => {
                     console.log(response)
                 })
@@ -93,19 +88,6 @@ export const updateRole = (id, role) => {
                 })
         }
     }
-}
-
-export const logout3 = () => {
-    return (dispatch) => {
-        const token = axioClient.getToken();
-
-        if (token) {
-            localStorage.removeItem(StorageKeys.TOKEN);
-            localStorage.removeItem(StorageKeys.ACCOUNT);
-        }
-        // dispatch(setInfo())
-    }
-
 }
 
 

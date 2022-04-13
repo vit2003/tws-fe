@@ -38,7 +38,6 @@ function ToyTypeList({ onChange }) {
         (async () => {
             try {
                 const response = await categorysApi.getAll()
-                console.log("ToytypeList: ", response);
                 setCategoryList(response)
             } catch (error) {
                 console.log('Failed to fetch categorylist', error)

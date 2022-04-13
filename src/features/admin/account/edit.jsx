@@ -10,6 +10,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { showAccount, updateRole } from '../../../redux/actions/account';
+import Swal from 'sweetalert2';
+import accountApi from '../../../api/accountApi';
 
 export default function EditAccount() {
     const state = useSelector(state => state.account);
@@ -25,14 +27,31 @@ export default function EditAccount() {
         setRole(event.target.value);
     };
 
-    const updateRoleAccount = () => {
-        dispatch(updateRole(userID, role))
+    const updateRoleAccount = async () => {
+        if (userID) {
+            // dispatch(updateRole(userID, role))
+            try {
+                const response = await accountApi.updateRole(userID, role);
+                await Swal.fire(
+                    'Update role successfully',
+                    'Click Button to continute!',
+                    'success'
+                )
+            } catch (error) {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+            }
+        }
     }
 
     useEffect(() => {
         const userID = params.id;
         if (userID) {
-            dispatch(showAccount(userID))
+            dispatch(showAccount(userID));
+
         }
     }, [])
 

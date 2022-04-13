@@ -17,8 +17,23 @@ PostDetailPage.propTypes = {
 function PostDetailPage(props) {
 
     const { params: { postId } } = useRouteMatch();
+    // const { post, loading } = usePostDetails(postId, reload);
+    const [post, setPost] = useState({})
     const [reload, setReload] = useState(false);
-    const { post, loading } = usePostDetails(postId, reload);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            try {
+                const data = await postApi.get(postId);
+                setPost(data)
+            } catch (error) {
+                console.log('Failed to fetch tradingpost detail', error)
+            }
+            setLoading(false);
+        }
+        fetchPost();
+    }, [postId, reload])
 
     return (
         <div>
@@ -28,7 +43,7 @@ function PostDetailPage(props) {
             <Container maxWidth="md">
                 <Card>
                     {loading ? <PostSkeleton length={1} /> : <PostDetail post={post} />}
-                    {loading ? <CommentSkeleton /> : <CommentList postId={postId} reload={() => setReload(!reload)} />}
+                    {loading ? <CommentSkeleton length={3} /> : <CommentList postId={postId} reload={() => setReload(!reload)} />}
                 </Card>
 
 

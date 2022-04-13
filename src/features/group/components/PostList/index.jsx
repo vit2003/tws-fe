@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PostDetail from './../PostDetail/index';
 PostList.propTypes = {
     postList: PropTypes.array,
@@ -9,20 +9,15 @@ PostList.defaultProps = {
     postList: [],
 }
 
-function PostList({ postList }) {
+function PostList({ postList, reload }) {
 
-    const listInnerRef = useRef();
-    const onScroll = (event) => {
-        const target = event.target;
-        if (target.scrollHeight - target.scrollTop === target.clientHeight) {
-            console.log("asasfasf")
-        }
-    };
+
+    // console.log("reload: ", reload(true));
 
     return (
-        <div ref={listInnerRef} onScroll={onScroll}>
+        <div>
             {postList.length ? postList.map((post) => (
-                <PostDetail key={post.id} post={post} />
+                <PostDetail reload={reload} key={post.id} post={post} />
             )) : <></>}
         </div>
 

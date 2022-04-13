@@ -24,7 +24,6 @@ import TableRow from '@mui/material/TableRow';
 import { makeStyles } from '@mui/styles';
 import { addDoc, collection, doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -39,8 +38,8 @@ import tradingPostApi from './../../../api/TradingPostApi';
 import InputField from './../../../components/form-controls/InputFields/index';
 import InputPostField from './../../../components/form-controls/InputPostFields/index';
 import MessageObj from './../MessageObj/MessageObj';
+import formatDate from './../../../utils/formatDate';
 import './ChatView.scss';
-
 
 const useStyle = makeStyles(theme => ({
     root: {
@@ -71,25 +70,38 @@ const useStyle = makeStyles(theme => ({
     },
 
     draft: {
-        color: '#de6161',
+        color: '#4286f4',
         letterSpacing: '5px !important',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        fontWeight: 'bold !important'
     },
     delivery: {
-        color: '#de6161',
+        color: '#FFD200',
         letterSpacing: '5px !important',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        fontWeight: 'bold !important'
     },
     closed: {
-        color: 'green',
+        color: '#45a247',
         letterSpacing: '5px !important',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        fontWeight: 'bold !important'
     },
     cancel: {
-        color: 'red',
+        color: '#dd1818',
         letterSpacing: '5px !important',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        fontWeight: 'bold !important'
+    },
+    cssBtn: {
+        backgroundColor: '#db36a4',
+        "&:hover": {
+            backgroundColor: "#0f0c29 !important",
+        },
+        color: 'white',
+        marginRight: "10px"
     }
+
 }))
 
 ChatView.propTypes = {
@@ -115,9 +127,6 @@ const StyledRating = styled(Rating)({
 
 function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tradingConver, tradingPostState }) {
 
-    console.log("tradingpost bill: ", tradingPost);
-    console.log("tradingPostState bill: ", tradingPostState);
-
     // STYLED COMPONENT
     const classes = useStyle();
 
@@ -130,7 +139,10 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
     const [isExchangeByMoney, setIsExchangeByMoney] = useState(false);
 
-    const { enqueueSnackbar } = useSnackbar();
+    // STATE SET FULLWIDTH FOR DIALOG
+    const [fullWidth, setFullWidth] = useState(true);
+    const [maxWidth, setMaxWidth] = useState("sm");
+
 
     const handleChange = (event) => {
         setIsExchangeByMoney(event.target.checked);
@@ -150,10 +162,6 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
     const isBillCreated = (myTradingConver?.filter(tradingPost => tradingPost.id == id))?.map(tdp => tdp.isBillCreated)[0];
     const billIdToRate = (myTradingConver?.filter(tradingPost => tradingPost.id == id))?.map(tdp => tdp.billId)[0]
-    // console.log("myTradingConver: ", myTradingConver);
-
-
-
 
     //SCROLL CHAT VIEW MSG
     const messageRef = useRef();
@@ -227,7 +235,6 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
     const handleClickOpenCheckBill = async () => {
         try {
             let billIdClick = (myTradingConver?.filter(tradingPost => tradingPost.id == id))?.map(tdp => tdp.billId)[0]
-            console.log("billIdClick: ", billIdClick);
             const respones = await billApi.getBillDetail(billIdClick);
             // console.log('api Log Bill: ', respones);
             setBill(respones)
@@ -236,6 +243,8 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             console.log('failed to get bill: ', error);
         }
     };
+
+    console.log("bill: ", bill);
 
     const handleClickOpenFeedback = async () => {
         setOpenCheckBill(false);
@@ -422,19 +431,37 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
             console.log('newBill: ', newBill);
             const response = await billApi.createBill(newBill)
-            enqueueSnackbar('New bill successfully!!', { variant: 'success' })
+
             setBillId(response.billId)
             await updateDoc(doc(db, `tradingMessages/${id}/`),
                 {
                     billId: response.billId
                 });
             setOpen(false)
+            await Swal.fire(
+                'New bill successfully!!',
+                'Click Button to continute!',
+                'success'
+            )
 
         } catch (error) {
             console.log('Failed create new bill: ', error);
-            enqueueSnackbar('Failed to create bill!!', { variant: 'error' })
+            setOpen(false)
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
     }
+
+    // DEFAULT VALUE FOR BILL FORM
+    const formRate = useForm({
+        defaultValues: {
+            rate: '',
+        },
+    })
+
     const handleCreateRate = async (values) => {
         console.log("billIdToRate: ", billIdToRate);
         try {
@@ -466,16 +493,25 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
     const handleAcceptBill = async () => {
         try {
-            console.log("bil id: ", bill.id);
             const response = await billApi.Accept(bill.id, 1)
-            console.log("accept respone: ", response);
             await updateDoc(doc(db, `tradingMessages/${id}/`),
                 {
                     isBillCreated: true
                 });
             setOpenCheckBill(false)
+            await Swal.fire(
+                'Bill was accepted !!',
+                'Click Button to continute!',
+                'success'
+            )
         } catch (error) {
             console.log("Hanlde accetp bill failed: ", error);
+            setOpenCheckBill(false)
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
 
     }
@@ -491,8 +527,19 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                     isBillCreated: false
                 });
             setOpenCheckBill(false)
+            await Swal.fire(
+                'Bill was denied !!',
+                'Click Button to continute!',
+                'success'
+            )
         } catch (error) {
             console.log("failed to deny: ", error);
+            setOpenCheckBill(false)
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
 
     }
@@ -512,11 +559,9 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                 content: values.content,
             }
             const response = await tradingPostApi.feedbackPost(tradingPostId, newFeedback);
-            console.log("accept respone: ", response);
-            console.log(" newFeedback: ", newFeedback);
             setOpenFeedback(false)
             await Swal.fire(
-                'Rate successfully',
+                'Send feedback successfully',
                 'Click Button to continute!',
                 'success'
             )
@@ -541,8 +586,19 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                     isBillCreated: false
                 });
             setOpenCheckBill(false)
+            await Swal.fire(
+                'Bill was canceled',
+                'Click Button to continute!',
+                'success'
+            )
         } catch (error) {
             console.log("Hanlde accetp bill failed: ", error);
+            setOpenCheckBill(false)
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
     }
 
@@ -552,17 +608,23 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             const response = await billApi.ClosedPost(bill.id, 2)
             console.log("ClosedPost respone: ", response);
             setOpenCheckBill(false)
+            await Swal.fire(
+                'Trading post was closed',
+                'Click Button to continute!',
+                'success'
+            )
         } catch (error) {
             console.log("Hanlde accetp bill failed: ", error);
+            setOpenCheckBill(false)
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
     }
 
-    // DEFAULT VALUE FOR BILL FORM
-    const formRate = useForm({
-        defaultValues: {
-            rate: '',
-        },
-    })
+
 
 
     const renderStatus = () => {
@@ -584,7 +646,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                 break;
             case 3:
                 return <Typography className={classes.cancel}>
-                    Status: Cancel
+                    Status: Canceled
                 </Typography>
                 break;
 
@@ -696,35 +758,36 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                     }}>
                                     <Avatar sx={{ mr: 1 }} alt="name" src={receiver?.avatar} />
                                     <Typography>{receiver?.name}</Typography>
+                                    <Typography>- {tradingPostState?.title}</Typography>
                                 </Box>
 
                                 <Box sx={{ display: 'flex', }}>
                                     {currentUserId == buyerId ?
                                         <>
-                                            <Button onClick={handleClickOpenCheckBill}>Check Bill</Button>
+                                            <Button className={classes.cssBtn} onClick={handleClickOpenCheckBill}>Check Bill</Button>
                                         </> :
                                         currentUserId != buyerId && isBillCreated ? <>
                                             {/* <Button onClick={handleClickOpen}>Create Bill</Button> */}
-                                            <Button onClick={handleClickOpenCheckBill}>Check Bill</Button>
+                                            <Button className={classes.cssBtn} onClick={handleClickOpenCheckBill}>Check Bill</Button>
                                         </> :
                                             <>
-                                                <Button onClick={handleClickOpen}>Create Bill</Button>
-                                                <Button onClick={handleClickOpenCheckBill}>Check Bill</Button>
+                                                <Button className={classes.cssBtn} onClick={handleClickOpen}>Create Bill</Button>
+                                                <Button className={classes.cssBtn} onClick={handleClickOpenCheckBill}>Check Bill</Button>
                                             </>
                                     }
                                     {
                                         // currentUserId == buyerId && isBillCreated ? <Button onClick={handleOpenRateAccount}>Rate Account</Button> : <></>
-                                        currentUserId == buyerId ? <Button onClick={handleOpenRateAccount}>Rate Account</Button> : <></>
+                                        currentUserId == buyerId ? <Button className={classes.cssBtn} onClick={handleOpenRateAccount}>Rate Account</Button> : <></>
                                     }
 
 
                                     {/* DIALOG TO CREATE BILL */}
-                                    <Dialog open={open} onClose={handleClose}>
+                                    <Dialog open={open} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>
                                         <DialogTitle sx={{ textAlign: 'center' }}>CREATE BILL</DialogTitle>
                                         <form onSubmit={formBill.handleSubmit(handleCreateBill)}>
                                             <DialogContent>
                                                 <DialogContentText>
-                                                    Your trading info will be saved in our systemYour trading info will be saved in our systemYour trading info will be saved in our system
+                                                    Your trading info will be saved in our system,
                                                 </DialogContentText>
                                                 <InputField name="toyOfSellerName" label="Toy Of Seller" form={formBill} />
 
@@ -749,22 +812,21 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                                     />
                                                 </FormControl>
 
-
                                             </DialogContent>
                                             <DialogActions>
-                                                <Button onClick={handleClose}>Cancel</Button>
-                                                <Button type="submit">Create Bill</Button>
+                                                <Button onClick={handleClose} sx={{ color: "#db36e4" }}>Cancel</Button>
+                                                <Button type="submit" sx={{ color: "#db36e4" }}>Create Bill</Button>
                                             </DialogActions>
                                         </form>
 
                                     </Dialog>
 
                                     {/* DIALOG TO CHECK BILL */}
-                                    <Dialog open={openCheckBill} onClose={handleClose}>
+                                    <Dialog open={openCheckBill} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>
                                         <DialogTitle sx={{ textAlign: 'center' }}>CHECK YOUR BILL</DialogTitle>
                                         <DialogContent>
                                             <DialogContentText>
-                                                Your trading info will be saved in our systemYour trading info will be saved in our systemYour trading info will be saved in our system
+                                                Your trading info will be saved in our system
                                             </DialogContentText>
                                             <DialogContentText>
                                                 {renderStatus()}
@@ -803,25 +865,26 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
                                                     }
                                                 </Table>
-                                                {bill ? <Typography>Create Time: {bill?.createTime}</Typography> : <></>}
+                                                {/* {bill ? <Typography>Create Time: {bill?.updateTime}</Typography> : <></>} */}
+                                                {bill ? <Typography>Create Time: {formatDate(bill?.updateTime)}</Typography> : <></>}
                                             </TableContainer>
                                         </DialogContent>
                                         <DialogActions>
-                                            <Button onClick={handleClose}>Close</Button>
+                                            <Button onClick={handleClose} sx={{ color: "#db36a4" }}>Close</Button>
                                             {
                                                 bill?.status === 3 || bill?.status === 2 ? <></> :
                                                     isBillCreated && currentUserId == buyerId ?
-                                                        <Button onClick={handleClickOpenFeedback}>Feedback</Button> :
+                                                        <Button onClick={handleClickOpenFeedback} sx={{ color: "#db36a4" }}>Feedback</Button> :
 
                                                         isBillCreated && currentUserId != buyerId ?
                                                             <>
-                                                                <Button onClick={handleCancelBill}>Cancel Bill</Button>
-                                                                <Button onClick={handleClosedPost}>Delivered, Closed Post?</Button>
+                                                                <Button onClick={handleCancelBill} sx={{ color: "#db36a4" }}>Cancel Bill</Button>
+                                                                <Button onClick={handleClosedPost} sx={{ color: "#db36a4" }}>Delivered, Closed Post?</Button>
                                                             </> :
                                                             !isBillCreated && currentUserId == buyerId && bill ?
                                                                 <>
-                                                                    <Button onClick={handleAcceptBill}>Accept bill</Button>
-                                                                    <Button onClick={handleDenyBill}>Deny bill</Button>
+                                                                    <Button onClick={handleAcceptBill} sx={{ color: "#db36a4" }}>Accept bill</Button>
+                                                                    <Button onClick={handleDenyBill} sx={{ color: "#db36a4" }}>Deny bill</Button>
                                                                 </> :
                                                                 !isBillCreated && currentUserId != buyerId && bill ? <></> :
 
@@ -834,7 +897,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
 
                                     {/* DIALOG RATE ACCOUNT */}
-                                    <Dialog open={openRateAccount} onClose={handleClose}>
+                                    <Dialog open={openRateAccount} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>
                                         <DialogTitle sx={{ textAlign: 'center' }}>RATE ACCOUNT</DialogTitle>
                                         <form onSubmit={formRate.handleSubmit(handleCreateRate)}>
                                             <DialogContent>
@@ -864,25 +927,25 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
                                             </DialogContent>
                                             <DialogActions>
-                                                <Button onClick={handleClose}>Cancel</Button>
-                                                <Button type="submit">RATE ACCOUNT</Button>
+                                                <Button onClick={handleClose} sx={{ color: "#db36a4" }}>Cancel</Button>
+                                                <Button sx={{ color: "#db36a4" }} type="submit">RATE ACCOUNT</Button>
                                             </DialogActions>
                                         </form>
                                     </Dialog>
 
                                     {/* DIALOG FEEDBACK TRADINGPOST */}
-                                    <Dialog open={openFeedback} onClose={handleClose}>
+                                    <Dialog open={openFeedback} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>
                                         <DialogTitle sx={{ textAlign: 'center' }}>FEEDBACK THIS POST</DialogTitle>
                                         <form onSubmit={formFeedback.handleSubmit(handleFeedbackBill)}>
                                             <DialogContent>
                                                 <DialogContentText>
-                                                    Your trading info will be saved in our systemYour trading info will be saved in our systemYour trading info will be saved in our system
+                                                    Your trading info will be saved in our system
                                                 </DialogContentText>
                                                 <InputPostField name='content' label='Feedback' form={formFeedback} />
                                             </DialogContent>
                                             <DialogActions>
-                                                <Button onClick={handleClose}>Cancel</Button>
-                                                <Button type="submit">Feedback Post</Button>
+                                                <Button onClick={handleClose} sx={{ color: "#db36a4" }}>Cancel</Button>
+                                                <Button type="submit" sx={{ color: "#db36a4" }}>Feedback Post</Button>
                                             </DialogActions>
                                         </form>
                                     </Dialog>

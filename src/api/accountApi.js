@@ -3,7 +3,6 @@ import axioClient from './axiosClient';
 
 const accountApi = {
     register(data) {
-        //set duong` dan~
         const url = '/auth/local/register';
         return axioClient.post(url, data);
     },
@@ -47,6 +46,40 @@ const accountApi = {
         if (token) {
             axioClient.setHeaderAuth(token)
             return axioClient.get('/accounts')
+        }
+    },
+
+    unFollowAccount(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.post(`/accounts/follow_or_unfollow/${id}`, id)
+        }
+    },
+    followAccount(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.post(`/accounts/follow_or_unfollow/${id}`, id)
+        }
+    },
+
+
+    updateRole(id, role) {
+        const token = axioClient.getToken();
+
+        let url = '';
+        if (role == 1) {
+            url = `/accounts/${id}/role/manager`;
+        }
+
+        if (role == 2) {
+            url = `/accounts/${id}/role/member`;
+        }
+
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.put(url)
         }
     },
 };

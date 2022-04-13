@@ -45,7 +45,6 @@ function CommentList({ postId, reload }) {
 
     const classes = useStyles();
 
-
     const [listComment, setListComment] = useState([])
 
     useEffect(() => {
@@ -53,18 +52,13 @@ function CommentList({ postId, reload }) {
             try {
                 if (postId) {
                     const reponse = await postApi.getCmtOfPost(postId);
-                    setListComment(reponse);
-
+                    setListComment(reponse.comments);
                 }
             } catch (error) {
                 console.log('Failed to fetch api', error)
             }
         })()
-    }, [])
-
-    console.log("listComment: ", listComment);
-
-
+    }, [reload])
 
     const form = useForm({
         defaultValues: {
@@ -97,7 +91,7 @@ function CommentList({ postId, reload }) {
                 <InputField className="inputField" className={classes.inputtext} name="comment" label="Comment" form={form} />
             </form>
 
-            {listComment.comments?.map((comment) => (
+            {listComment?.map((comment) => (
                 <CommentDetail key={comment.id} comment={comment} />
             ))}
         </div>
