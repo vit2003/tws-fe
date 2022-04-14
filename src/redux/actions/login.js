@@ -18,7 +18,6 @@ export const login = (params) => {
                 }
             })
             .catch((errors) => {
-                console.log(); ("error: ", errors)
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
