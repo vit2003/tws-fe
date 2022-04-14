@@ -24,6 +24,9 @@ import { logout } from '../../features/authentication/accountSlice';
 import { logoutAccount } from '../../redux/actions/login';
 import StorageKeys from './../../constants/storage-keys'
 import { login } from './../../redux/actions/login';
+import { useEffect, useState } from 'react';
+import accountApi from './../../api/accountApi';
+
 const useStyles = makeStyles(theme => ({
   root: {
 
@@ -42,6 +45,8 @@ const useStyles = makeStyles(theme => ({
     "& .active": {
       borderBottom: '5px solid #DB36A4 !important',
       paddingBottom: '22px',
+
+
 
     }
   },
@@ -97,6 +102,14 @@ function Header() {
 
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const currentAccount = useSelector(state => state.login.infoUser);
+  const [account, setAccount] = useState({})
+
+  useEffect(async () => {
+    const response = await accountApi.getDetailAccountById(currentAccount.accountId)
+    setAccount(response);
+  }, [])
 
   // ANCHOR MENU
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -360,7 +373,7 @@ function Header() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
             >
-              <Avatar src={AccountAvatar}></Avatar>
+              <Avatar src={account.avatar}></Avatar>
             </IconButton>
           </Box>
 

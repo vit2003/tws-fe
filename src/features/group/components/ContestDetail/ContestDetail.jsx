@@ -4,15 +4,15 @@ import { Card, Grid, Typography, Box } from '@mui/material/';
 import { CardMedia } from '@mui/material/';
 import { makeStyles } from '@mui/styles';
 import { useHistory } from 'react-router';
-
+import formatDate from './../../../../utils/formatDate';
 const useStyles = makeStyles(theme => ({
     subtitle: {
         color: 'grey',
         fontSize: '13px !important'
     },
 
-}))
 
+}))
 
 
 ContestDetail.propTypes = {
@@ -31,13 +31,20 @@ function ContestDetail({ contest }) {
     }
 
     return (
-        <Card onClick={handleClick} sx={{ padding: '10px', borderTop: '1px solid #ddd' }}>
+        <Card onClick={handleClick} sx={{
+            height: '150px', padding: '10px', borderTop: '1px solid #ddd',
+            '&:hover': {
+                opacity: [0.9, 0.8, 0.7],
+                cursor: 'pointer',
+                transition: 'all 0.5s'
+            },
+        }}>
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <Typography>{contest.title}</Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', height: '100%', alignItems: 'center' }}>
                         <Typography className={classes.subtitle}>{contest.slogan}</Typography>
-                        <Typography className={classes.subtitle}>{contest.startDate}</Typography>
+                        <Typography className={classes.subtitle}>{formatDate(contest.startDate)}</Typography>
                     </Box>
                 </Grid>
                 <Grid item xs={6}>

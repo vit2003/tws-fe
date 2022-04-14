@@ -336,7 +336,7 @@ function PostDetail({ post, reload }) {
                         imageOfPost ? <Swiper
                             modules={[Navigation, Pagination]}
                             navigation
-                            spaceBetween={50}
+                            spaceBetween={300}
                             slidesPerView={1}
                             pagination={{ clickable: true }}
                             onSlideChange={() => console.log('slide change')}

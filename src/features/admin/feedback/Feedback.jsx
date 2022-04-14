@@ -291,9 +291,9 @@ function FeedbackManagement(props) {
                             <tr>
                                 <th>ID</th>
                                 <th>Sender Name</th>
-                                <th>Receiver Name</th>
-                                <th>Sender Toy</th>
-                                <th>Receiver Toy</th>
+                                <th>Avatar</th>
+                                <th>Content</th>
+                                <th>Feedback about</th>
                                 <th>Post Title</th>
                                 <th>Id Post</th>
                                 {/* <th className="th-action">Action</th> */}

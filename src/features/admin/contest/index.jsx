@@ -454,6 +454,12 @@ function ContestManagement(props) {
                                         <td>{item.title}</td>
                                         <td>{item.slogan}</td>
 
+                                        {/* <td>{item?.startDate}</td>
+                                        <td>{item?.endDate}</td>
+                                        <td>{item?.startRegistration}</td>
+                                        <td>{item?.endRegistration}</td> */}
+
+
                                         <td>{formatDate(item?.startDate)}</td>
                                         <td>{formatDate(item?.endDate)}</td>
                                         <td>{formatDate(item?.startRegistration)}</td>

@@ -155,7 +155,7 @@ function UserProfile(props) {
         fetchAccountById();
     }, [accountId, reload])
 
-    // fetchListPostByAccount
+    console.log("account: ", account);
 
     useEffect(() => {
         (async () => {
@@ -207,7 +207,7 @@ function UserProfile(props) {
     }
 
     const handleOpenEdit = () => {
-        history.push(`/setting/account/${currentAccount.accountId}`)
+        history.push(`/setting/account/${currentAccount.accountId}`, account)
     }
 
     return (
