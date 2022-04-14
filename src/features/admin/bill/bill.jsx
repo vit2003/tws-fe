@@ -249,7 +249,7 @@ function BillManagement(props) {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>
                                 <th>Sender Name</th>
                                 <th>Receiver Name</th>
                                 <th>Sender Toy</th>
@@ -264,7 +264,7 @@ function BillManagement(props) {
                         <tbody>
                             {state.bills && state.bills.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.id}</td>
+                                    <td>{index + 1}</td>
                                     <td>{item.senderName}</td>
                                     <td>{item.receiverName}</td>
                                     <td>{item.senderToy}</td>

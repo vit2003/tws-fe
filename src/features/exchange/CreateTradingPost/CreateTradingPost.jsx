@@ -86,7 +86,6 @@ function CreateTradingPost({ tradingGroupId }) {
     const [selected, setSelected] = useState(false);
 
     const [inputImage, setInputImage] = React.useState([]);
-    const [inputVideo, setInputVideo] = React.useState([]);
 
     // state of obj to push to firebase
     const [strgImg, setStrgImg] = React.useState([]);
@@ -114,26 +113,22 @@ function CreateTradingPost({ tradingGroupId }) {
     };
 
 
-    // Display selected iamge and video
+    // Display selected iamge  
     const handleFileChange = (event) => {
-        let video = [];
         let image = [];
         let storageImage = [];
         for (let i = 0; i < event.target.files.length; i++) {
             console.log(event.target.files[i].type)
-            if (event.target.files[i].type === 'video/mp4' || event.target.files[i].type === 'video/mov' || event.target.files[i].type === 'video/x-matroska' || event.target.files[i].type === 'video/gif') {
-                video.push(URL.createObjectURL(event.target.files[i]))
-            } else if (event.target.files[i].type === 'image/png' || event.target.files[i].type === 'image/jpeg' || event.target.files[i].type === 'image/jpg' || event.target.files[i].type === 'image/gif') {
+            if (event.target.files[i].type === 'image/png' || event.target.files[i].type === 'image/jpeg' || event.target.files[i].type === 'image/jpg' || event.target.files[i].type === 'image/gif') {
                 image.push(URL.createObjectURL(event.target.files[i]))
                 storageImage.push(event.target.files[i]);
             }
         }
-        setInputVideo(video);
         setStrgImg(storageImage);
         setInputImage(image);
     };
 
-    // Choose image and video
+    // Choose image  
     const handleChoose = (event) => {
         inputRef.current.click();
     };
@@ -155,13 +150,11 @@ function CreateTradingPost({ tradingGroupId }) {
     // Handle close dialog and reset state
     const handleClose = () => {
         setOpen(false);
-        setInputVideo([]);
         setInputImage([]);
     };
 
-    // handle deleted iamge and video
+    // handle deleted iamge  
     const handleDeleteSelectedSource = () => {
-        setInputVideo([]);
         setInputImage([]);
     }
 
@@ -389,29 +382,15 @@ function CreateTradingPost({ tradingGroupId }) {
 
                         {/* INPUT AND BUTTON TO FILL MEDIA */}
                         <label htmlFor="contained-button-file">
-                            <Input accept="image/* video/*" id="contained-button-file" multiple type="file" onChange={handleFileChange} />
+                            <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={handleFileChange} />
                             <Button sx={{ backgroundColor: "#db36a4 !important" }} variant="contained" aria-label="upload picture" onClick={handleChoose} component="span" endIcon={<PhotoCamera />}>
-                                Photo/Video
+                                Photo
                             </Button>
                         </label>
 
-                        {inputImage.length || inputVideo.length ?
+                        {inputImage.length ?
                             <Card variant="outlined" sx={{ padding: '10px', marginTop: 2, position: 'relative' }}>
                                 <ImageList variant="masonry" cols={3} gap={8}>
-                                    {inputVideo.map((source, index) => (
-                                        console.log(source),
-                                        <div key={index} className="image-item">
-                                            <ImageListItem key={index}>
-                                                <video
-                                                    className="VideoInput_video"
-                                                    width="100%"
-                                                    height={100}
-                                                    controls
-                                                    src={source}
-                                                />
-                                            </ImageListItem>
-                                        </div>
-                                    ))}
                                     {inputImage.map((image, index) => (
                                         // console.log(source),
                                         console.log(image),

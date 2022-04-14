@@ -69,12 +69,12 @@ function CreatePostContest() {
         setInputImage(image);
     };
 
-    // Choose image and video
+    // Choose image and 
     const handleChoose = (event) => {
         inputRef.current.click();
     };
 
-    // handle deleted iamge and video
+    // handle deleted iamge and 
     const handleDeleteSelectedSource = () => {
         setInputImage([]);
     }

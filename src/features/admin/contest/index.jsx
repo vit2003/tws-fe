@@ -43,11 +43,12 @@ import {
     addPrize, deleteContest, deleteSubcriber, getAllContestABC,
     getAllSubcribers,
     getBrand,
+    getPrizesOfContest,
     getType
 } from "./../../../redux/actions/contest";
 import { getGroups } from "./../../../redux/actions/group";
 import { getPrizes } from "./../../../redux/actions/prize";
-
+import formatDate from './../../../utils/formatDate';
 
 // Style CSS
 const useStyle = makeStyles((theme) => ({
@@ -56,6 +57,7 @@ const useStyle = makeStyles((theme) => ({
     closeBtn: {
         position: "absolute !important",
         bottom: 0,
+
 
         right: 0,
         color: "black",
@@ -175,7 +177,7 @@ function ContestManagement(props) {
     const columns = [
         { field: "name", headerName: "Name", width: 160 },
         { field: "description", headerName: "Description", width: 180 },
-        { field: "value", headerName: "Address", width: 250 },
+        { field: "value", headerName: "Value", width: 250 },
     ];
 
     // DECLARE ROW IN DATAGRID
@@ -242,6 +244,10 @@ function ContestManagement(props) {
         setItemSelected(item);
         setOpenPrize(true);
     };
+
+    useEffect(async () => {
+        dispatch(getPrizesOfContest(itemSelected.id))
+    }, [itemSelected])
 
     // HANDLE OPEN ADD PRIZE DIALOG
     const handleClickOpenSubcribers = (item) => {
@@ -425,7 +431,7 @@ function ContestManagement(props) {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>
                                 <th>title</th>
                                 <th>Slogan</th>
                                 <th>Start Date</th>
@@ -444,27 +450,20 @@ function ContestManagement(props) {
                             {state.contests &&
                                 state.contests.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{item.id}</td>
+                                        <td>{index + 1}</td>
                                         <td>{item.title}</td>
                                         <td>{item.slogan}</td>
 
-                                        <td>{item?.startDate}</td>
-                                        <td>{item?.endDate}</td>
-                                        <td>{item?.startRegistration}</td>
-                                        <td>{item?.endRegistration}</td>
+                                        <td>{formatDate(item?.startDate)}</td>
+                                        <td>{formatDate(item?.endDate)}</td>
+                                        <td>{formatDate(item?.startRegistration)}</td>
+                                        <td>{formatDate(item?.endRegistration)}</td>
 
                                         {/* <td>{item.location}</td>
                                     <td>{item.maxRegister}</td> */}
 
                                         {active === "happening" && (
                                             <td>
-                                                {/* <Link to={`/admin/proposal/${item.id}`}>
-                                                <Tooltip title="Create New">
-                                                    <IconButton sx={{ backgroundColor: '#5886db', color: '#fff' }} size="normal">
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </Link> */}
                                                 <button
                                                     className="btn btn-add"
                                                     onClick={() =>
@@ -486,14 +485,14 @@ function ContestManagement(props) {
                                                     </Tooltip>
                                                 </button>
                                                 <button
-                                                    className="btn btn-delete"
+                                                    className="btn btn-deny"
                                                     onClick={() =>
                                                         dispatch(
                                                             deleteContest(item.id)
                                                         )
                                                     }
                                                 >
-                                                    <Tooltip title="Deny">
+                                                    <Tooltip title="delete">
                                                         <DeleteIcon />
                                                     </Tooltip>
                                                 </button>
@@ -501,13 +500,6 @@ function ContestManagement(props) {
                                         )}
                                         {active === "closed" && (
                                             <td>
-                                                {/* <Link to={`/admin/proposal/${item.id}`}>
-                                                <Tooltip title="Create New">
-                                                    <IconButton sx={{ backgroundColor: '#5886db', color: '#fff' }} size="normal">
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </Link> */}
                                                 <button className="btn btn-see">
                                                     <Tooltip
                                                         title="See"
@@ -521,7 +513,7 @@ function ContestManagement(props) {
                                                     </Tooltip>
                                                 </button>
                                                 <button
-                                                    className="btn btn-delete"
+                                                    className="btn btn-deny"
                                                     onClick={() =>
                                                         dispatch(
                                                             deleteContest(
@@ -653,18 +645,7 @@ function ContestManagement(props) {
                             </table>
                         </div>
                     </div>
-                    {/* <FormControl sx={{ mt: 1, height: '500px' }} fullWidth>
-                        <DataGrid
-                            checkboxSelection
-                            onSelectionModelChange={(newSelectionModel) => {
-                                setSelectionModel(newSelectionModel);
-                            }}
-                            selectionModel={selectionModel}
-                            rows={row}
-                            columns={column}
-                            pageSize={5}
-                        />
-                    </FormControl> */}
+
                 </DialogContent>
                 <DialogActions>
                     <Button color="inherit" onClick={handleClose}>
@@ -691,6 +672,31 @@ function ContestManagement(props) {
                 >
                     Add Prize to {itemSelected.title}
                 </DialogTitle>
+
+                <DialogContent sx={{ marginTop: "10px" }}>
+                    {
+                        state.prizesContest && <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {state.prizesContest?.map((item, index) => (
+                                    <tr>
+                                        <td>{item.name}</td>
+                                        <td>{item.description}</td>
+                                        <td>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.value)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    }
+
+                </DialogContent>
+
                 <DialogContent sx={{ marginTop: "10px" }}>
                     <FormControl sx={{ mt: 1, height: "500px" }} fullWidth>
                         <DataGrid
@@ -800,7 +806,7 @@ function ContestManagement(props) {
                         </FormControl>
 
                         <label htmlFor="contained-button-file">
-                            <Input accept="image/* video/*" id="contained-button-file" multiple type="file" onChange={handleFileChange} />
+                            <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={handleFileChange} />
                             <Button variant="contained" aria-label="upload picture" onClick={handleChoose} component="span" endIcon={<PhotoCamera />} >Photo</Button>
                         </label>
 

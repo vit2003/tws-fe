@@ -71,14 +71,14 @@ function LoginForm(props) {
 
     return (
         <div className={classes.root}>
-            {isSubmitting && <LinearProgress className={classes.progres}/>}
+            {isSubmitting && <LinearProgress className={classes.progres} />}
 
             <Avatar sx={{ height: '70px', width: '70px' }} className={classes.avatar} src='/1.png'>
             </Avatar>
             <Typography variant="h4" className={classes.title} className="title1">
                 We are ToyWorld!!!
             </Typography>
-            <Typography variant="subtitle1"  className={classes.subtitle} className="title2">
+            <Typography variant="subtitle1" className={classes.subtitle} className="title2">
                 Please login to your account!!!
             </Typography>
 

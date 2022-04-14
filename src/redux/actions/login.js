@@ -3,7 +3,7 @@ import {
     LOGIN
 } from './types'
 import StorageKeys from './../../constants/storage-keys';
-
+import Swal from 'sweetalert2';
 
 export const login = (params) => {
     return async (dispatch) => {
@@ -17,28 +17,41 @@ export const login = (params) => {
                     dispatch(setLogin(response))
                 }
             })
-            .catch((error) => {
-                console.log(error)
+            .catch((errors) => {
+                console.log(); ("error: ", errors)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: errors,
+                })
             })
     }
 }
 
-export const register = (params) => {
-    return async (dispatch) => {
-        console.log("params: ", params);
-        await axioClient.post('/accounts/AccountSystem', params)
+export const register = (params, closeDialog) => {
+    return (dispatch) => {
+        axioClient.post('/accounts/AccountSystem', params)
             .then((response) => {
-                console.log("register: ", response);
                 // localStorage.setItem(StorageKeys.TOKEN, data.jwt);
                 // localStorage.setItem(StorageKeys.ACCOUNT, JSON.stringify(data.user));
-
-                console.log("response: ", response);
-                // if (response) {
-                //     dispatch(setRegister(response))
-                // }
+                if (response) {
+                    // dispatch(setRegister(response))
+                    if (closeDialog) {
+                        closeDialog();
+                    }
+                    Swal.fire(
+                        'Register successfully',
+                        'Click Button to continute!',
+                        'success'
+                    )
+                }
             })
             .catch((error) => {
-                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error,
+                })
             })
     }
 }

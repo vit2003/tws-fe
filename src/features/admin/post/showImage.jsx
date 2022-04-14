@@ -61,15 +61,11 @@ function ShowImage({ id }) {
         (async () => {
             try {
                 const response = await postApi.getPostImage(id)
-                console.log("response: ", response);
                 setListPostImage(response)
             } catch (error) {
-                console.log("Failed to fetch contest data", error);
             }
         })();
     }, [id]);
-
-    console.log("listPostImage ", listPostImage);
 
     const handleClickOpenImage = () => {
         setOpen(true);
@@ -84,10 +80,15 @@ function ShowImage({ id }) {
             {
                 listPostImage?.length > 0 ? <div onClick={handleClickOpenImage} className={classes.onClickOpenImgDiv} className="image" >
                     <img src={listPostImage && listPostImage[0]?.url} alt="" />
-                    <Typography className={classes.textOnImg}>{listPostImage?.length}+</Typography>
+                    {
+                        listPostImage?.length > 1 &&
+                        <Typography className={classes.textOnImg}>
+                            {listPostImage?.length - 1}+
+                        </Typography>
+                    }
                 </div> : <div className={classes.onClickOpenImgDiv} className="image" >
                     <img src={listPostImage && listPostImage[0]?.url} alt="" />
-                    <Typography className={classes.NoTextOnImg}>No listPostImage</Typography>
+                    <Typography className={classes.NoTextOnImg}>No imgage</Typography>
                 </div>
             }
 
@@ -111,7 +112,14 @@ function ShowImage({ id }) {
                         {listPostImage?.map((img, index) => (
 
                             <SwiperSlide className={classes.boxContainImg} key={index}>
-                                <CardMedia className={classes.media} height="700" component="img" src={img?.url}></CardMedia>
+                                <CardMedia
+                                    sx={{
+                                        width: "600px",
+                                        width: "auto",
+                                        height: "600px",
+                                        maxHeight: "600px",
+                                    }}
+                                    className={classes.media} height="700" component="img" src={img?.url}></CardMedia>
                             </SwiperSlide>
                         ))}
                     </Swiper>

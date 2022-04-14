@@ -64,6 +64,22 @@ const accountApi = {
         }
     },
 
+    editAccount(id, params) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.put(`/accounts/${id}/profile`, params)
+        }
+    },
+
+    changePassword(params) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.put('accounts/change_password', params)
+        }
+    },
+
 
     updateRole(id, role) {
         const token = axioClient.getToken();

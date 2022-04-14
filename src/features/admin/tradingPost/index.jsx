@@ -40,7 +40,6 @@ export default function TradingPostManagement() {
     const state = useSelector(state => state.tradingPost)
     const dispatch = useDispatch();
     const classes = useStyle();
-    console.log("state: ", state);
 
     const groups = useSelector(state => state.group)
     const enableLabel = [
@@ -57,7 +56,6 @@ export default function TradingPostManagement() {
             name: 'ENABLE'
         },
     ];
-    console.log('enable 1: ', enableLabel[1].id == 1);
 
     useEffect(() => {
         // getTradingPostsByEnableStatus()
@@ -112,8 +110,6 @@ export default function TradingPostManagement() {
             ...prevFilters,
             pageNumber: 1
         }))
-        console.log('filtersGroup: ', filtersGroup);
-        console.log('id: ', id);
         setOpenGroup(false);
     };
 
@@ -163,7 +159,6 @@ export default function TradingPostManagement() {
     };
     // =========================PAGING============
     const handlePageChange = (e, page) => {
-        console.log("page: ", page);
         const newFilterGroup = {
             pageNumber: page,
             pageSize: 9,
@@ -192,25 +187,6 @@ export default function TradingPostManagement() {
             PageNumber: 1
         }))
     }
-
-    // const renderBtn = () => {
-    //     switch (active) {
-    //         case 'enable':
-    //             switch (selectedEnableId) {
-    //                 case 1:
-    //                     console.log("switch 1: ", 1);
-    //                     break;
-    //                 case 2:
-    //                     console.log("switch 1: ", 1);
-    //                     break;
-
-    //                 default:
-    //                     break;
-    //             }
-    //         case 'group':
-    //             break;
-    //     }
-    // }
 
     return (
         <>
@@ -329,7 +305,7 @@ export default function TradingPostManagement() {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>
                                 <th>Name</th>
                                 <th>Avatar</th>
                                 <th>Image</th>
@@ -345,7 +321,7 @@ export default function TradingPostManagement() {
                         <tbody>
                             {state.tradingPosts && state.tradingPosts.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.id}</td>
+                                    <td>{index + 1}</td>
                                     <td>{item.ownerName}</td>
                                     <td>
                                         <div className="avatar">
@@ -384,12 +360,21 @@ export default function TradingPostManagement() {
                                             </td> :
                                             active === 'enable' && selectedEnableId == 1 ?
                                                 <td>
-                                                    <button className="btn btn-edit" onClick={() => dispatch(enablePost(item.id, selectedEnableId, filtersEnable))}>
+                                                    <button className="btn btn-ednable" onClick={() => dispatch(enablePost(item.id, selectedEnableId, filtersEnable))}>
                                                         <Tooltip title="Enable">
                                                             <DoneIcon />
                                                         </Tooltip>
                                                     </button>
-                                                </td> : <td></td>
+                                                </td> :
+                                                active === 'group' ?
+                                                    <td>
+                                                        <button className="btn btn-deny" onClick={() => dispatch(disablePost(item.id, 2, filtersEnable))}>
+                                                            <Tooltip title="Disable">
+                                                                <DoDisturbOnIcon />
+                                                            </Tooltip>
+                                                        </button>
+                                                    </td>
+                                                    : <td></td>
                                     }
                                 </tr>
                             ))}

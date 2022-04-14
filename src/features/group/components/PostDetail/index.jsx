@@ -27,6 +27,7 @@ import "swiper/css/pagination";
 // Import Swiper styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import postApi from './../../../../api/postApi';
+import formatDate from './../../../../utils/formatDate';
 
 PostDetail.propTypes = {
     post: PropTypes.object,
@@ -194,7 +195,7 @@ function PostDetail({ post, reload }) {
                     </IconButton>
                 }
                 title={post.ownerName}
-                subheader={new Date(post.publicDate).toISOString().slice(0, 19).replace('T', ' ')}
+                subheader={formatDate(post.publicDate)}
             />
             <Menu
                 id="long-menu"

@@ -2,6 +2,7 @@ import axioClient from '../../api/axiosClient'
 import {
     POST
 } from './types'
+import Swal from 'sweetalert2';
 
 export const getPostsByUserId = (userID) => {
     return (dispatch) => {
@@ -78,10 +79,19 @@ export const approvePost = (postID) => {
                 .then((response) => {
                     if (response) {
                         dispatch(getPostsWaiting(false));
+                        Swal.fire(
+                            'Rate Contest successfully',
+                            'Click Button to continute!',
+                            'success'
+                        )
                     }
                 })
                 .catch((error) => {
-                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error,
+                    })
                 })
         }
     }

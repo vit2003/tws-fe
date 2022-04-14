@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axioClient from '../../api/axiosClient';
 import { PRIZE } from './types';
-
+import Swal from 'sweetalert2';
 
 
 
@@ -51,6 +51,7 @@ export const getPrizes = (filters, loading = true) => {
         }
     }
 }
+
 
 export const updatePrize = (prizeId, params) => {
     return (dispatch) => {
@@ -138,6 +139,7 @@ export const setPrizes = (payload) => {
         payload
     }
 }
+
 export const setCount = (payload) => {
     return {
         type: PRIZE.SET_COUNT,

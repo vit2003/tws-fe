@@ -212,7 +212,14 @@ function Bill({ tradingConver, id }) {
                             >
                                 {imageOfTradingPost?.map((src, index) => (
                                     <SwiperSlide className={classes.boxContainImg} key={index}>
-                                        <CardMedia className={classes.media} height="700" component="img" src={src.url}></CardMedia>
+                                        <CardMedia
+                                            sx={{
+                                                width: "600px",
+                                                width: "auto",
+                                                height: "600px",
+                                                maxHeight: "600px",
+                                            }}
+                                            className={classes.media} height="700" component="img" src={src.url}></CardMedia>
                                     </SwiperSlide>
                                 ))}
                             </Swiper>

@@ -60,6 +60,13 @@ const eventApi = {
             return axioClient.post(`/contest/${contestId}/rate/${postOfContestId}`, params)
         }
     },
+    evaluateContest(contestId, params) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.post(`/contest/${contestId}/evaluate`, params)
+        }
+    },
 
     checkAttended(id) {
         const token = axioClient.getToken();

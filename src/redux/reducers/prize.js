@@ -2,7 +2,8 @@ import { PRIZE } from '../actions/types'
 
 const initState = {
     error: '',
-    prizes: []
+    prizes: [],
+
 }
 
 const prizeReducer = (state = initState, action) => {

@@ -83,10 +83,15 @@ function ShowImage({ id }) {
             {
                 listBillImage?.length > 0 ? <div onClick={handleClickOpenImage} className={classes.onClickOpenImgDiv} className="image" >
                     <img src={listBillImage && listBillImage[0]?.url} alt="" />
-                    <Typography className={classes.textOnImg}>{listBillImage?.length}+</Typography>
+                    {
+                        listBillImage?.length > 1 &&
+                        <Typography className={classes.textOnImg}>
+                            {listBillImage?.length - 1}+
+                        </Typography>
+                    }
                 </div> : <div className={classes.onClickOpenImgDiv} className="image" >
                     <img src={listBillImage && listBillImage[0]?.url} alt="" />
-                    <Typography className={classes.NoTextOnImg}>No listBillImage</Typography>
+                    <Typography className={classes.NoTextOnImg}>No imgage</Typography>
                 </div>
             }
 
@@ -110,7 +115,14 @@ function ShowImage({ id }) {
                         {listBillImage?.map((img, index) => (
 
                             <SwiperSlide className={classes.boxContainImg} key={index}>
-                                <CardMedia className={classes.media} height="700" component="img" src={img?.url}></CardMedia>
+                                <CardMedia
+                                    sx={{
+                                        width: "600px",
+                                        width: "auto",
+                                        height: "600px",
+                                        maxHeight: "600px",
+                                    }}
+                                    className={classes.media} height="700" component="img" src={img?.url}></CardMedia>
                             </SwiperSlide>
                         ))}
                     </Swiper>

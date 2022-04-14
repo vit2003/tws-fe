@@ -1,4 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
+import StarIcon from '@mui/icons-material/Star';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import {
     Box, Avatar, Button, Card, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, ImageList, ImageListItem, Rating, Typography
@@ -20,6 +21,7 @@ import Runner from './../Runner/Runner';
 import RunnerClosed from './../RunnerClosed/RunnerClosed';
 import formatDate from './../../../utils/formatDate';
 import "./Contest.scss";
+import InputPostField from '../../../components/form-controls/InputPostFields';
 
 
 
@@ -59,10 +61,10 @@ const useStyle = makeStyles((theme) => ({
 
 const StyledRating = styled(Rating)({
     "& .MuiRating-iconFilled": {
-        color: "#ff6d75",
+        color: "#fdc830",
     },
     "& .MuiRating-iconHover": {
-        color: "#ff3d47",
+        color: "#ffe000",
     },
 });
 
@@ -70,8 +72,6 @@ function Contest(props) {
     const { params: { contestId }, } = useRouteMatch();
     const currentAccount = useSelector((state) => state.login.infoUser);
     const currentAccountId = currentAccount.accountId;
-    // console.log("currentAccount: ", currentAccount);
-    // console.log("currentAccountId: ", currentAccountId);
 
     // STYLE FOR INPUT IMAGE
     const Input = styled('input')({
@@ -116,8 +116,14 @@ function Contest(props) {
     // STATE RUNNER DIALOG
     const [openRunnerDialog, setOpenRunnerDialog] = useState(false);
 
+    // STATE RUNNER DIALOG
+    const [openEvaluate, setOpenEvaluate] = useState(false);
+
     // STATE RUNNER IS RATE
     const [isRate, setIsRate] = useState(false);
+
+    // STATE CONTEST RATE
+    const [ratingNum, setRatingNum] = React.useState(2);
 
     // STATE URL SHOW IMAGE
     const [urlImg, setUrlImg] = useState("");
@@ -149,24 +155,26 @@ function Contest(props) {
         setOpenRunnerDialog(true)
     }
 
+    const handleOpenDialogEvaluate = async () => {
+        setOpenEvaluate(true)
+    }
+
     // CLOSE DIALOG
     const handleClose = () => {
         setOpen(false);
         setOpenRunnerDialog(false);
+        setOpenEvaluate(false);
         setInputImage([]);
     };
 
     // GET  FIREBASE STORAGE
     const storage = getStorage();
-    // REF TO LOGO CONTEST
-    // const storageRef = ref(storage, `/Toy/prize1.png`);
 
     // CALL API CHECK ATTENDED THEN SET STATE
     useEffect(() => {
         (async () => {
             try {
                 const response = await eventApi.checkAttended(contestId);
-                // console.log("check attended: ", response);
                 setIsAttended(response.isJoinedToContest);
             } catch (error) {
                 console.log("Failed to fetch contest data", error);
@@ -232,19 +240,10 @@ function Contest(props) {
         })();
     }, [contestId, reload]);
 
-    // console.log("contestId: ", contestId)
-    // console.log("contest: ", contest);
-    // console.log("prizeList: ", prizeList)
-    // console.log("rewardList: ", rewardList);
-    console.log("postOfContestList: ", postOfContestList)
-
-    // DateFormat df = new SimpleDateFormat("YYYY-MM-DDThh:mm:ssTZD");
-
     // HANDLE JOIN CONTEST
     const handleJoinContest = async () => {
         try {
             const response = await eventApi.joinToContest(contestId);
-            console.log("response: ", response);
             setIsAttended(true);
         } catch (error) {
             console.log("faile to join contestId: ", error);
@@ -267,12 +266,12 @@ function Contest(props) {
         setInputImage(image);
     };
 
-    // Choose image and video
+    // Choose image  
     const handleChoose = (event) => {
         inputRef.current.click();
     };
 
-    // handle deleted iamge and video
+    // handle deleted iamge  
     const handleDeleteSelectedSource = () => {
         setInputImage([]);
     }
@@ -287,16 +286,13 @@ function Contest(props) {
     // UPLOAD ANG GET IMAGE URL FROM FIREBASE
     const imagesLink = [];
     const uploadAndGetLinkImg = async () => {
-        // console.log("objImage: ", strgImg)
         for (let i = 0; i < strgImg.length; i++) {
             const storageRefRunner = ref(storage, `/Runner/${strgImg[i].name}`)
-            // console.log(strgImg[i].name)
             await uploadBytes(storageRefRunner, strgImg[i]);
             // get link from database to download
             await getDownloadURL(storageRefRunner)
                 .then((url) => {
                     imagesLink.push(url)
-                    console.log("url: ", url);
                 })
                 .catch((error) => {
                     console.log("error: ", error);
@@ -313,7 +309,6 @@ function Contest(props) {
                 imagesUrl: imagesLink,
             }
             const response = await eventApi.createRunnerPost(contestId, newRunnerPost)
-            console.log("newRunnerPost: ", newRunnerPost);
             setOpenRunnerDialog(false);
             setReload(!reload);
             await Swal.fire(
@@ -322,7 +317,6 @@ function Contest(props) {
                 'success'
             )
         } catch (error) {
-            console.log("faile to join contestId: ", error);
             setOpenRunnerDialog(false);
             await Swal.fire({
                 icon: 'error',
@@ -334,8 +328,39 @@ function Contest(props) {
         setInputImage([]);
 
     };
-    console.log("contest status: ", contest?.status);
 
+    // DEFAULT VALUE FOR BILL FORM
+    const formRate = useForm({
+        defaultValues: {
+            rate: '',
+        },
+    })
+
+    const handleCreateRate = async (values) => {
+
+        const newRate = {
+            numOfStar: ratingNum,
+            comment: values.rate,
+        }
+        await eventApi.evaluateContest(contestId, newRate)
+            .then((response) => {
+                if (response) {
+                    Swal.fire(
+                        'Rate Contest successfully',
+                        'Click Button to continute!',
+                        'success'
+                    )
+                }
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error,
+                })
+            })
+        setOpenEvaluate(false)
+    }
     // RENDER JOIN CONTEST BTN & POST RUNNER BTN
     const renderBtn = () => {
         switch (isAttended) {
@@ -447,13 +472,27 @@ function Contest(props) {
                             )
                         );
                     case 4:
-                        <></>;
+                        return (
+                            console.log("attended 4"),
+                            (
+                                <Button variant="contained"
+                                    sx={{
+                                        backgroundColor: "#c31432",
+                                        color: "#fff",
+                                        "&:hover": {
+                                            backgroundColor:
+                                                "#0f0c29 !important",
+                                        },
+                                    }}
+                                    onClick={handleOpenDialogEvaluate}
+                                >
+                                    Evaluate Contest
+                                </Button>
+                            )
+                        );
                 }
         }
     };
-
-    console.log("top3List: ", top3List);
-    console.log("rewardList: ", rewardList);
 
     return (
         <>
@@ -752,6 +791,46 @@ function Contest(props) {
                         </DialogActions>
                     </form>
                 </Dialog>
+
+                {/* ========================================= */}
+
+                <Dialog open={openEvaluate} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>
+                    <DialogTitle sx={{ textAlign: 'center' }}>RATE CONTEST</DialogTitle>
+                    <form onSubmit={formRate.handleSubmit(handleCreateRate)}>
+                        <DialogContent>
+                            <DialogContentText>
+                                Your trading info will be saved in our systemYour trading info will be saved in our systemYour trading info will be saved in our system
+                            </DialogContentText>
+
+                            <StyledRating
+                                name="customized-color"
+                                defaultValue={0}
+                                precision={0.5}
+                                getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+                                icon={<StarIcon fontSize="inherit" />}
+                                emptyIcon={<StarIcon fontSize="inherit" />}
+                                onChange={async (event, newValue) => {
+                                    try {
+                                        setRatingNum(newValue)
+                                        setIsRate(true);
+                                    }
+                                    catch (error) {
+                                        console.log("fail to rate: ", error)
+                                    }
+                                }}
+                            />
+                            <InputPostField name='rate' label='rate' form={formRate} />
+
+
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} sx={{ color: "#db36a4" }}>Cancel</Button>
+                            <Button sx={{ color: "#db36a4" }} type="submit">RATE ACCOUNT</Button>
+                        </DialogActions>
+                    </form>
+                </Dialog>
+
+
             </div>
         </>
     );

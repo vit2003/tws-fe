@@ -30,6 +30,7 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { db } from '../../../../Firebase/firebase';
 import tradingPostApi from './../../../../api/TradingPostApi';
+import formatDate from './../../../../utils/formatDate';
 import Swal from 'sweetalert2';
 
 
@@ -109,9 +110,11 @@ const useStyle = makeStyles(theme => ({
         fontWeight: 'bold !important'
     }
 
+
 }))
 
 function TradingPostDetail({ tradingPost, reload }) {
+
 
     const currentUser = useSelector(state => state.login.infoUser);
     const currentUserId = currentUser.accountId
@@ -305,7 +308,7 @@ function TradingPostDetail({ tradingPost, reload }) {
                     </IconButton>
                 }
                 title={tradingPost.ownerName}
-                subheader={new Date(tradingPost.postDate).toISOString().slice(0, 19).replace('T', ' ')}
+                subheader={formatDate(tradingPost.postDate)}
             />
             <Menu
                 id="long-menu"
@@ -369,7 +372,7 @@ function TradingPostDetail({ tradingPost, reload }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="600" component="img" src={imageOfTradingPost[0].url}></CardMedia>
+                                    <CardMedia height="300" component="img" src={imageOfTradingPost[0].url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -378,7 +381,7 @@ function TradingPostDetail({ tradingPost, reload }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="600" component="img" src={imageOfTradingPost[1].url}></CardMedia>
+                                    <CardMedia height="300" component="img" src={imageOfTradingPost[1].url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -387,7 +390,7 @@ function TradingPostDetail({ tradingPost, reload }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="600" component="img" src={imageOfTradingPost[2].url}></CardMedia>
+                                    <CardMedia height="300" component="img" src={imageOfTradingPost[2].url}></CardMedia>
                                 </Box>
                             </>
 

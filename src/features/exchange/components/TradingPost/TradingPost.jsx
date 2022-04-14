@@ -29,6 +29,7 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { db } from '../../../../Firebase/firebase';
 import tradingPostApi from './../../../../api/TradingPostApi';
+import formatDate from './../../../../utils/formatDate';
 
 
 TradingPost.propTypes = {
@@ -288,7 +289,7 @@ function TradingPost({ tradingPost }) {
                     </IconButton>
                 }
                 title={tradingPost.ownerName}
-                subheader={new Date(tradingPost.postDate).toISOString().slice(0, 19).replace('T', ' ')}
+                subheader={formatDate(tradingPost.postDate)}
             />
             <Menu
                 id="long-menu"
@@ -352,7 +353,7 @@ function TradingPost({ tradingPost }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="600" component="img" src={imageOfTradingPost[0].url}></CardMedia>
+                                    <CardMedia height="300" component="img" src={imageOfTradingPost[0].url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -361,7 +362,7 @@ function TradingPost({ tradingPost }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="600" component="img" src={imageOfTradingPost[1].url}></CardMedia>
+                                    <CardMedia height="300" component="img" src={imageOfTradingPost[1].url}></CardMedia>
                                 </Box>
                                 <Box onClick={handleShowImageDialog} gridColumn="span 6" sx={{
                                     '&:hover': {
@@ -370,7 +371,7 @@ function TradingPost({ tradingPost }) {
                                         transition: 'all 0.5s'
                                     },
                                 }}>
-                                    <CardMedia height="600" component="img" src={imageOfTradingPost[2].url}></CardMedia>
+                                    <CardMedia height="300" component="img" src={imageOfTradingPost[2].url}></CardMedia>
                                 </Box>
                             </>
 

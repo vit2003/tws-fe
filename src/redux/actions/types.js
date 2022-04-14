@@ -30,6 +30,7 @@ export const PRIZE = {
     SET_PRIZES: 'SET_PRIZES',
     SET_PRIZE: 'SET_PRIZE',
 
+
 }
 
 export const CONTEST = {
@@ -38,7 +39,8 @@ export const CONTEST = {
     SET_BRANDS: 'SET_BRANDS',
     SET_TYPES: 'SET_TYPES',
     SET_SUBCRIBERS: 'SET_SUBCRIBERS',
-    SET_COUNT: 'SET_COUNT'
+    SET_COUNT: 'SET_COUNT',
+    SET_PRIZE_CONTEST: 'SET_PRIZE_CONTEST',
 }
 
 export const BILL = {

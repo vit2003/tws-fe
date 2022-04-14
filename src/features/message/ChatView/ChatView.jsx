@@ -5,7 +5,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ImageIcon from '@mui/icons-material/Image';
 import InfoIcon from '@mui/icons-material/Info';
 import SendIcon from '@mui/icons-material/Send';
-import { Avatar, Box, Button, Card, FormControlLabel, IconButton, ImageList, ImageListItem, Switch, Typography } from '@mui/material/';
+import { Avatar, Box, Button, Card, FormControlLabel, IconButton, ImageList, ImageListItem, Switch, Typography, CardMedia } from '@mui/material/';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -39,6 +39,12 @@ import InputField from './../../../components/form-controls/InputFields/index';
 import InputPostField from './../../../components/form-controls/InputPostFields/index';
 import MessageObj from './../MessageObj/MessageObj';
 import formatDate from './../../../utils/formatDate';
+// Import Swiper styles
+import "swiper/css";
+import 'swiper/css/navigation';
+import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper";
 import './ChatView.scss';
 
 const useStyle = makeStyles(theme => ({
@@ -100,7 +106,35 @@ const useStyle = makeStyles(theme => ({
         },
         color: 'white !important',
         marginRight: "10px !important"
-    }
+    },
+    onClickOpenImgDiv: {
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center'
+
+    },
+    onClickOpenImg: {
+        filter: 'brightness(40%)',
+
+    },
+    text: {
+        position: 'absolute',
+        fontWeight: 'bold',
+        color: 'white',
+        fontSize: '2rem',
+    },
+    boxContainImg: {
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    media: {
+        objectFit: 'contain',
+        minWidth: 'auto',
+        minHeight: 'auto',
+    },
+
 
 }))
 
@@ -211,6 +245,14 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
     const [isRate, setIsRate] = React.useState(false);
 
 
+    const [detailBill, setDetailBill] = useState({})
+
+    useEffect(async () => {
+        if (tradingPostId) {
+            const response = await tradingPostApi.getDetail(tradingPostId);
+            setDetailBill(response);
+        }
+    }, [tradingPostId])
 
 
     // HANDLE OPEN DIALOG
@@ -221,6 +263,12 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
     // HANDLE OPEN CHECK BILL DIALOG
     const [openCheckBill, setOpenCheckBill] = React.useState(false);
+
+    const [openImgBill, setOpenImgBill] = React.useState(false);
+
+    const handleShowImageDialog = async () => {
+        setOpenImgBill(true)
+    }
 
     // HANDLE OPEN CHECK BILL DIALOG
     const [openFeedback, setOpenFeedback] = React.useState(false);
@@ -244,6 +292,20 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
         }
     };
 
+    const [imgBills, setImgBills] = useState([])
+
+    useEffect(async () => {
+        if (bill) {
+            try {
+                const respones = await billApi.getImgBill(bill?.id);
+                console.log("img bill: ", respones);
+                setImgBills(respones)
+            } catch (error) {
+
+            }
+        }
+    }, [bill?.id])
+
     console.log("bill: ", bill);
 
     const handleClickOpenFeedback = async () => {
@@ -258,6 +320,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
         setOpenCheckBill(false);
         setOpenRateAccount(false)
         setOpenFeedback(false)
+        setOpenImgBill(false)
     };
 
     // CHOOSE IMAGE
@@ -777,7 +840,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                     }
                                     {
                                         // currentUserId == buyerId && isBillCreated ? <Button onClick={handleOpenRateAccount}>Rate Account</Button> : <></>
-                                        currentUserId == buyerId ? <Button className={classes.cssBtn} onClick={handleOpenRateAccount}>Rate Account</Button> : <></>
+                                        currentUserId == buyerId && isBillCreated ? <Button className={classes.cssBtn} onClick={handleOpenRateAccount}>Rate Account</Button> : <></>
                                     }
 
 
@@ -864,11 +927,32 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                                     </Table>
                                                     {/* {bill ? <Typography>Create Time: {bill?.updateTime}</Typography> : <></>} */}
                                                     {bill ? <Typography>Create Time: {formatDate(bill?.updateTime)}</Typography> : <></>}
+                                                    {imgBills?.length ?
+                                                        <ImageList sx={{ width: "100%", height: "auto", maxHeight: "600px" }} variant="masonry" cols={3} rowHeight={164}>
+                                                            {imgBills.map((image, index) => (
+                                                                <div key={index} className="image-item">
+                                                                    <ImageListItem key={index} onClick={handleShowImageDialog} sx={{
+                                                                        '&:hover': {
+                                                                            opacity: [0.9, 0.8, 0.7],
+                                                                            cursor: 'pointer',
+                                                                            transition: 'all 0.5s'
+                                                                        },
+                                                                    }}>
+                                                                        <img
+                                                                            src={image.url}
+                                                                            alt={'image'}
+                                                                            loading="lazy"
+                                                                        />
+                                                                    </ImageListItem>
+                                                                </div>
+                                                            ))}
+                                                        </ImageList>
+                                                        : <></>
+                                                    }
+
                                                 </TableContainer> :
                                                     <Typography sx={{ textAlign: 'center', marginTop: '20px' }}>Have No Bill Yet</Typography>
-
                                             }
-
                                         </DialogContent>
                                         <DialogActions>
                                             <Button onClick={handleClose} sx={{ color: "#db36a4" }}>Close</Button>
@@ -896,6 +980,38 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                         </DialogActions>
                                     </Dialog>
 
+                                    {/* DIALOG SHOW ONCLICK IMAGE */}
+                                    <Dialog
+                                        fullWidth={fullWidth}
+                                        maxWidth={maxWidth}
+                                        open={openImgBill}
+                                        onClose={handleClose}
+                                    >
+                                        <DialogContent>
+                                            <Swiper
+                                                modules={[Navigation, Pagination]}
+                                                navigation
+                                                spaceBetween={50}
+                                                slidesPerView={1}
+                                                pagination={{ clickable: true }}
+                                                onSlideChange={() => console.log('slide change')}
+                                                onSwiper={(swiper) => console.log(swiper)}
+                                            >
+                                                {imgBills?.map((src, index) => (
+                                                    <SwiperSlide className={classes.boxContainImg} key={index}>
+                                                        <CardMedia
+                                                            sx={{
+                                                                width: "600px",
+                                                                width: "auto",
+                                                                height: "600px",
+                                                                maxHeight: "600px",
+                                                            }}
+                                                            className={classes.media} height="700" component="img" src={src.url}></CardMedia>
+                                                    </SwiperSlide>
+                                                ))}
+                                            </Swiper>
+                                        </DialogContent>
+                                    </Dialog>
 
                                     {/* DIALOG RATE ACCOUNT */}
                                     <Dialog open={openRateAccount} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>

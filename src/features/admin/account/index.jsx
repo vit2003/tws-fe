@@ -29,7 +29,7 @@ export default function AccountManagement() {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>
                                 <th>Avatar</th>
                                 <th>Name</th>
                                 <th>Phone</th>
@@ -42,7 +42,7 @@ export default function AccountManagement() {
                             {
                                 state.accounts && state.accounts.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{item.id}</td>
+                                        <td>{index + 1}</td>
                                         <td>
                                             <div className="avatar">
                                                 <Avatar src={item.avatar} contained alt="avatar" />
@@ -63,21 +63,36 @@ export default function AccountManagement() {
                                         }
                                         <td>
                                             <Link to={`/admin/account/${item.id}`}>
-                                                <Tooltip title="Edit">
-                                                    <IconButton sx={{ backgroundColor: '#5886db', color: '#fff' }} size="normal">
+                                                {/* <Tooltip title="Edit">
+                                                    <IconButton sx={{ backgroundColor: '#5886db', color: '#fff' }} size="small">
                                                         <EditIcon />
                                                     </IconButton>
-                                                </Tooltip>
+                                                </Tooltip> */}
+                                                <a className="btn btn-edit" >
+                                                    <Tooltip title="Approve">
+                                                        <EditIcon />
+                                                    </Tooltip>
+                                                </a>
                                             </Link>
                                             {
                                                 item.status == 'Active' ?
-                                                    <IconButton size="normal" color="inherit" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                                        <LockIcon />
-                                                    </IconButton>
+                                                    <a className="btn btn-disable" onClick={() => dispatch(deactiveAccount(item.id))}>
+                                                        <Tooltip title="Disable account">
+                                                            <LockIcon />
+                                                        </Tooltip>
+                                                    </a>
+                                                    // <IconButton size="normal" color="inherit" onClick={() => dispatch(deactiveAccount(item.id))}>
+                                                    //     <LockIcon />
+                                                    // </IconButton>
                                                     :
-                                                    <IconButton size="normal" color="inherit" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                                        <LockOpenIcon />
-                                                    </IconButton>
+                                                    <a className="btn btn-disable" onClick={() => dispatch(deactiveAccount(item.id))}>
+                                                        <Tooltip title="Enable account">
+                                                            <LockOpenIcon />
+                                                        </Tooltip>
+                                                    </a>
+                                                // <IconButton size="normal" color="inherit" onClick={() => dispatch(deactiveAccount(item.id))}>
+                                                //     <LockOpenIcon />
+                                                // </IconButton>
 
                                             }
                                         </td>

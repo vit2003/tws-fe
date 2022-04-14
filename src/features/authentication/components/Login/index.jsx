@@ -16,7 +16,7 @@ function Login(props) {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
 
-    const handleSubmit = async (values) => {
+    const handleSubmit = (values) => {
 
         try {
             dispatch(login(values))
@@ -26,6 +26,7 @@ function Login(props) {
                         closeDialog();
                     }
                 })
+            // enqueueSnackbar(error.message, { variant: 'success' })
         } catch (error) {
             console.log('Failed to login: ', error);
             enqueueSnackbar(error.message, { variant: 'error' })

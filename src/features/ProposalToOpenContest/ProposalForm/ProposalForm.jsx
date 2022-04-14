@@ -95,7 +95,7 @@ function ProposalForm({ value }) {
     const [inputImage, setInputImage] = React.useState([]);
     const [strgImg, setStrgImg] = React.useState([]);
     const inputRef = React.useRef();
-    // Display selected iamge and video
+    // Display selected iamge  
     const handleFileChange = (event) => {
         let image = [];
         let storageImage = [];
@@ -112,7 +112,7 @@ function ProposalForm({ value }) {
         // inputRef.current.focus();
     };
 
-    // handle deleted iamge and video
+    // handle deleted iamge 
     const handleDeleteSelectedSource = () => {
         setInputImage([]);
     }
@@ -232,9 +232,9 @@ function ProposalForm({ value }) {
                         </Grid>
                         <Grid item xs={8}>
                             <label htmlFor="contained-button-file">
-                                <Input accept="image/* video/*" id="contained-button-file" multiple type="file" onChange={handleFileChange} name="imagesUrl" form={form} />
+                                <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={handleFileChange} name="imagesUrl" form={form} />
                                 <Button sx={{ backgroundColor: "#db36a4 !important" }} variant="contained" aria-label="upload picture" onClick={handleChoose} component="span" endIcon={<PhotoCamera />}>
-                                    Photo/Video
+                                    Photo
 
 
                                 </Button>

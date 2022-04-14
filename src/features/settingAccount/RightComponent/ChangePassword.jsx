@@ -6,7 +6,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import * as yup from "yup";
+import accountApi from '../../../api/accountApi';
 import InputField from './../../../components/form-controls/InputFields/index';
+import PasswordField from './../../../components/form-controls/PasswordField/index';
+import Swal from 'sweetalert2';
 ChangePassword.propTypes = {
 
 };
@@ -74,10 +77,25 @@ function ChangePassword(props) {
     const { isSubmitting } = form.formState;
 
     const handleSubmit = async (values) => {
-        // const { onSubmit } = props;
-        // if (onSubmit) {
-        //     await onSubmit(values);
-        // }
+        try {
+            const newChangePass = {
+                old_password: values.oldPassword,
+                new_password: values.newPassword,
+            }
+            console.log("newChangePass: ", newChangePass);
+            const reponse = await accountApi.changePassword(newChangePass);
+            await Swal.fire(
+                'Edit Account successfully',
+                'Click Button to continute!',
+                'success'
+            )
+        } catch (error) {
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
+        }
     }
 
     return (
@@ -87,11 +105,11 @@ function ChangePassword(props) {
                 <form onSubmit={form.handleSubmit(handleSubmit)} className={classes.form}>
                     <Grid container>
                         <Grid item xs={4}>
-                            <Avatar />
+                            <Avatar src={currentAccount.avatar} />
                         </Grid>
                         <Grid item xs={8}>
                             <Box>
-                                <Typography>Name</Typography>
+                                <Typography>{currentAccount.name}</Typography>
                             </Box>
                         </Grid>
 
@@ -99,7 +117,7 @@ function ChangePassword(props) {
                             <Typography className={classes.labelText}>Old Password</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="oldPassword" form={form} />
+                            <PasswordField className={classes.inputtext} name="oldPassword" form={form} />
                         </Grid>
 
 
@@ -108,14 +126,14 @@ function ChangePassword(props) {
                             <Typography className={classes.labelText}>New Password</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="newPassword" form={form} />
+                            <PasswordField className={classes.inputtext} name="newPassword" form={form} />
                         </Grid>
 
                         <Grid item xs={4}>
                             <Typography className={classes.labelText}>Confirm New Password</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="confirmNewPassword" form={form} />
+                            <PasswordField className={classes.inputtext} name="confirmNewPassword" form={form} />
                         </Grid>
                         <Button disabled={isSubmitting} type='submit' className={classes.button} variant='contained'>
                             Change Password

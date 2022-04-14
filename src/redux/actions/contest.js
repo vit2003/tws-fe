@@ -1,6 +1,6 @@
 import axioClient from '../../api/axiosClient'
 import { CONTEST } from './types';
-
+import Swal from 'sweetalert2';
 
 export const getAllContestABC = (statusId, filtersContest) => {
     return (dispatch) => {
@@ -61,10 +61,19 @@ export const deleteSubcriber = (contestId, accountId) => {
                     console.log(response)
                     if (response) {
                         dispatch(getAllSubcribers(contestId));
+                        Swal.fire(
+                            'Delete Successfully',
+                            'Click Button to continute!',
+                            'success'
+                        )
                     }
                 })
                 .catch((error) => {
-                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error,
+                    })
                 })
         }
     }
@@ -81,10 +90,19 @@ export const addPrize = (contestId, data) => {
                     console.log(response)
                     if (response) {
                         dispatch(getAllContestABC(2));
+                        Swal.fire(
+                            'Add prize Successfully',
+                            'Click Button to continute!',
+                            'success'
+                        )
                     }
                 })
                 .catch((error) => {
-                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error,
+                    })
                 })
         }
     }
@@ -101,10 +119,20 @@ export const deleteContest = (contestId) => {
                     console.log(response)
                     if (response) {
                         dispatch(getAllContestABC(2));
+                        Swal.fire(
+                            'Delete Successfully',
+                            'Click Button to continute!',
+                            'success'
+                        )
                     }
                 })
                 .catch((error) => {
                     console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error,
+                    })
                 })
         }
     }
@@ -188,6 +216,31 @@ export const getType = () => {
     }
 }
 
+export const getPrizesOfContest = (id, loading = true) => {
+    return (dispatch) => {
+        const token = axioClient.getToken();
+        if (loading) {
+            dispatch(setPrizesOfContest([]));
+        }
+
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            axioClient.getMiddleParams('/contest', id, 'prizes')
+                .then((response) => {
+                    console.log("prize contest: ", response);
+                    if (response) {
+                        dispatch(setPrizesOfContest(response));
+                    } else {
+                        dispatch(setPrizesOfContest([]));
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
+}
+
 export const setContests = (payload) => {
     return {
         type: CONTEST.SET_CONTESTS,
@@ -224,6 +277,12 @@ export const setSubcribers = (payload) => {
 export const setCount = (payload) => {
     return {
         type: CONTEST.SET_COUNT,
+        payload
+    }
+}
+export const setPrizesOfContest = (payload) => {
+    return {
+        type: CONTEST.SET_PRIZE_CONTEST,
         payload
     }
 }

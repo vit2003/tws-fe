@@ -10,6 +10,10 @@ import { useSelector } from 'react-redux';
 import * as yup from "yup";
 import InputEditBioField from './../../../components/form-controls/InputEditBioField/InputEditBioField';
 import InputField from './../../../components/form-controls/InputFields/index';
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import accountApi from '../../../api/accountApi';
+import Swal from 'sweetalert2';
+
 EditAccount.propTypes = {
 
 };
@@ -55,7 +59,7 @@ function EditAccount(props) {
 
     // Current Account logged in
     const currentAccount = useSelector(state => state.login.infoUser);
-
+    const storage = getStorage();
 
     console.log(currentAccount)
 
@@ -64,16 +68,36 @@ function EditAccount(props) {
         display: 'none',
     });
     const [image, setImage] = useState(currentAccount.avatar)
+
+    const [strgImg, setStrgImg] = React.useState([]);
     const onImageChange = (event) => {
+        let storageImage = [];
         if (event.target.files && event.target.files[0]) {
             setImage(URL.createObjectURL(event.target.files[0]));
+            storageImage.push(event.target.files[0]);
+        }
+        setStrgImg(storageImage);
+    }
+
+    let imagesLink = [];
+    const uploadAndGetLinkImg = async () => {
+        console.log("objImage: ", strgImg)
+        for (let i = 0; i < strgImg.length; i++) {
+            const storageRef = ref(storage, `/Avatar/${strgImg[i].name}`)
+            // console.log(strgImg[i].name)
+            await uploadBytes(storageRef, strgImg[i]);
+            // get link from database to download
+            await getDownloadURL(storageRef)
+                .then((url) => {
+                    imagesLink.push(url)
+                    console.log("url: ", url);
+                })
+                .catch((error) => {
+                    console.log("error: ", error);
+                })
         }
     }
 
-    // Validate Form
-    const schema = yup.object().shape({
-        accountName: yup.string().required('Please enter your email.'),
-    });
     const form = useForm({
         defaultValues: {
             accountName: currentAccount.name,
@@ -81,15 +105,35 @@ function EditAccount(props) {
             phoneNumber: currentAccount.phoneNumber,
             gender: currentAccount.gender,
         },
-        resolver: yupResolver(schema),
     })
     const { isSubmitting } = form.formState;
 
     const handleSubmit = async (values) => {
-        // const { onSubmit } = props;
-        // if (onSubmit) {
-        //     await onSubmit(values);
-        // }
+        await uploadAndGetLinkImg();
+        try {
+            const newEdit = {
+                name: values.accountName,
+                phone: values.phoneNumber,
+                avatar: imagesLink[0],
+                biography: values.bio,
+                gender: values.gender,
+            }
+            console.log("newEdit: ", newEdit);
+            const reponse = await accountApi.editAccount(currentAccount.accountId, newEdit);
+            await Swal.fire(
+                'Edit Account successfully',
+                'Click Button to continute!',
+                'success'
+            )
+        } catch (error) {
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
+        }
+
+
     }
 
 

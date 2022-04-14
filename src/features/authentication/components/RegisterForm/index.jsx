@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Button, LinearProgress, Typography } from '@mui/material';
 
@@ -76,8 +76,8 @@ function RegisterForm(props) {
         resolver: yupResolver(schema),
     })
 
-    const { isSubmitting } = form.formState;
-
+    // const { isSubmitting } = form.formState;
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const handleSubmit = async (values) => {
         const { onSubmit } = props;
@@ -86,14 +86,20 @@ function RegisterForm(props) {
             email: values.email,
             password: values.password
         }
+        setIsSubmitting(true)
         if (onSubmit) {
+            setTimeout(() => {
+                setIsSubmitting(false)
+            }, 2000)
             await onSubmit(newRegister);
+
         }
+
     }
 
     return (
         <div className={classes.root}>
-            {isSubmitting && <LinearProgress className={classes.progres} />}
+            {/* {isSubmitting && <LinearProgress className={classes.progres} />} */}
 
             <Avatar sx={{ height: '50px', width: '50px' }} className={classes.avatar} src='/1.png'>
             </Avatar>
@@ -109,6 +115,7 @@ function RegisterForm(props) {
                 <PasswordField className={classes.inputtext} name="retypePassword" label="Retype Password" form={form} />
                 <Button disabled={isSubmitting} type='submit' className={classes.button} variant='contained' fullWidth>
                     SIGN UP
+
                 </Button>
 
             </form>

@@ -376,10 +376,13 @@ table tr:hover {
 }
 
 table .btn-edit,
+table .btn-disable,
 table .btn-delete,
 table .btn-add,
 table .btn-lock,
 table .btn-see,
+table .btn-ednable,
+table .btn-deny,
 table .btn-unlock {
     border: 0;
     border-radius: 50%;
@@ -392,15 +395,25 @@ table .btn-edit .MuiSvgIcon-root,
 table .btn-lock .MuiSvgIcon-root,
 table .btn-see .MuiSvgIcon-root,
 table .btn-add .MuiSvgIcon-root,
+table .btn-disable .MuiSvgIcon-root,
 table .btn-unlock .MuiSvgIcon-root,
+table .btn-ednable .MuiSvgIcon-root,
+table .btn-deny .MuiSvgIcon-root,
 table .btn-delete .MuiSvgIcon-root {
     font-size: 19px;
     color: #fff;
 }
-
+table .btn-disable {
+    background: #d33b3b;
+    padding: 13px 7px 4px 7px;
+}
 table .btn-edit {
     background: #5886db;
     padding: 13px 7px 4px 7px;
+}
+table .btn-ednable {
+    background: #5886db;
+    padding: 8px 7px 4px 7px;
 }
 
 table .btn-see {
@@ -410,6 +423,11 @@ table .btn-see {
 
 table .btn-delete {
     background: #d32020;
+    padding: 14px 7px 4px 7px;
+}
+table .btn-deny {
+    background: #d32020;
+    padding: 8px 7px 4px 7px;
 }
 table .btn-add {
     background: #5886db;

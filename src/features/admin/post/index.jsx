@@ -77,7 +77,6 @@ export default function PostManagement() {
             pageNumber: 1
         }))
         console.log('filtersGroup: ', filtersGroup);
-        console.log('id: ', id);
         setOpenGroup(false);
     };
 
@@ -95,10 +94,6 @@ export default function PostManagement() {
         }
         setOpenGroup(false);
     };
-
-
-
-    // =============================================
     return (
         <>
             <div className="title-page">
@@ -236,7 +231,7 @@ export default function PostManagement() {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>
                                 <th>Name</th>
                                 <th>Avatar</th>
                                 <th>Image</th>
@@ -249,7 +244,7 @@ export default function PostManagement() {
                         <tbody>
                             {state.posts && state.posts.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.id}</td>
+                                    <td>{index + 1}</td>
                                     <td>{item.ownerName}</td>
                                     <td>
                                         <div className="avatar">
@@ -272,7 +267,7 @@ export default function PostManagement() {
                                                     <DoneIcon />
                                                 </Tooltip>
                                             </a>
-                                            <button className="btn btn-delete" onClick={() => dispatch(denyPost(item.id))}>
+                                            <button className="btn btn-deny" onClick={() => dispatch(denyPost(item.id))}>
                                                 <Tooltip title="Deny">
                                                     <DoDisturbIcon />
                                                 </Tooltip>

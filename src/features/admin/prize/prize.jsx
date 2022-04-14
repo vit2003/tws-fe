@@ -119,12 +119,12 @@ function PrizeManagement() {
         setInputImage(image);
     };
 
-    // Choose image and video
+    // Choose image  
     const handleChoose = (event) => {
         inputRef.current.click();
     };
 
-    // handle deleted iamge and video
+    // handle deleted iamge  
     const handleDeleteSelectedSource = () => {
         setInputImage([]);
     }
@@ -216,7 +216,7 @@ function PrizeManagement() {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Value</th>
@@ -228,7 +228,7 @@ function PrizeManagement() {
                             {
                                 state.prizes && state.prizes.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{item.id}</td>
+                                        <td>{index + 1}</td>
                                         <td>{item.name}</td>
                                         <td>{item.description}</td>
                                         <td>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.value)}</td>
@@ -244,18 +244,19 @@ function PrizeManagement() {
                                         </td>
                                         <td>
                                             <Link to={`/manager/prize/${item.id}`}>
-                                                <Tooltip title="Edit">
+                                                <a className="btn btn-edit" >
+                                                    <Tooltip title="Edit">
+                                                        <EditIcon />
+                                                    </Tooltip>
+                                                </a>
+                                                {/* <Tooltip title="Edit">
                                                     <IconButton sx={{ backgroundColor: '#5886db', color: '#fff' }} size="normal">
                                                         <EditIcon />
                                                     </IconButton>
-                                                </Tooltip>
+                                                </Tooltip> */}
                                             </Link>
-                                            {/* <button className="btn btn-delete" onClick={() => dispatch(deletePrize(item.id))}>
-                                                <Tooltip title="Delete">
-                                                    <DeleteIcon />
-                                                </Tooltip>
-                                            </button> */}
-                                            <button className="btn btn-delete" onClick={
+
+                                            <a className="btn btn-delete" onClick={
                                                 async () => {
                                                     dispatch(deletePrize(item.id))
                                                     await Swal.fire(
@@ -268,7 +269,21 @@ function PrizeManagement() {
                                                 <Tooltip title="Delete">
                                                     <DeleteIcon />
                                                 </Tooltip>
-                                            </button>
+                                            </a>
+                                            {/* <button className="btn btn-delete" onClick={
+                                                async () => {
+                                                    dispatch(deletePrize(item.id))
+                                                    await Swal.fire(
+                                                        'Delete prize successfully',
+                                                        'Click Button to continute!',
+                                                        'success'
+                                                    )
+                                                }
+                                            }>
+                                                <Tooltip title="Delete">
+                                                    <DeleteIcon />
+                                                </Tooltip>
+                                            </button> */}
                                             {/* {
                                                 item.status == 'Active' ?
                                                     <IconButton size="normal" color="inherit" onClick={() => dispatch(deactiveAccount(item.id))}>

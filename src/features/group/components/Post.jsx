@@ -20,6 +20,7 @@ import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
+import formatDate from './../../../utils/formatDate';
 
 
 Post.propTypes = {
@@ -99,7 +100,7 @@ function Post({ post }) {
                         </IconButton>
                     }
                     title={post.ownerName}
-                    subheader={new Date(post.publicDate).toISOString().slice(0, 19).replace('T', ' ')}
+                    subheader={formatDate(post.publicDate)}
                 />
 
                 <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={1}>
