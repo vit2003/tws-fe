@@ -1,7 +1,7 @@
 import CloseIcon from '@mui/icons-material/Close';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import {
-    Box, Button, Card, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, ImageList, ImageListItem, Rating, Typography
+    Box, Avatar, Button, Card, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, ImageList, ImageListItem, Rating, Typography
 } from "@mui/material/";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
@@ -18,6 +18,7 @@ import prizeApi from "./../../../api/prizeApi";
 import Header from "./../../../components/Header/index";
 import Runner from './../Runner/Runner';
 import RunnerClosed from './../RunnerClosed/RunnerClosed';
+import formatDate from './../../../utils/formatDate';
 import "./Contest.scss";
 
 
@@ -158,7 +159,7 @@ function Contest(props) {
     // GET  FIREBASE STORAGE
     const storage = getStorage();
     // REF TO LOGO CONTEST
-    const storageRef = ref(storage, `/Toy/prize1.png`);
+    // const storageRef = ref(storage, `/Toy/prize1.png`);
 
     // CALL API CHECK ATTENDED THEN SET STATE
     useEffect(() => {
@@ -451,6 +452,9 @@ function Contest(props) {
         }
     };
 
+    console.log("top3List: ", top3List);
+    console.log("rewardList: ", rewardList);
+
     return (
         <>
             <Header />
@@ -493,20 +497,16 @@ function Contest(props) {
                                     <h4>Date of competition:</h4>
                                     <ul>
                                         <li>
-                                            Start Registration: {contest?.startRegistration}
-                                            {/* {format(new Date(contest.startRegistration), ' dd-MM-yyyy - HH:mm')} */}
+                                            Start Registration: {formatDate(contest?.startRegistration)}
                                         </li>
                                         <li>
-                                            End Registration: {contest?.endRegistration}
-                                            {/* {format(new Date(contest.endRegistration), ' dd-MM-yyyy - HH:mm')} */}
+                                            End Registration: {formatDate(contest?.endRegistration)}
                                         </li>
                                         <li>
-                                            State Date: {contest?.startDate}
-                                            {/* {format(new Date(contest.startDate), ' dd-MM-yyyy - HH:mm')} */}
+                                            State Date: {formatDate(contest?.startDate)}
                                         </li>
                                         <li>
-                                            End Date: {contest?.endDate}
-                                            {/* {format(new Date(contest.endDate), ' dd-MM-yyyy - HH:mm')} */}
+                                            End Date: {formatDate(contest?.endDate)}
                                         </li>
                                     </ul>
                                 </div>
@@ -532,25 +532,25 @@ function Contest(props) {
                                 </div>
 
                                 {/* CONTEST PRIZE */}
-                                <LazyLoad>
-                                    {prizeList.length > 0 ? (
-                                        <div className="contest__prize">
-                                            <h4>PRIZES TO BE WON</h4>
-                                            <Grid container direction="row" justifyContent="center" alignItems="center" textAlign="center">
-                                                {prizeList?.map((prize, index) => (
+                                {prizeList.length > 0 ? (
+                                    <div className="contest__prize">
+                                        <h4>PRIZES TO BE WON</h4>
+                                        <Grid container direction="row" justifyContent="center" alignItems="center" textAlign="center">
+                                            {
+                                                !loading ? prizeList?.map((prize, index) => (
                                                     <Grid key={index} item xs={4}>
                                                         <div className="contest__prize__image">
-                                                            <img src={prize.images[0].url} alt="img1" />
+                                                            <LazyLoad>
+                                                                <img src={prize.images[0].url} alt="img1" />
+                                                            </LazyLoad>
                                                         </div>
                                                         <h4>{prize.name}</h4>
                                                         <h5>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(prize.value)}</h5>
-
                                                     </Grid>
-                                                ))}
-                                            </Grid>
-                                        </div>
-                                    ) : <></>}
-                                </LazyLoad>
+                                                )) : <img src='' />}
+                                        </Grid>
+                                    </div>
+                                ) : <></>}
 
                                 <div className="joinBtn"> {renderBtn()} </div>
                             </div>
@@ -611,6 +611,8 @@ function Contest(props) {
                                     </div>
                                     <div className="contestDetail__content__firstPrize__prize">
                                         <img src={rewardList[0]?.post.images[0].url} alt="" />
+                                        <h2> {rewardList[0]?.post.ownerName}</h2>
+                                        <h2>Sum of Star: {rewardList[0]?.post.sumOfStart}</h2>
                                     </div>
                                 </div>
                             </div>
@@ -622,6 +624,8 @@ function Contest(props) {
                                     </div>
                                     <div className="contestDetail__content__ortherPrize__prize">
                                         <img src={rewardList[1]?.post.images[0].url} alt="" />
+                                        <h2>Name: {rewardList[1]?.post.ownerName}</h2>
+                                        <h2>Sum of Star: {rewardList[1]?.post.sumOfStart}</h2>
                                     </div>
                                 </Grid>
                                 <Grid item xs={6} sm={6} md={6} lg={6}>
@@ -631,6 +635,8 @@ function Contest(props) {
                                     </div>
                                     <div className="contestDetail__content__ortherPrize__prize">
                                         <img src={rewardList[2]?.post.images[0].url} alt="" />
+                                        <h2>Name: {rewardList[2]?.post.ownerName}</h2>
+                                        <h2>Sum of Star: {rewardList[2]?.post.sumOfStart}</h2>
                                     </div>
                                 </Grid>
                             </Grid>
@@ -678,8 +684,8 @@ function Contest(props) {
 
                 {
                     contest.status === 4 && <>
-                        <Box sx={{ height: '300px', width: '100%', textAlign: 'center' }}>
-                            <Typography sx={{ fontSize: '3vw', fontWeight: 'bold', color: '#080C3921', lineHeight: '0.8em', lettrSpacing: '4.4px', mb: 3 }}>CONGRATULATIONS TO ALL</Typography>
+                        <Box sx={{ height: '300px', width: '100%', textAlign: 'center', padding: '50px 0' }}>
+                            <Typography sx={{ fontSize: '3vw', fontWeight: 'bold', color: '#3C3B3F', lineHeight: '0.8em', lettrSpacing: '4.4px', mb: 3 }}>CONGRATULATIONS TO ALL</Typography>
                             <Typography sx={{ fontSize: '18px', color: '#403B4A', mb: 2 }}>
                                 The Toy World Contest Team, the Judges and the Sponsors of the contest thank you for your participation and hope to see you next season!
                             </Typography>
@@ -715,8 +721,6 @@ function Contest(props) {
                                 <Input accept="image/* " id="contained-button-file" type="file" onChange={handleFileChange} />
                                 <Button sx={{ backgroundColor: "#c31432 !important" }} variant="contained" aria-label="upload picture" onClick={handleChoose} component="span" endIcon={<PhotoCamera />}>
                                     Photo</Button>
-
-
                             </label>
 
 

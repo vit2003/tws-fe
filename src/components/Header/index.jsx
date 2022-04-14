@@ -97,13 +97,22 @@ function Header() {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  // menu
+
+  // ANCHOR MENU
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  // ANCHOR MENU
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  // MENU MOBILE OPEN
   const isMenuOpen = Boolean(anchorEl);
+
+  // MENU MOBILE OPEN
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  // noti
+  // ANCHOR NOTIFICATION
   const [anchorElNoti, setAnchorElNoti] = React.useState(null);
+
+  // NOTI OPEN
   const isNotiOpen = Boolean(anchorElNoti);
 
   let loggedInAccount = useSelector(state => state.login.infoUser);
@@ -185,8 +194,8 @@ function Header() {
       <MenuItem onClick={handleOpenSetting}>Setting</MenuItem>
       {/* <MenuItem onClick={handleOpenProposalContest}>proposal Contest</MenuItem> */}
       {
-        loggedInAccount.role == 0 ? <MenuItem onClick={handleOpenAdmin}>Admin Page</MenuItem> :
-          loggedInAccount.role == 1 ? <MenuItem onClick={handleOpenManager}>Manager Page</MenuItem> : <></>
+        loggedInAccount.role == 0 && <MenuItem onClick={handleOpenAdmin}>Admin Page</MenuItem> ||
+        loggedInAccount.role == 1 && <MenuItem onClick={handleOpenManager}>Manager Page</MenuItem>
       }
       <MenuItem onClick={handleLogoutClick}>Log out</MenuItem>
     </Menu>

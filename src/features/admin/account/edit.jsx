@@ -73,7 +73,7 @@ export default function EditAccount() {
                                 label="Role"
                                 onChange={handleChange}
                             >
-                                <MenuItem value={0} selected={state.infoUser.Role == 0}>Admin</MenuItem>
+                                {/* <MenuItem value={0} selected={state.infoUser.Role == 0}>Admin</MenuItem> */}
                                 <MenuItem value={1} selected={state.infoUser.Role == 1}>Manager</MenuItem>
                                 <MenuItem value={2} selected={state.infoUser.Role == 2}>Member</MenuItem>
                             </Select>

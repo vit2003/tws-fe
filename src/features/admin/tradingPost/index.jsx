@@ -349,7 +349,7 @@ export default function TradingPostManagement() {
                                     <td>{item.ownerName}</td>
                                     <td>
                                         <div className="avatar">
-                                            <Avatar src={item.ownerAvatar} alt="avatar"></Avatar>
+                                            <Avatar src={item.ownerAvatar} alt="avatar" sx={{ position: 'static !important' }}></Avatar>
                                         </div>
                                     </td>
                                     <td className="td-images" >

@@ -8,8 +8,8 @@ import axios from "axios";
 //   },
 // });
 
-// axios.defaults.baseURL = 'https://tws-system-release.herokuapp.com/api/'
-axios.defaults.baseURL = 'https://tws-system-staging.herokuapp.com/api/'
+axios.defaults.baseURL = 'https://tws-system-release.herokuapp.com/api/'
+// axios.defaults.baseURL = 'https://tws-system-staging.herokuapp.com/api/'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
 // axios.defaults.headers.put['Access-Control-Allow-Origin'] = '*'

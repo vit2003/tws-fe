@@ -60,8 +60,6 @@ RunnerClosed.propTypes = {
 
 
 function RunnerClosed({ runner, contest }) {
-
-    console.log("akshfbakfbkajsbfjkasjkf");
     // STYLE FOR MUI
     const classes = useStyle();
 
@@ -131,7 +129,7 @@ function RunnerClosed({ runner, contest }) {
                             />
                         }
                     </CardActions>
-                    <Typography className={classes.averageStar}>Average Point: {runner.averageStar}</Typography>
+                    <Typography className={classes.averageStar}>Average Point: {(runner.averageStar).toFixed(2)}</Typography>
                 </Box>
 
 

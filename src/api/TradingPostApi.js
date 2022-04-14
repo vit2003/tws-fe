@@ -12,7 +12,7 @@ const tradingPostApi = {
     },
 
     getAllByAccount(id) {
-        const url = `posts/account/${id}`;
+        const url = `trading_posts/account/${id}`;
         return axioClient.get(url);
     },
 
@@ -87,9 +87,13 @@ const tradingPostApi = {
             return axioClient.getMiddleParams('/trading_posts', id, 'comment_detail');
         }
     },
-    remove(id) {
-
-    }
+    enableTradingPost(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.putMiddleParams(`/trading_posts/${id}/0`)
+        }
+    },
 };
 
 export default tradingPostApi;

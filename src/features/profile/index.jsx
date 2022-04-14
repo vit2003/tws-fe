@@ -20,8 +20,9 @@ import Header from './../../components/Header/index';
 import PostSkeleton from './../../components/PostSkeleton/PostSkeleton';
 import PostList from './../group/components/PostList/index';
 import tradingPostApi from './../../api/TradingPostApi';
+import TradingPostDetail from './../exchange/components/TradingPostDetail/TradingPostDetail';
+import TradingPostList from './../exchange/components/TradingPostList/TradingPostList';
 import { makeStyles } from '@mui/styles';
-
 
 const useStyles = makeStyles(theme => ({
     cssBtn: {
@@ -31,6 +32,8 @@ const useStyles = makeStyles(theme => ({
         },
         color: 'white !important',
     }
+
+
 }))
 
 UserProfile.propTypes = {
@@ -85,9 +88,9 @@ function UserProfile(props) {
     const [value, setValue] = React.useState(0);
 
     const [postList, setPostList] = useState([]);
+    const [tradingPostList, setTradingPostList] = useState([]);
     const [reload, setReload] = useState(false);
 
-    const [tradingPostList, setTradingPostList] = useState([]);
     const [filters, setFilters] = useState({
         PageNumber: 1,
         PageSize: 99,
@@ -159,11 +162,12 @@ function UserProfile(props) {
             try {
                 const [postListData, tradingPostListData] = await Promise.all([
                     postApi.getAllByAccount(accountId, filters),
-                    // tradingPostApi.getAllByAccount
+                    tradingPostApi.getAllByAccount(accountId, filters)
 
                 ]);
                 console.log("postListData: ", postListData);
                 setPostList(postListData.data)
+                setTradingPostList(tradingPostListData.data)
                 setLoading(false);
 
             } catch (error) {
@@ -173,6 +177,15 @@ function UserProfile(props) {
             setLoading(false)
         })()
     }, [accountId, reload])
+
+    // const handleGetTradingPost = async () => {
+    //     try {
+    //         const reponse = await tradingPostApi.getAllByAccount(accountId, filters)
+    //         setTradingPostList(reponse.data)
+    //     } catch (error) {
+    //         console.log('Failed to fetch trading post', error)
+    //     }
+    // }
 
     const handleUnfollow = async () => {
         try {
@@ -279,7 +292,7 @@ function UserProfile(props) {
                                     {loading ? <PostSkeleton /> : <PostList postList={postList} reload={() => setReload(!reload)} />}
                                 </TabPanel>
                                 <TabPanel value={value} index={1}>
-                                    Trading Post
+                                    {loading ? <PostSkeleton /> : <TradingPostList tradingPostList={tradingPostList} reload={() => setReload(!reload)} />}
                                 </TabPanel>
                             </Box>
                         </Grid>

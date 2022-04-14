@@ -5,6 +5,7 @@ import tradingPostApi from '../../../../api/TradingPostApi';
 import PostSkeleton from '../../../../components/PostSkeleton/PostSkeleton';
 import CreateTradingPost from '../../CreateTradingPost/CreateTradingPost';
 import TradingPostList from './../TradingPostList/TradingPostList';
+import TradingPostDetail from './../TradingPostDetail/TradingPostDetail';
 
 TradingContent.propTypes = {
 
@@ -15,7 +16,9 @@ function TradingContent(props) {
     const { id: tradingGroupId } = useParams();
 
     const [listTradingPost, setListTradingPost] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+
+    const [reload, setReload] = useState(false)
 
     const [filters, setFilters] = useState({
         pageNumber: 1,
@@ -34,7 +37,7 @@ function TradingContent(props) {
             setLoading(false);
         }
         fetchListTradingPost();
-    }, [tradingGroupId, filters])
+    }, [tradingGroupId, filters, reload])
 
     const handleCreatePostSubmit = (values) => {
 
@@ -52,8 +55,9 @@ function TradingContent(props) {
                         <CreateTradingPost tradingGroupId={tradingGroupId} onSubmit={handleCreatePostSubmit} />
 
                         {/* get List post */}
+                        {loading ? listTradingPost?.map((tradingPost) => <TradingPostDetail key={tradingPost.id} tradingPost={tradingPost} reload={() => setReload(!reload)} />) : PostSkeleton}
 
-                        {loading ? <PostSkeleton /> : <TradingPostList listTradingPost={listTradingPost} />}
+                        {/* {loading ? <PostSkeleton /> : <TradingPostList listTradingPost={listTradingPost} />} */}
                     </Grid>
                     <Grid item xs={2}>
 

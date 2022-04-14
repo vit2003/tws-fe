@@ -30,6 +30,7 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { db } from '../../../../Firebase/firebase';
 import tradingPostApi from './../../../../api/TradingPostApi';
+import Swal from 'sweetalert2';
 
 
 
@@ -110,7 +111,7 @@ const useStyle = makeStyles(theme => ({
 
 }))
 
-function TradingPostDetail({ tradingPost }) {
+function TradingPostDetail({ tradingPost, reload }) {
 
     const currentUser = useSelector(state => state.login.infoUser);
     const currentUserId = currentUser.accountId
@@ -174,14 +175,25 @@ function TradingPostDetail({ tradingPost }) {
         setAnchorEl(event.currentTarget);
     };
     const handleCloseDelete = async () => {
-        // try {
-        //     console.log("tradingPost.id: ", tradingPost.id)
-        //     const response = await postApi.deletePost(tradingPost.id)
-        //     console.log('delete: ', response)
-        // } catch (error) {
-        //     console.log("error: ", error);
-        // }
-        // setAnchorEl(null);
+        try {
+            const response = await tradingPostApi.enableTradingPost(tradingPost.id);
+            reload();
+            setAnchorEl(null);
+            await Swal.fire(
+                'Delete trading post successfully',
+                'Click Button to continute!',
+                'success'
+            )
+        } catch (error) {
+            console.log("error: ", error);
+            setAnchorEl(null);
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
+        }
+        setAnchorEl(null);
     }
 
     const handleCloseReport = () => {

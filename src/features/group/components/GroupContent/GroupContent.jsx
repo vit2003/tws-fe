@@ -22,7 +22,7 @@ function GroupContent(props) {
 
     const [filter, setFilter] = useState({
         PageNumber: 1,
-        PageSize: 20,
+        PageSize: 99,
     })
 
 

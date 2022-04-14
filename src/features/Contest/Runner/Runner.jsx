@@ -209,7 +209,7 @@ function Runner({ runner, contestId, contest, reload }) {
                             />
                         }
                     </CardActions>
-                    <Typography className={classes.averageStar}>Average Point: {runner.averageStar}</Typography>
+                    <Typography className={classes.averageStar}>Average Point: {(runner.averageStar).toFixed(2)}</Typography>
                 </Box>
 
 

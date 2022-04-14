@@ -5,6 +5,7 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import Swal from 'sweetalert2';
 // import EditPrize from './edit';
 import { updatePrize } from '../../../redux/actions/prize';
 
@@ -41,7 +42,7 @@ function FormEdit({ prize }) {
         setValue(e.target.value)
     }
 
-    const handleEditPrize = () => {
+    const handleEditPrize = async () => {
         try {
             const editPrize = {
                 name: name,
@@ -50,10 +51,18 @@ function FormEdit({ prize }) {
             }
             console.log('edit Prize: ', editPrize);
             dispatch(updatePrize(prize.id, editPrize))
-            enqueueSnackbar('Edit Prize successfully!!', { variant: 'success' })
+            await Swal.fire(
+                'Edit prize successfully',
+                'Click Button to continute!',
+                'success'
+            )
         } catch (error) {
             console.log('Failed Edit Prize: ', error);
-            enqueueSnackbar('Failed to Edit Prize !!', { variant: 'error' })
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
     }
 
@@ -69,7 +78,7 @@ function FormEdit({ prize }) {
                     <SaveIcon />
                     <span>Save</span>
                 </Button>
-                <Button variant="outlined" style={{ marginLeft: '10px' }} onClick={() => history.push('/admin/prize')}>
+                <Button variant="outlined" style={{ marginLeft: '10px' }} onClick={() => history.push('/manager/prize')}>
                     <SettingsBackupRestoreIcon />
                     <span>Back</span>
                 </Button>

@@ -4,14 +4,14 @@ import TradingPostDetail from './../TradingPostDetail/TradingPostDetail';
 import { Typography } from '@mui/material';
 
 TradingPostList.propTypes = {
-    listTradingPost: PropTypes.array,
+    tradingPostList: PropTypes.array,
 };
 
-function TradingPostList({ listTradingPost }) {
+function TradingPostList({ tradingPostList, reload }) {
     return (
         <>
-            {listTradingPost.length ? listTradingPost.map((tradingPost) => (
-                <TradingPostDetail key={tradingPost.id} tradingPost={tradingPost} />
+            {tradingPostList.length ? tradingPostList.map((tradingPost) => (
+                <TradingPostDetail reload={reload} key={tradingPost.id} tradingPost={tradingPost} />
             )) : <></>}
         </>
     );

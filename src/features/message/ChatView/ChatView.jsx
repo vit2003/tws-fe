@@ -94,12 +94,12 @@ const useStyle = makeStyles(theme => ({
         fontWeight: 'bold !important'
     },
     cssBtn: {
-        backgroundColor: '#db36a4',
+        backgroundColor: '#db36a4 !important',
         "&:hover": {
             backgroundColor: "#0f0c29 !important",
         },
-        color: 'white',
-        marginRight: "10px"
+        color: 'white !important',
+        marginRight: "10px !important"
     }
 
 }))
@@ -825,49 +825,50 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                     <Dialog open={openCheckBill} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>
                                         <DialogTitle sx={{ textAlign: 'center' }}>CHECK YOUR BILL</DialogTitle>
                                         <DialogContent>
-                                            <DialogContentText>
+                                            <DialogContentText sx={{ textAlign: 'center' }}>
                                                 Your trading info will be saved in our system
                                             </DialogContentText>
                                             <DialogContentText>
                                                 {renderStatus()}
                                             </DialogContentText>
-                                            <TableContainer component={Paper}>
-                                                <Table aria-label="simple table">
-                                                    <TableHead sx={{
-                                                        backgroundColor: 'pink',
-                                                        '& :hover': {
-                                                            backgroundColor: '#ffdde1',
-                                                        },
-                                                    }}>
-                                                        <TableRow>
-                                                            <TableCell></TableCell>
-                                                            <TableCell>Bill From</TableCell>
-                                                            <TableCell>Bill To</TableCell>
+                                            {
+                                                bill ? <TableContainer component={Paper}>
+                                                    <Table aria-label="simple table">
+                                                        <TableHead sx={{
+                                                            backgroundColor: 'pink',
+                                                            '& :hover': {
+                                                                backgroundColor: '#ffdde1',
+                                                            },
+                                                        }}>
+                                                            <TableRow>
+                                                                <TableCell></TableCell>
+                                                                <TableCell>Bill From</TableCell>
+                                                                <TableCell>Bill To</TableCell>
 
-                                                        </TableRow>
-                                                    </TableHead>
-                                                    {bill ? <TableBody>
-                                                        <TableRow>
-                                                            <TableCell >Name</TableCell>
-                                                            <TableCell >{bill?.sellerName}</TableCell>
-                                                            <TableCell >{bill?.buyerName}</TableCell>
-                                                        </TableRow>
-
-                                                        <TableRow>
-                                                            <TableCell >Toy Name</TableCell>
-                                                            <TableCell >{bill?.toyOfSellerName}</TableCell>
-                                                            <TableCell >{bill?.toyOfBuyerName}</TableCell>
-                                                        </TableRow>
-                                                    </TableBody> :
+                                                            </TableRow>
+                                                        </TableHead>
                                                         <TableBody>
-                                                            <Typography>Have No Bill</Typography>
+                                                            <TableRow>
+                                                                <TableCell >Name</TableCell>
+                                                                <TableCell >{bill?.sellerName}</TableCell>
+                                                                <TableCell >{bill?.buyerName}</TableCell>
+                                                            </TableRow>
+
+                                                            <TableRow>
+                                                                <TableCell >Toy Name</TableCell>
+                                                                <TableCell >{bill?.toyOfSellerName}</TableCell>
+                                                                <TableCell >{bill?.toyOfBuyerName}</TableCell>
+                                                            </TableRow>
                                                         </TableBody>
 
-                                                    }
-                                                </Table>
-                                                {/* {bill ? <Typography>Create Time: {bill?.updateTime}</Typography> : <></>} */}
-                                                {bill ? <Typography>Create Time: {formatDate(bill?.updateTime)}</Typography> : <></>}
-                                            </TableContainer>
+                                                    </Table>
+                                                    {/* {bill ? <Typography>Create Time: {bill?.updateTime}</Typography> : <></>} */}
+                                                    {bill ? <Typography>Create Time: {formatDate(bill?.updateTime)}</Typography> : <></>}
+                                                </TableContainer> :
+                                                    <Typography sx={{ textAlign: 'center', marginTop: '20px' }}>Have No Bill Yet</Typography>
+
+                                            }
+
                                         </DialogContent>
                                         <DialogActions>
                                             <Button onClick={handleClose} sx={{ color: "#db36a4" }}>Close</Button>

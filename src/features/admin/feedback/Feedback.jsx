@@ -9,6 +9,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
+import Avatar from '@mui/material/Avatar';
 import Pagination from '@mui/material/Pagination';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
@@ -305,7 +306,7 @@ function FeedbackManagement(props) {
                                     <td>{item.senderName}</td>
                                     <td>
                                         <div className="avatar">
-                                            <img src={item.senderAvatar} />
+                                            <Avatar src={item.senderAvatar} alt="avatar" sx={{ position: 'static !important' }}></Avatar>
                                         </div>
                                     </td>
                                     <td>{item.content}</td>
