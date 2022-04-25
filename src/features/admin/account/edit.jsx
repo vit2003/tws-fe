@@ -20,8 +20,6 @@ export default function EditAccount() {
     const params = useParams();
     const dispatch = useDispatch();
     const userID = params.id;
-    console.log("params: ", params);
-
 
     const handleChange = (event) => {
         setRole(event.target.value);
@@ -29,31 +27,10 @@ export default function EditAccount() {
 
     const updateRoleAccount = async () => {
         if (userID) {
-            // dispatch(updateRole(userID, role))
-            try {
-                const response = await accountApi.updateRole(userID, role);
-                await Swal.fire(
-                    'Update role successfully',
-                    'Click Button to continute!',
-                    'success'
-                )
-            } catch (error) {
-                await Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                })
-            }
+            dispatch(updateRole(userID, role))
         }
     }
 
-    useEffect(() => {
-        const userID = params.id;
-        if (userID) {
-            dispatch(showAccount(userID));
-
-        }
-    }, [])
 
     return (
         <>

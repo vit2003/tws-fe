@@ -9,15 +9,30 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
+import AdminInputField from './../../../components/form-controls/AdminInputField/AdminInputField';
+import EventBusyIcon from "@mui/icons-material/EventBusy";
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import DoneIcon from '@mui/icons-material/Done';
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import InsertInvitationIcon from "@mui/icons-material/InsertInvitation";
 import Avatar from '@mui/material/Avatar';
 import Pagination from '@mui/material/Pagination';
+import { Dialog, DialogContent, DialogTitle, DialogActions, Typography } from '@mui/material/';
 import Paper from '@mui/material/Paper';
+import Tooltip from '@mui/material/Tooltip';
 import Popper from '@mui/material/Popper';
+import MultiInputField from './../../../components/form-controls/MultiInputField/MultiInputField';
 import { makeStyles } from '@mui/styles';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import React, { useEffect, useRef, useState } from 'react';
+import formatDate from './../../../utils/formatDate';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFeedback } from './../../../redux/actions/feedback';
-
+import feedbackApi from './../../../api/feedbackApi';
+import { getRepliedback, getFeedbackAccount, getFeedbackTradingPost, getFeedbackPost, getFeedbackContest } from './../../../redux/actions/feedback';
+import Swal from 'sweetalert2';
+import { useForm } from 'react-hook-form';
 
 const useStyle = makeStyles((theme) => ({
     pagination: {
@@ -39,140 +54,152 @@ function FeedbackManagement(props) {
     const state = useSelector(state => state.feedback)
     const dispatch = useDispatch();
     const classes = useStyle();
-    console.log("state: ", state);
 
-
-    useEffect(() => {
-        dispatch(getFeedback(filters))
-    }, [])
-
-    const typeFeedback = [
-        {
-            id: 0,
-            name: 'POST'
+    const form = useForm({
+        defaultValues: {
+            reply: "",
         },
-        {
-            id: 1,
-            name: 'TRADING'
-        },
-        {
-            id: 2,
-            name: 'ACCOUNT'
-        },
-    ];
+    });
 
-    // STATE ACTIVE
-    const [active, setActive] = useState('draft');
-
-    const stateCount = state.count;
-
-    // REF OF POPOVER
-    const anchorRefNonReplyYet = useRef(null);
-    const anchorRefReplyYet = useRef(null);
-
-
-    // ================NonReply STATE=============================
-    const [selectedNonReply, setSelectedNonReply] = useState("SELECT TYPE NON");
-    const [selectedNonReplyId, setSelectedNonReplyId] = useState();
-    const [openNonReply, setOpenNonReply] = useState(false);
+    const [openReply, setOpenReply] = useState(false);
+    const [feedbackItem, setFeedbackItem] = useState({});
+    const [fullWidth, setFullWidth] = useState(true);
+    const [maxWidth, setMaxWidth] = useState("md");
+    const handleOpenReply = (feedback) => {
+        setOpenReply(true)
+        setFeedbackItem(feedback)
+    }
 
     const [filters, setFilters] = useState({
         PageNumber: 1,
         PageSize: 9
     });
 
-    const handleClickNonReplyItem = (event, id, name) => {
-        setSelectedNonReply(name)
-        setSelectedNonReplyId(id)
-        const newFilter = {
-            PageNumber: 1,
-            PageSize: 9,
+    useEffect(() => {
+        dispatch(getFeedbackAccount(filters))
+    }, [])
+
+
+
+    // STATE ACTIVE
+    const [active, setActive] = useState('account');
+
+    const stateCount = state.count;
+
+    // ================NonReply STATE=============================
+
+
+    // ==========GET DATA WHEN ONCLICK CHANGE HEADER SIDE==============
+
+    const getAccountFeedback = () => {
+        if (active !== "account") {
+            setActive("account");
+            dispatch(getFeedbackAccount({
+                ...filters,
+                PageNumber: 1
+            }));
         }
-        // dispatch(getTradingPostsByGroupId(id, newFilter))
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            PageNumber: 1
-        }))
-        setOpenNonReply(false);
     };
 
-    // Hanle selected Group
-    const handleToggleNonReply = () => {
-        setOpenNonReply((prevOpen) => !prevOpen);
-        if (active !== 'nonReply') {
-            setActive('nonReply');
+    const getTradingPostFeedback = () => {
+        if (active !== "trading") {
+            setActive("trading");
+            dispatch(getFeedbackTradingPost({
+                ...filters,
+                PageNumber: 1
+            }));
         }
-    };
-    const handleCloseNonReply = (event) => {
-        if (anchorRefNonReplyYet.current && anchorRefNonReplyYet.current.contains(event.target)) {
-            return;
-        }
-        setOpenNonReply(false);
-    };
-    // ================Reply STATE=============================
-    const [selectedReply, setSelectedReply] = useState("SELECT TYPE ");
-    const [selectedReplyId, setSelectedReplyId] = useState();
-    const [openReply, setOpenReply] = useState(false);
-
-    const handleClickReplyItem = (event, id, name) => {
-        setSelectedReply(name)
-        setSelectedReplyId(id)
-        const newFilter = {
-            PageNumber: 1,
-            PageSize: 9,
-        }
-        // dispatch(getTradingPostsByGroupId(id, newFilter))
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            PageNumber: 1
-        }))
-        setOpenReply(false);
     };
 
-    // Hanle selected Group
-    const handleToggleReply = () => {
-        setOpenReply((prevOpen) => !prevOpen);
-        if (active !== 'reply') {
-            setActive('reply');
+    const getPostFeedback = () => {
+        if (active !== "post") {
+            setActive("post");
+            dispatch(getFeedbackPost({
+                ...filters,
+                PageNumber: 1
+            }));
         }
     };
-    const handleCloseReply = (event) => {
-        if (anchorRefReplyYet.current && anchorRefReplyYet.current.contains(event.target)) {
-            return;
+    const getContestFeedback = () => {
+        if (active !== "contest") {
+            setActive("contest");
+            dispatch(getFeedbackContest({
+                ...filters,
+                PageNumber: 1
+            }));
         }
-        setOpenReply(false);
+    };
+    const getRepliedFeedback = () => {
+        if (active !== "replied") {
+            setActive("replied");
+            dispatch(getRepliedback({
+                ...filters,
+                PageNumber: 1
+            }));
+        }
     };
 
+    // useEffect(() => {
+    //     setFiltersContest(prevFilters => ({
+    //         ...prevFilters,
+    //         PageNumber: 1
+    //     }))
+    // }, [active]);
     const handlePageChange = (e, page) => {
-        console.log("page: ", page);
-        // const newFilter = {
-        //     PageNumber: page,
-        //     PageSize: 9,
-        // }
-        // switch (active) {
-        //     case 'draft':
-        //         dispatch(getBillByStatus(0, newFilter));
-        //         break;
-        //     case 'delivery':
-        //         dispatch(getBillByStatus(1, newFilter));
-        //         break;
-        //     case 'closed':
-        //         dispatch(getBillByStatus(2, newFilter));
-        //         break;
-        //     case 'cancle':
-        //         dispatch(getBillByStatus(3, newFilter));
-        //         break;
-        //     default:
-        //         break;
-        // }
-        // setFilters(prevFilters => ({
-        //     ...prevFilters,
-        //     PageNumber: page
-        // }))
+        const newFilter = {
+            PageNumber: page,
+            PageSize: 9,
+        }
+        switch (active) {
+            case 'account':
+                dispatch(getFeedbackAccount(newFilter));
+                break;
+            case 'trading':
+                dispatch(getFeedbackTradingPost(newFilter));
+                break;
+            case 'post':
+                dispatch(getFeedbackPost(newFilter));
+                break;
+            case 'contest':
+                dispatch(getFeedbackContest(newFilter));
+                break;
+            case 'replied':
+                dispatch(getRepliedback(newFilter));
+                break;
+            default:
+                break;
+        }
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            PageNumber: page
+        }))
+    }
+
+    const handleSubmitReply = async (values) => {
+        try {
+            await feedbackApi.reply(feedbackItem.id, values.reply)
+            await Swal.fire(
+                'Reply Successfully',
+                'Click Button to continute!',
+                'success'
+            )
+            setOpenReply(false)
+        } catch (error) {
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "Something go wrong",
+            })
+        }
+        setOpenReply(false)
     }
 
 
-
+    const handleClose = () => {
+        setOpenReply(false);
+        setFeedbackItem({})
+    }
+    const { isSubmitting } = form.formState;
     return (
         <>
             <div className="title-page">
@@ -181,104 +208,57 @@ function FeedbackManagement(props) {
             </div>
 
             <div className="btn-group">
-                <ButtonGroup variant="contained" aria-label="split button">
+                <ButtonGroup
+                    variant="contained"
+                    aria-label="outlined primary button group"
+                >
                     <Button
-                        ref={anchorRefNonReplyYet}
-                        className={active == 'nonReply' && 'active'}
-                        size="small"
-                        aria-controls={openNonReply ? 'split-button-group' : undefined}
-                        aria-expanded={openNonReply ? 'true' : undefined}
-                        aria-label="select merge strategy"
-                        aria-haspopup="nonReply"
-                        onClick={handleToggleNonReply}
+                        onClick={getAccountFeedback}
+                        className={active == "account" && "active"}
                     >
-                        <GroupIcon /> <span style={{ marginLeft: '5px' }}>{selectedNonReply}</span>  <ArrowDropDownIcon />
+                        <EventAvailableIcon />
+                        <span style={{ marginLeft: "5px" }}>account</span>
                     </Button>
-
-                    {/* ================================================ */}
                     <Button
-                        ref={anchorRefReplyYet}
-                        className={active == 'reply' && 'active'}
-                        size="small"
-                        aria-controls={openReply ? 'split-button-group' : undefined}
-                        aria-expanded={openReply ? 'true' : undefined}
-                        aria-label="select merge strategy"
-                        aria-haspopup="reply"
-                        onClick={handleToggleReply}
+                        onClick={getTradingPostFeedback}
+                        className={active == "trading" && "active"}
                     >
-                        <GroupIcon /> <span style={{ marginLeft: '5px' }}>{selectedReply}</span>  <ArrowDropDownIcon />
+                        <EventBusyIcon />
+                        <span style={{ marginLeft: "5px" }}>trading post</span>
                     </Button>
-
-                    <Popper
-                        open={openNonReply}
-                        anchorEl={anchorRefNonReplyYet.current}
-                        transition
-                        disablePortal
-
+                    <Button
+                        onClick={getPostFeedback}
+                        className={active == "post" && "active"}
                     >
-                        {({ TransitionProps, placement }) => (
-                            <Grow
-                                {...TransitionProps}
-                                style={{
-                                    transformOrigin:
-                                        placement === 'bottom' ? 'center top' : 'center bottom',
-                                }}
-                            >
-                                <Paper>
-                                    <ClickAwayListener onClickAway={handleCloseNonReply}>
-                                        <MenuList id="split-button-menu" autoFocusItem>
-                                            {typeFeedback.map((type, index) => (
-                                                <MenuItem
-                                                    key={index}
-                                                    // selected={index === selectedIndex}
-                                                    onClick={(event) => handleClickNonReplyItem(event, type.id, type.name)}
-                                                >
-                                                    {type.name}
-                                                </MenuItem>
-                                            ))}
-                                        </MenuList>
-                                    </ClickAwayListener>
-                                </Paper>
-                            </Grow>
-                        )}
-                    </Popper>
-
-
-                    {/* ============================================= */}
-                    <Popper
-                        open={openReply}
-                        anchorEl={anchorRefReplyYet.current}
-                        transition
-                        disablePortal
-
+                        <EventNoteIcon />
+                        <span style={{ marginLeft: "5px" }}>post</span>
+                    </Button>
+                    <Button
+                        onClick={getContestFeedback}
+                        className={active == "contest" && "active"}
                     >
-                        {({ TransitionProps, placement }) => (
-                            <Grow
-                                {...TransitionProps}
-                                style={{
-                                    transformOrigin:
-                                        placement === 'bottom' ? 'center top' : 'center bottom',
-                                }}
-                            >
-                                <Paper>
-                                    <ClickAwayListener onClickAway={handleCloseReply}>
-                                        <MenuList id="split-button-menu" autoFocusItem>
-                                            {typeFeedback.map((type, index) => (
-                                                <MenuItem
-                                                    key={index}
-                                                    // selected={index === selectedIndex}
-                                                    onClick={(event) => handleClickReplyItem(event, type.id, type.name)}
-                                                >
-                                                    {type.name}
-                                                </MenuItem>
-                                            ))}
-                                        </MenuList>
-                                    </ClickAwayListener>
-                                </Paper>
-                            </Grow>
-                        )}
-                    </Popper>
+                        <EventNoteIcon />
+                        <span style={{ marginLeft: "5px" }}>contest</span>
+                    </Button>
+                    <Button
+                        onClick={getRepliedFeedback}
+                        className={active == "replied" && "active"}
+                    >
+                        <EventNoteIcon />
+                        <span style={{ marginLeft: "5px" }}>Replied</span>
+                    </Button>
                 </ButtonGroup>
+                {/* <ButtonGroup
+                    variant="contained"
+                    aria-label="outlined primary button group"
+                >
+                    <Button onClick={handleClickOpen} className="active">
+                        <InsertInvitationIcon />
+                        <span style={{ marginLeft: "5px" }}>
+                            Create new contest
+                        </span>
+                    </Button>
+                </ButtonGroup> */}
                 {/* ================================== */}
 
             </div>
@@ -294,15 +274,17 @@ function FeedbackManagement(props) {
                                 <th>Avatar</th>
                                 <th>Content</th>
                                 <th>Feedback about</th>
-                                <th>Post Title</th>
-                                <th>Id Post</th>
-                                {/* <th className="th-action">Action</th> */}
+                                <th>Id detail</th>
+                                <th>Create date</th>
+                                {active != "replied" &&
+                                    <th className="th-action">Action</th>
+                                }
                             </tr>
                         </thead>
                         <tbody>
                             {state.feedbacks && state.feedbacks.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.id}</td>
+                                    <td>{index + 1}</td>
                                     <td>{item.senderName}</td>
                                     <td>
                                         <div className="avatar">
@@ -312,20 +294,32 @@ function FeedbackManagement(props) {
                                     <td>{item.content}</td>
                                     <td>{item.feedbackAbout}</td>
                                     <td>{item.idForDetail}</td>
-                                    <td>{item.sendDate}</td>
+                                    <td>{formatDate(item.sendDate)}</td>
                                     {/* <td>{item.dateCreate}</td> */}
                                     {/* <td className="td-images" >
                                         <div className="images">
                                             <ShowImage images={item.images} />
                                         </div>
                                     </td> */}
+                                    {active != "replied" &&
+                                        <td>
+                                            <button
+                                                className="btn btn-add"
+                                                onClick={() => handleOpenReply(item)}
+                                            >
+                                                <Tooltip title="Reply">
+                                                    <EditIcon />
+                                                </Tooltip>
+                                            </button>
+                                        </td>
+                                    }
                                 </tr>
                             ))}
 
                             {
                                 !state.feedbacks &&
                                 <tr>
-                                    <td colSpan={active === 'enable' ? "7" : "6"}>
+                                    <td colSpan={active === 'account' ? "7" : "6"}>
                                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                                             <CircularProgress />
                                         </Box>
@@ -345,6 +339,45 @@ function FeedbackManagement(props) {
                     </Box>
                 </div>
             </div>
+
+            <Dialog
+                open={openReply}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    Reply to {feedbackItem.senderName}
+                </DialogTitle>
+                <form onSubmit={form.handleSubmit(handleSubmitReply)}>
+                    <DialogContent sx={{ marginTop: "10px", display: 'flex', alignItems: 'center', }}>
+                        <Avatar src={feedbackItem.senderAvatar} alt="avatar" sx={{ position: 'static !important', mr: 2 }}></Avatar>
+                        <Typography>
+
+                            Content: {feedbackItem.content}
+                        </Typography>
+                    </DialogContent>
+                    <DialogContent sx={{ marginTop: "10px" }}>
+
+                        <MultiInputField name="reply" label="Reply" form={form} />
+
+                    </DialogContent>
+
+                    <DialogActions>
+                        <Button color="inherit" onClick={handleClose}>
+                            Cancel
+                        </Button>
+                        <Button disabled={isSubmitting} type="submit" >
+                            Send
+                        </Button>
+                    </DialogActions>
+                </form>
+            </Dialog>
         </>
     );
 }

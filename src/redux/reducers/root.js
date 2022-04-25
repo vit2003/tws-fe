@@ -8,6 +8,7 @@ import prizeReducer from './prize';
 import billReducer from './bill';
 import feedbackReducer from './feedback';
 import loginReducer from './login';
+import proposalReducer from './proposal';
 
 const rootReducer = combineReducers({
     account: accountReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     bill: billReducer,
     feedback: feedbackReducer,
     login: loginReducer,
+    proposal: proposalReducer,
 });
 
 export default rootReducer;

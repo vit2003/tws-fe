@@ -100,7 +100,7 @@ function Post({ post }) {
                         </IconButton>
                     }
                     title={post.ownerName}
-                    subheader={formatDate(post.publicDate)}
+                    subheader={formatDate(post.postDate)}
                 />
 
                 <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={1}>

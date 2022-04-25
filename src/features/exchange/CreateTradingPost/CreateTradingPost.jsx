@@ -66,7 +66,6 @@ const useStyle = makeStyles(theme => ({
 function CreateTradingPost({ tradingGroupId }) {
 
     const currentUser = useSelector(state => state.login.infoUser);
-    // console.log("currentUser: ", currentUser);
 
     // Style MUI
     const classes = useStyle();
@@ -79,8 +78,8 @@ function CreateTradingPost({ tradingGroupId }) {
 
     // ======================
 
-    const [brands, setBrands] = useState([]);
-    const [types, setTypes] = useState([]);
+    // const [brands, setBrands] = useState([]);
+    // const [types, setTypes] = useState([]);
     // const [brand, setBrand] = useState('none');
     // const [type, setType] = useState('none');
     const [selected, setSelected] = useState(false);
@@ -92,18 +91,18 @@ function CreateTradingPost({ tradingGroupId }) {
     const inputRef = React.useRef();
     const storage = getStorage();
 
-    useEffect(async () => {
-        try {
-            const [brandList, typeList] = await Promise.all([
-                eventApi.getBrand(),
-                eventApi.getType(),
-            ]);
-            setBrands(brandList)
-            setTypes(typeList)
-        } catch (error) {
-            console.log("fail to get brand: ", error);
-        }
-    }, [])
+    // useEffect(async () => {
+    //     try {
+    //         const [brandList, typeList] = await Promise.all([
+    //             eventApi.getBrand(),
+    //             eventApi.getType(),
+    //         ]);
+    //         setBrands(brandList)
+    //         setTypes(typeList)
+    //     } catch (error) {
+    //         console.log("fail to get brand: ", error);
+    //     }
+    // }, [])
 
 
     const [isExchangeByMoney, setIsExchangeByMoney] = useState(false);
@@ -190,13 +189,11 @@ function CreateTradingPost({ tradingGroupId }) {
         console.log("objImage: ", strgImg)
         for (let i = 0; i < strgImg.length; i++) {
             const storageRef = ref(storage, `/TradingPost/${strgImg[i].name}`)
-            // console.log(strgImg[i].name)
             await uploadBytes(storageRef, strgImg[i]);
             // get link from database to download
             await getDownloadURL(storageRef)
                 .then((url) => {
                     imagesLink.push(url)
-                    console.log("url: ", url);
                 })
                 .catch((error) => {
                     console.log("error: ", error);
@@ -212,8 +209,8 @@ function CreateTradingPost({ tradingGroupId }) {
             const newTradingPost = {
                 title: values.title,
                 toyName: values.toyName,
-                brandName: values.brand,
-                typeName: values.type,
+                brandName: "",
+                typeName: "",
                 content: values.postContent,
                 address: values.address,
                 exchange: values.exchange ? values.exchange : '',
@@ -221,8 +218,6 @@ function CreateTradingPost({ tradingGroupId }) {
                 phone: values.phone,
                 imagesLink: imagesLink,
             }
-            console.log('newPost: ', newTradingPost);
-
             const response = await tradingPostApi.createNewTradingPost(tradingGroupId, newTradingPost)
             setOpen(false);
             await Swal.fire(
@@ -230,7 +225,6 @@ function CreateTradingPost({ tradingGroupId }) {
                 'Click Button to continute!',
                 'success'
             )
-            console.log("response: ", response);
         } catch (error) {
             setOpen(false);
             await Swal.fire({
@@ -243,14 +237,9 @@ function CreateTradingPost({ tradingGroupId }) {
         setStrgImg([]);
         form.reset();
     }
-    console.log("imagesLink: ", imagesLink);
     // const handleOpenProfile = () => {
     //     history.push(`/account/${account.id}`)
     // }
-
-
-
-    console.log("isSubmitting: ", isSubmitting);
 
     return (
         <div className='CreatePost'>
@@ -290,7 +279,7 @@ function CreateTradingPost({ tradingGroupId }) {
                     }}
                 >
                     <Typography>
-                        How are you doing???
+                        What are you going to trade?...
                     </Typography>
                 </Box>
             </Card>
@@ -337,13 +326,12 @@ function CreateTradingPost({ tradingGroupId }) {
                         <InputField name='phone' label='Phone' form={form} />
                         <InputPostField name="postContent" label='Description' form={form} />
 
-                        <FormControl sx={{ mt: 1 }} fullWidth>
+                        {/* <FormControl sx={{ mt: 1 }} fullWidth>
                             <InputLabel id="select-role">Brand</InputLabel>
                             <SelectFormField
                                 labelId="select-brand"
                                 id="brand"
                                 name="brand"
-                                // className={classes.textField}
                                 label="Brand"
                                 control={control}
                                 defaultValue="none"
@@ -362,7 +350,6 @@ function CreateTradingPost({ tradingGroupId }) {
                                 labelId="select-type"
                                 id="type"
                                 name="type"
-                                // className={classes.textField}
                                 label="Type"
                                 control={control}
                                 defaultValue="none"
@@ -374,7 +361,7 @@ function CreateTradingPost({ tradingGroupId }) {
                                     <MenuItem key={index} value={type} selected={selected}>{type}</MenuItem>
                                 ))}
                             </SelectFormField>
-                        </FormControl>
+                        </FormControl> */}
 
 
 
@@ -392,7 +379,6 @@ function CreateTradingPost({ tradingGroupId }) {
                             <Card variant="outlined" sx={{ padding: '10px', marginTop: 2, position: 'relative' }}>
                                 <ImageList variant="masonry" cols={3} gap={8}>
                                     {inputImage.map((image, index) => (
-                                        // console.log(source),
                                         console.log(image),
                                         <div key={index} className="image-item">
                                             <ImageListItem key={index}>

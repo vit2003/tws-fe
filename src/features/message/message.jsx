@@ -23,10 +23,6 @@ function Message() {
     const currentUser = useSelector(state => state.login.infoUser);
 
     const { params: { id } } = useRouteMatch();
-    // const { params: { TradingId } } = useRouteMatch();
-    console.log("id: ", id);
-    // console.log("id: ", TradingId);
-    // console.log("messageId: ", messageId);
 
     // STATE GET LIST USERS
     const [users, setUsers] = useState([]);
@@ -39,9 +35,6 @@ function Message() {
 
     // STATE TAB CLICK
     const [tabStatus, setTabStatus] = useState('Trading');
-
-    // console.log('isTrading before: ', isTrading);
-
 
     //   FETCH USER LIST
     useEffect(() => {
@@ -82,7 +75,6 @@ function Message() {
 
     const [snapshot] = useCollection(collection(db, "tradingMessages"));
     const tradingConver = snapshot?.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    console.log("tradingConver: ", tradingConver);
 
     const tmq = query(collection(db, `tradingMessages/${id}/${id}`), orderBy("timestamp"));
     const [tradingmsgs] = useCollectionData(tmq);

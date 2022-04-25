@@ -4,7 +4,6 @@ const postApi = {
 
     getAll(id, params) {
         const token = axioClient.getToken();
-        console.log("param: ", params);
         if (token) {
             axioClient.setHeaderAuth(token)
             return axioClient.get2(`/posts/group/${id}`, { params })
@@ -35,6 +34,14 @@ const postApi = {
         if (token) {
             axioClient.setHeaderAuth(token)
             return axioClient.put(`/posts/reacts/${id}`, id)
+        }
+    },
+
+    reactComment(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.put(`/comments/reacts/${id}`, id)
         }
     },
 

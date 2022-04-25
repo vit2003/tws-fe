@@ -110,7 +110,6 @@ function Runner({ runner, contestId, contest, reload }) {
 
 
     const handleOnChangeRate = (event, newValue) => {
-        console.log("newValue: ", newValue);
         setRating(newValue);
         setOpenRatingDialog(true);
     }
@@ -122,17 +121,14 @@ function Runner({ runner, contestId, contest, reload }) {
     })
 
     const handleSubmitRating = async (values) => {
-        console.log("rating: ", rating);
         try {
             const newRatePost = {
                 numOfStar: rating,
                 note: values.note,
             }
-            console.log("newRatePost: ", newRatePost);
             const response = await eventApi.rating(contestId, runner.id, newRatePost);
             setOpenRatingDialog(false)
             reload();
-            console.log(response);
             await Swal.fire(
                 'Rate successfully',
                 'Click Button to continute!',
@@ -299,7 +295,7 @@ function Runner({ runner, contestId, contest, reload }) {
                     open={openRatingDialog}
                     onClose={handleClose}
                 >
-                    <DialogTitle >RATE FOR</DialogTitle>
+                    <DialogTitle >RATING</DialogTitle>
                     <form onSubmit={form.handleSubmit(handleSubmitRating)} >
                         <DialogContent>
                             <DialogContentText>Your Rating: {rating}</DialogContentText>

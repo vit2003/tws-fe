@@ -20,6 +20,8 @@ import Swal from 'sweetalert2';
 import * as yup from "yup";
 import AdminInputField from '../../../components/form-controls/AdminInputField/AdminInputField';
 import { createPrize, deletePrize, getPrizes } from './../../../redux/actions/prize';
+import ShowImage from './../contest/showImage';
+
 
 const useStyle = makeStyles((theme) => ({
     root: {},
@@ -56,6 +58,19 @@ function PrizeManagement() {
     const dispatch = useDispatch();
 
     const classes = useStyle();
+
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const [itemClick, setItemClick] = useState(false);
+
+    const handleOpenConfirm = (item) => {
+        setOpenConfirm(true);
+        setItemClick(item)
+    }
+    const handleConfirm = () => {
+        dispatch(deletePrize(itemClick.id))
+        setOpenConfirm(false);
+    }
+
     // STYLE FOR INPUT IMAGE
     const Input = styled('input')({
         display: 'none',
@@ -88,6 +103,7 @@ function PrizeManagement() {
     // Handle close dialog and reset state
     const handleClose = () => {
         setOpen(false);
+        setOpenConfirm(false)
     };
 
     const schema = yup.object().shape({
@@ -141,16 +157,13 @@ function PrizeManagement() {
     // UPLOAD ANG GET IMAGE URL FROM FIREBASE
     let imagesLink = [];
     const uploadAndGetLinkImg = async () => {
-        // console.log("objImage: ", strgImg)
         for (let i = 0; i < strgImg.length; i++) {
             const storageRefRunner = ref(storage, `/Prize/${strgImg[i].name}`)
-            // console.log(strgImg[i].name)
             await uploadBytes(storageRefRunner, strgImg[i]);
             // get link from database to download
             await getDownloadURL(storageRefRunner)
                 .then((url) => {
                     imagesLink.push(url)
-                    console.log("url: ", url);
                 })
                 .catch((error) => {
                     console.log("error: ", error);
@@ -167,15 +180,13 @@ function PrizeManagement() {
                 value: values.value.toString(),
                 image: imagesLink[0],
             }
-            console.log('newPrize: ', newPrize);
             dispatch(createPrize(newPrize))
             setOpen(false)
             await Swal.fire(
-                'Post your toy successfully',
+                'Create prize successfully',
                 'Click Button to continute!',
                 'success'
             )
-            // console.log("response: ", response);
         } catch (error) {
             console.log('Failed create new post: ', error);
             setOpen(false)
@@ -256,16 +267,7 @@ function PrizeManagement() {
                                                 </Tooltip> */}
                                             </Link>
 
-                                            <a className="btn btn-delete" onClick={
-                                                async () => {
-                                                    dispatch(deletePrize(item.id))
-                                                    await Swal.fire(
-                                                        'Delete prize successfully',
-                                                        'Click Button to continute!',
-                                                        'success'
-                                                    )
-                                                }
-                                            }>
+                                            <a className="btn btn-delete" onClick={() => handleOpenConfirm(item)}>
                                                 <Tooltip title="Delete">
                                                     <DeleteIcon />
                                                 </Tooltip>
@@ -338,6 +340,7 @@ function PrizeManagement() {
                             <Input accept="image/* " id="contained-button-file" type="file" onChange={handleFileChange} />
                             <Button sx={{ backgroundColor: "#c31432 !important" }} variant="contained" aria-label="upload picture" onClick={handleChoose} component="span" endIcon={<PhotoCamera />}>
                                 Photo</Button>
+
                         </label>
                         {inputImage.length ?
                             <Card variant="outlined" sx={{ padding: '10px', marginTop: 2, position: 'relative' }}>
@@ -363,9 +366,37 @@ function PrizeManagement() {
                     </DialogContent>
                     <DialogActions>
                         <Button color='inherit' onClick={handleClose}>Cancel</Button>
-                        <Button type='submit' >Post</Button>
+                        <Button type='submit'>Create</Button>
                     </DialogActions>
                 </form>
+            </Dialog>
+
+            <Dialog
+                open={openConfirm}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    Are you sure to delete {itemClick.name}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px", display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                    <ShowImage images={itemClick.images} />
+                </DialogContent>
+
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleConfirm}>
+                        Delete
+                    </Button>
+                </DialogActions>
             </Dialog>
         </>
     );

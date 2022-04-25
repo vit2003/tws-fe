@@ -11,9 +11,6 @@ PostList.defaultProps = {
 
 function PostList({ postList, reload }) {
 
-
-    // console.log("reload: ", reload(true));
-
     return (
         <div>
             {postList.length ? postList.map((post) => (

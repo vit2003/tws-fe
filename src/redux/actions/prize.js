@@ -27,7 +27,6 @@ export const showPrize = (prizeId) => {
 export const getPrizes = (filters, loading = true) => {
     return (dispatch) => {
         const token = axioClient.getToken();
-        console.log("filter: ", filters)
         if (loading) {
             dispatch(setPrizes([]));
         }
@@ -104,34 +103,26 @@ export const deletePrize = (prizeId) => {
             axioClient.setHeaderAuth(token)
             axioClient.delete(`/prizes/${prizeId}`)
                 .then((response) => {
-                    console.log(response)
                     if (response) {
                         dispatch(getPrizes(filters, false));
+                        Swal.fire(
+                            'Delete prize successfully',
+                            'Click Button to continute!',
+                            'success'
+                        )
                     }
                 })
                 .catch((error) => {
                     console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: "Something wrong!",
+                    })
                 })
         }
     }
 }
-
-// export const deletePost = () => {
-//     return (dispatch) => {
-//         const token = axioClient.getToken();
-
-//         if (token) {
-//             axioClient.setHeaderAuth(token)
-//             axioClient.get('/posts')
-//                 .then((response) => {
-//                     dispatch(getPosts())
-//                 })
-//                 .catch((error) => {
-//                     console.log(error)
-//                 })
-//         }
-//     }
-// }
 
 export const setPrizes = (payload) => {
     return {

@@ -61,15 +61,12 @@ function ShowImage({ id }) {
         (async () => {
             try {
                 const response = await tradingPostApi.getTradingPostImage(id)
-                console.log("response: ", response);
                 setListPostImage(response)
             } catch (error) {
                 console.log("Failed to fetch contest data", error);
             }
         })();
     }, [id]);
-
-    console.log("listPostImage ", listPostImage);
 
     const handleClickOpenImage = () => {
         setOpen(true);
@@ -83,7 +80,7 @@ function ShowImage({ id }) {
         <>
             {
                 listPostImage?.length > 0 ? <div onClick={handleClickOpenImage} className={classes.onClickOpenImgDiv} className="image" >
-                    <img src={listPostImage && listPostImage[0]?.url} alt="" />
+                    <img height="100%" width="100%" src={listPostImage && listPostImage[0]?.url} alt="" />
                     {
                         listPostImage?.length > 1 &&
                         <Typography className={classes.textOnImg}>

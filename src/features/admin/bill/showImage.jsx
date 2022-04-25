@@ -61,7 +61,6 @@ function ShowImage({ id }) {
         (async () => {
             try {
                 const response = await billApi.getImgBill(id)
-                console.log("response: ", response);
                 setListBillImage(response)
             } catch (error) {
                 console.log("Failed to fetch contest data", error);

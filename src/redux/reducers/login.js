@@ -33,6 +33,11 @@ const loginReducer = (state = initState, action) => {
                 ...state,
                 infoUser: action.payload
             }
+        case LOGIN.SET_ACCOUNT:
+            return {
+                ...state,
+                infoUser: action.payload
+            }
 
         default:
             return state

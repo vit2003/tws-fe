@@ -118,8 +118,6 @@ function CreatePostContest() {
                     <Card variant="outlined" sx={{ padding: '10px', marginTop: 2, position: 'relative' }}>
                         <ImageList variant="masonry" cols={3} gap={8}>
                             {inputImage.map((image, index) => (
-                                // console.log(source),
-                                console.log(image),
                                 <div key={index} className="image-item">
                                     <ImageListItem key={index}>
                                         <img

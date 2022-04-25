@@ -70,9 +70,6 @@ function Authentication(props) {
 
   const currentUser = useSelector(state => state.login.infoUser);
 
-  console.log("currentUser: ", currentUser);
-
-
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
 
@@ -100,7 +97,9 @@ function Authentication(props) {
             </div>
             <div className='authentication__right'>
               <h1>WORLD</h1>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis molestias minima voluptates iste est illo, dolor adipisci ea, vero deleniti aut placeat, officiis quod nam dolorem id totam neque incidunt eum minus nobis consectetur distinctio tempora eveniet! Dicta, iste. Optio quidem adipisci vel repudiandae doloremque ratione laudantium sequi earum neque.</p>
+              <p>
+                Toys World, not only 27% of the world's population need us. To put it concisely, Toys World is a dreamland for those who are passionate and interested in toys; a place where we can not only share toys but also experience and participate in tempting related competitions.
+              </p>
               <Button className={classes.getStartedBtn} color="inherit" onClick={handleClickOpen}>GET STARTED</Button>
             </div>
 

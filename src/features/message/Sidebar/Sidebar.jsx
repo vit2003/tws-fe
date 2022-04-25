@@ -145,7 +145,7 @@ function Sidebar({ users, tradingConver, onChangeTrading, tradingPost }) {
             <Avatar sx={{ mr: 1, }} alt="name" src={currentUser?.avatar} />
             <Typography>{currentUser?.name}</Typography>
           </Box>
-          <Link to="/" className="link">
+          <Link to="/home" className="link">
             <Box sx={{
               display: 'flex', alignItems: 'center',
               '&:hover': {
@@ -186,7 +186,8 @@ function Sidebar({ users, tradingConver, onChangeTrading, tradingPost }) {
             className="search-input"
             placeholder="Search for..."
             value={q}
-            onChange={(e) => setQ(e.target.value)} />
+            onChange={(e) => setQ(e.target.value)}
+          />
         </Paper>
 
         {/* ============================== */}

@@ -4,6 +4,7 @@ import {
     ACCOUNT
 } from './types'
 import StorageKeys from './../../constants/storage-keys';
+import Swal from 'sweetalert2';
 /*
 * Token
 * - Manager: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJSb2xlIjoiMSIsIkFjY291bnRJZCI6IjQiLCJuYmYiOjE2NDU4NDQzMzIsImV4cCI6MTY0NjQ1MDkzMiwiaWF0IjoxNjQ1ODQ0MzMyfQ.WLztfRoQh3HqEj9HNcVWpQM9VItgvWbo_FKngycvsB8
@@ -18,7 +19,6 @@ export const getAccounts = () => {
             axioClient.setHeaderAuth(token)
             axioClient.get('/accounts')
                 .then((response) => {
-                    console.log("response: ", response);
                     if (response.data) {
                         dispatch(setAccounts(response.data))
                     }
@@ -40,9 +40,19 @@ export const deactiveAccount = (userID) => {
             axioClient.put(`/accounts/enable_disable/${userID}`)
                 .then((response) => {
                     dispatch(getAccounts())
+                    Swal.fire(
+                        'Update successfully',
+                        'Click Button to continute!',
+                        'success'
+                    )
                 })
                 .catch((error) => {
                     console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    })
                 })
         }
     }
@@ -81,10 +91,19 @@ export const updateRole = (id, role) => {
             }
             await axioClient.put(url)
                 .then((response) => {
-                    console.log(response)
+                    Swal.fire(
+                        'Update role successfully',
+                        'Click Button to continute!',
+                        'success'
+                    )
                 })
                 .catch((error) => {
                     console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    })
                 })
         }
     }
@@ -104,9 +123,3 @@ export const setAccount = (payload) => {
         payload
     }
 }
-// export const setInfo = (payload) => {
-//     return {
-//         type: ACCOUNT.SET_INFOUSER,
-//         payload
-//     }
-// }

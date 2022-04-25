@@ -62,7 +62,6 @@ const accountSlice = createSlice({
     },
     reducers: {
         logout(state) {
-            console.log("state: ", state);
             //clear local storage
             localStorage.removeItem(StorageKeys.TOKEN);
             localStorage.removeItem(StorageKeys.ACCOUNT);

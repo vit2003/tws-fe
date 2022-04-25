@@ -292,13 +292,13 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
         }
     };
 
+
     const [imgBills, setImgBills] = useState([])
 
     useEffect(async () => {
         if (bill) {
             try {
                 const respones = await billApi.getImgBill(bill?.id);
-                console.log("img bill: ", respones);
                 setImgBills(respones)
             } catch (error) {
 
@@ -328,7 +328,6 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
         let image = [];
         let storageImage = [];
         for (let i = 0; i < event.target.files.length; i++) {
-            console.log(event.target.files[i].type)
             if (event.target.files[i].type === 'image/png' || event.target.files[i].type === 'image/jpeg' || event.target.files[i].type === 'image/jpg' || event.target.files[i].type === 'image/gif') {
                 image.push(URL.createObjectURL(event.target.files[i]))
                 storageImage.push(event.target.files[i]);
@@ -374,8 +373,6 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
     // SUBMIT CHAT
     const handleSubmit = async (values) => {
-        console.log("values: ", values.message);
-        console.log("strgImge: ", strgImg);
 
         switch (type) {
             case 0:
@@ -476,23 +473,18 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
 
     // ON CLICK CREATE BILL
-    // console.log("id: ", id)
-    // console.log("buyerId: ", (myTradingConver?.filter(tradingPost => tradingPost.id == id))?.map(tdp => tdp.buyerId)[0])
 
     const handleCreateBill = async (values) => {
         try {
             const newBill = {
-                toyOfSellerName: values.toyOfSellerName,
-                isExchangeByMoney: isExchangeByMoney,
-                // toyOfBuyerName: values.toyOfBuyerName ? values.toyOfBuyerName : '',
-                // exchangeValue: values.exchangeValue ? values.exchangeValue : '',
-                toyOfBuyerName: values.toyOfBuyerName,
-                exchangeValue: values.exchangeValue,
+                toyOfSellerName: detailBill?.toyName,
+                isExchangeByMoney: detailBill?.trading ? false : true,
+                toyOfBuyerName: detailBill.trading ? detailBill.trading : "",
+                exchangeValue: detailBill.trading ? detailBill.value : null,
                 buyerId: buyerId,
                 tradingPostId: tradingPostId,
             }
 
-            console.log('newBill: ', newBill);
             const response = await billApi.createBill(newBill)
 
             setBillId(response.billId)
@@ -526,15 +518,12 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
     })
 
     const handleCreateRate = async (values) => {
-        console.log("billIdToRate: ", billIdToRate);
         try {
             const newRate = {
                 numOfStar: ratingNum,
                 content: values.rate,
             }
-            console.log('newRate: ', newRate);
             const response = await billApi.Rate(billIdToRate, newRate)
-            console.log("rate response: ", response);
             setOpenRateAccount(false)
             await Swal.fire(
                 'Rate successfully',
@@ -582,9 +571,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
     const handleDenyBill = async () => {
         try {
             let deny = 0;
-            console.log("bil id: ", bill.id);
             const response = await billApi.Deny(bill.id, deny);
-            console.log("deny respone: ", response);
             await updateDoc(doc(db, `tradingMessages/${id}/`),
                 {
                     isBillCreated: false
@@ -615,9 +602,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
     })
 
     const handleFeedbackBill = async (values) => {
-        console.log(" values: ", values);
         try {
-            // console.log("bil id: ", bill.id);
             const newFeedback = {
                 content: values.content,
             }
@@ -641,9 +626,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
     const handleCancelBill = async () => {
         try {
-            console.log("bil id: ", bill.id);
             const response = await billApi.Cancel(bill.id, 3)
-            console.log("handleCancelBill respone: ", response);
             await updateDoc(doc(db, `tradingMessages/${id}/`),
                 {
                     isBillCreated: false
@@ -667,9 +650,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
     const handleClosedPost = async () => {
         try {
-            console.log("bil id: ", bill.id);
             const response = await billApi.ClosedPost(bill.id, 2)
-            console.log("ClosedPost respone: ", response);
             setOpenCheckBill(false)
             await Swal.fire(
                 'Trading post was closed',
@@ -847,41 +828,38 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                     {/* DIALOG TO CREATE BILL */}
                                     <Dialog open={open} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>
                                         <DialogTitle sx={{ textAlign: 'center' }}>CREATE BILL</DialogTitle>
-                                        <form onSubmit={formBill.handleSubmit(handleCreateBill)}>
-                                            <DialogContent>
-                                                <DialogContentText>
-                                                    Your trading info will be saved in our system,
-                                                </DialogContentText>
-                                                <InputField name="toyOfSellerName" label="Toy Of Seller" form={formBill} />
 
-                                                {isExchangeByMoney ? <>
-                                                    <InputField name="exchangeValue" label="Exchange Value" form={formBill} />
-                                                </>
-                                                    : <InputField name="toyOfBuyerName" label="Toy Of Buyer" form={formBill} />
-                                                }
+                                        <DialogContent>
+                                            <DialogContentText>
+                                                Your trading info will be saved in our system,
+                                            </DialogContentText>
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Sender</th>
+                                                        <th>Receiver</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Name</td>
+                                                        <td>{detailBill?.ownerName}</td>
+                                                        <td>{receiver?.name}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Value Exchange</td>
+                                                        <td>{detailBill?.toyName}</td>
+                                                        <td>{detailBill?.trading ? detailBill?.trading : detailBill?.value}</td>
+                                                    </tr>
 
-                                                <FormControl component="fieldset" variant="standard">
-                                                    <FormControlLabel
-                                                        value="start"
-                                                        label="Change by Money"
-                                                        control={
-                                                            <Switch
-                                                                className={classes.toggle}
-                                                                checked={isExchangeByMoney}
-                                                                onChange={handleChange}
-                                                                inputProps={{ 'aria-label': 'controlled' }}
-                                                            />
-                                                        }
-                                                    />
-                                                </FormControl>
-
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button onClick={handleClose} sx={{ color: "#db36e4" }}>Cancel</Button>
-                                                <Button type="submit" sx={{ color: "#db36e4" }}>Create Bill</Button>
-                                            </DialogActions>
-                                        </form>
-
+                                                </tbody>
+                                            </table>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={handleClose} sx={{ color: "#db36e4" }}>Cancel</Button>
+                                            <Button onClick={handleCreateBill}>Create Bill</Button>
+                                        </DialogActions>
                                     </Dialog>
 
                                     {/* DIALOG TO CHECK BILL */}
@@ -1052,7 +1030,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
 
                                     {/* DIALOG FEEDBACK TRADINGPOST */}
                                     <Dialog open={openFeedback} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>
-                                        <DialogTitle sx={{ textAlign: 'center' }}>FEEDBACK THIS POST</DialogTitle>
+                                        <DialogTitle sx={{ textAlign: 'center' }}>FEEDBACK ACCOUNT</DialogTitle>
                                         <form onSubmit={formFeedback.handleSubmit(handleFeedbackBill)}>
                                             <DialogContent>
                                                 <DialogContentText>
@@ -1062,7 +1040,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                             </DialogContent>
                                             <DialogActions>
                                                 <Button onClick={handleClose} sx={{ color: "#db36a4" }}>Cancel</Button>
-                                                <Button type="submit" sx={{ color: "#db36a4" }}>Feedback Post</Button>
+                                                <Button type="submit" sx={{ color: "#db36a4" }}>Feedback Account</Button>
                                             </DialogActions>
                                         </form>
                                     </Dialog>

@@ -1,7 +1,7 @@
 import CommentIcon from '@mui/icons-material/Comment';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { DialogContent } from '@mui/material';
+import { DialogContent, DialogTitle, DialogActions, Button } from '@mui/material';
 import { Box, Dialog } from '@mui/material/';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
@@ -28,6 +28,7 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import postApi from './../../../../api/postApi';
 import formatDate from './../../../../utils/formatDate';
+import ShowImage from './../../../admin/post/showImage';
 
 PostDetail.propTypes = {
     post: PropTypes.object,
@@ -116,6 +117,7 @@ function PostDetail({ post, reload }) {
     }
     const handleClose = () => {
         setOpen(false);
+        setOpenConfirm(false)
     };
 
     const handleClick = () => {
@@ -128,6 +130,14 @@ function PostDetail({ post, reload }) {
     const handleClickMoreIcon = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+
+    const [openConfirm, setOpenConfirm] = useState(false);
+
+    const handleOpenConfirm = () => {
+        setOpenConfirm(true);
+    }
+
     const handleCloseDelete = async () => {
         try {
             const response = await postApi.deletePost(post.id);
@@ -195,7 +205,7 @@ function PostDetail({ post, reload }) {
                     </IconButton>
                 }
                 title={post.ownerName}
-                subheader={formatDate(post.publicDate)}
+                subheader={formatDate(post.postDate)}
             />
             <Menu
                 id="long-menu"
@@ -214,7 +224,7 @@ function PostDetail({ post, reload }) {
             >
                 {
                     currentUser.accountId === post.ownerId ?
-                        <MenuItem onClick={handleCloseDelete}>
+                        <MenuItem onClick={handleOpenConfirm}>
                             Delete
                         </MenuItem> :
                         <MenuItem onClick={handleCloseReport}>
@@ -367,7 +377,6 @@ function PostDetail({ post, reload }) {
             </CardContent>
 
             <CardActions disableSpacing>
-
                 {/* Like icon - like number */}
                 <IconButton onClick={handleEmotionClick} aria-label="add to favorites">
                     {isLiked === true ? <FavoriteIcon className={classes.heartIcon} /> : <FavoriteIcon className={classes.unHeartIcon} />}
@@ -380,6 +389,35 @@ function PostDetail({ post, reload }) {
                 </IconButton>
                 <Typography>{numOfCmt}</Typography>
             </CardActions>
+
+            <Dialog
+                open={openConfirm}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    Are you sure to delete post of {post.ownerName}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px", display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                    <ShowImage id={post.id} />
+                </DialogContent>
+
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleCloseDelete}>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </Card>
     );
 }

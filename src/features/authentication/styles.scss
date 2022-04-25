@@ -1,6 +1,7 @@
 .authentication {
     width: 100%;
-    min-height: 100vh;
+    overflow-y: hidden;
+    max-height: 100vh;
     display: flex;
 
     &__left {
@@ -9,7 +10,7 @@
         position: relative;
 
         h1 {
-            top: 35%;
+            top: 30.5%;
             position: absolute;
             right: 50px;
             // text-align: center;
@@ -24,6 +25,7 @@
         // min-height: 100vh;
 
         position: relative;
+        // padding: 0 50px;
 
         h1 {
             top: 35%;
@@ -37,23 +39,20 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        p{
+        p {
             top: 55%;
             left: 60px;
             position: absolute;
             font-size: 1em;
         }
-        Button{
+        Button {
             top: 65%;
             left: 50px;
             position: absolute;
         }
-
     }
-
-
 }
-.SignUpText{
+.SignUpText {
     display: flex;
     justify-content: center;
     align-items: center;

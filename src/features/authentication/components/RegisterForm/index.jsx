@@ -57,7 +57,7 @@ function RegisterForm(props) {
     const schema = yup.object().shape({
         fullName: yup.string()
             .required('Please enter your fullname')
-            .test('should has at least two words', 'Please Enter as least two words', (value) => {
+            .test('should has at least two words', 'Please enter at least two words', (value) => {
                 return value.split(' ').length >= 2;
             }),
         email: yup.string().required('Please enter your email.').email('Please enter a valid email'),

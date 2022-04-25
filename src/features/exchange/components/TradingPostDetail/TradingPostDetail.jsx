@@ -3,7 +3,7 @@ import BalanceIcon from '@mui/icons-material/Balance';
 import CommentIcon from '@mui/icons-material/Comment';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { DialogContent } from '@mui/material';
+import { DialogContent, DialogTitle, DialogActions } from '@mui/material';
 import { Box, Dialog, Divider, Typography } from '@mui/material/';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -31,6 +31,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { db } from '../../../../Firebase/firebase';
 import tradingPostApi from './../../../../api/TradingPostApi';
 import formatDate from './../../../../utils/formatDate';
+import ShowImage from './../../../admin/tradingPost/showImage';
 import Swal from 'sweetalert2';
 
 
@@ -111,6 +112,7 @@ const useStyle = makeStyles(theme => ({
     }
 
 
+
 }))
 
 function TradingPostDetail({ tradingPost, reload }) {
@@ -118,8 +120,6 @@ function TradingPostDetail({ tradingPost, reload }) {
 
     const currentUser = useSelector(state => state.login.infoUser);
     const currentUserId = currentUser.accountId
-    console.log("currentUser: ", currentUser);
-    console.log("tradingPost: ", tradingPost);
 
     const classes = useStyle();
 
@@ -155,15 +155,12 @@ function TradingPostDetail({ tradingPost, reload }) {
         })()
     }, [tradingPost.id])
 
-
-    console.log("imageOfTradingPost: ", imageOfTradingPost)
-    console.log("numOfCmt: ", numOfCmt)
-
     const handleShowImageDialog = () => {
         setOpen(true);
     }
     const handleClose = () => {
         setOpen(false);
+        setOpenConfirm(false)
     };
 
 
@@ -177,6 +174,13 @@ function TradingPostDetail({ tradingPost, reload }) {
     const handleClickMoreIcon = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const [openConfirm, setOpenConfirm] = useState(false);
+
+    const handleOpenConfirm = (item) => {
+        setOpenConfirm(true);
+    }
+
     const handleCloseDelete = async () => {
         try {
             const response = await tradingPostApi.enableTradingPost(tradingPost.id);
@@ -187,6 +191,7 @@ function TradingPostDetail({ tradingPost, reload }) {
                 'Click Button to continute!',
                 'success'
             )
+            setOpenConfirm(false);
         } catch (error) {
             console.log("error: ", error);
             setAnchorEl(null);
@@ -196,6 +201,7 @@ function TradingPostDetail({ tradingPost, reload }) {
                 text: 'Something went wrong!',
             })
         }
+        setOpenConfirm(false);
         setAnchorEl(null);
     }
 
@@ -217,7 +223,6 @@ function TradingPostDetail({ tradingPost, reload }) {
 
         try {
             const response = await tradingPostApi.reactPost(tradingPost.id);
-            console.log("response", response);
             setIsLiked(response.isLiked);
             setNumOfLiked(response.numOfReact);
         } catch (error) {
@@ -245,6 +250,7 @@ function TradingPostDetail({ tradingPost, reload }) {
                 sellerId: tradingPost ? tradingPost.ownerId : '',
                 contentPost: tradingPost ? tradingPost.content : '',
                 buyerId: currentUserId,
+                buyerName: currentUser.name,
                 billId: null
             });
         history.push(`/TradingMessage/${messageId}`, tradingPost.id);
@@ -327,7 +333,7 @@ function TradingPostDetail({ tradingPost, reload }) {
             >
                 {
                     currentUserId === tradingPost.ownerId ?
-                        <MenuItem onClick={handleCloseDelete}>
+                        <MenuItem onClick={handleOpenConfirm}>
                             Delete
                         </MenuItem> :
                         <MenuItem onClick={handleCloseReport}>
@@ -528,6 +534,33 @@ function TradingPostDetail({ tradingPost, reload }) {
                 }
 
             </Box>
+            <Dialog
+                open={openConfirm}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    Are you sure to delete trading {tradingPost.title}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px", display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                    <ShowImage id={tradingPost.id} />
+                </DialogContent>
+
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleCloseDelete}>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
         </Card>
     );

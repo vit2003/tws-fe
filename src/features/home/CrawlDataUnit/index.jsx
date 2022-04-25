@@ -33,7 +33,7 @@ function CrawlDataUnit(props) {
             url: 'images/crawl2.png',
         },
         {
-            url: 'images/crawl2.png',
+            url: 'images/crawl3.png',
         },
 
     ];
@@ -41,8 +41,8 @@ function CrawlDataUnit(props) {
     return (
         <div>
             <Container>
-                <Typography className={classes.cooperate}>
-                    COOPERATE UNIT
+                <Typography className={classes.cooperate} sx={{ fontWeight: 'bold !important', fontFamily: "Wallpoet !important", textTransform: 'uppercase', background: "-webkit-linear-gradient(#c31432, #2C5364)", WebkitBackgroundClip: "text", WebkitTextFillColor: 'transparent' }}>
+                    SPONSORS
                 </Typography>
                 <Box
                     sx={{

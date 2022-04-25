@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
 
 function approveProposal(props) {
     const state = useSelector(state => state);
-    console.log("state: ", state);
     const params = useParams();
     const dispatch = useDispatch();
 
@@ -42,7 +41,6 @@ function approveProposal(props) {
             dispatch(getBrand())
             dispatch(getType())
         }
-        console.log("state: ", state);
     }, [])
 
 
@@ -57,15 +55,11 @@ function approveProposal(props) {
     };
 
     const handleChangeBrand = (event) => {
-        console.log("event.target.value: ", event.target.value);
         setBrand(event.target.value);
-        console.log("brand: ", brand);
     };
 
     const handleChangeType = (event) => {
-        console.log("event.target.value: ", event.target.value);
         setType(event.target.value);
-        console.log("Type: ", type);
     };
 
     // Validation
@@ -123,7 +117,6 @@ function approveProposal(props) {
                 proposalId: params.id,
                 imagesUrl: '',
             }
-            console.log('newContest: ', newContest);
         } catch (error) {
             console.log("failed to create new contest: ", error);
         }
@@ -175,7 +168,7 @@ function approveProposal(props) {
                         </div>
 
                         {/* BRAND */}
-                        <FormControl sx={{ mt: 1}} fullWidth>
+                        <FormControl sx={{ mt: 1 }} fullWidth>
                             <InputLabel id="select-role">Brand</InputLabel>
                             <Select
                                 labelId="select-brand"
@@ -190,7 +183,7 @@ function approveProposal(props) {
                         </FormControl>
 
                         {/* TYPE */}
-                        <FormControl  sx={{ mt: 1}}  fullWidth>
+                        <FormControl sx={{ mt: 1 }} fullWidth>
                             <InputLabel id="select-role">Type</InputLabel>
                             <Select
                                 labelId="select-brand"

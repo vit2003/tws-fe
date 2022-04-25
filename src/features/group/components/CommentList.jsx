@@ -69,7 +69,6 @@ function CommentList({ postId, reload }) {
 
     // const { isSubmitting } = form.formState;
     const handleSubmit = async (values) => {
-        console.log("value: ", values)
         const newComment = {
             postId: postId,
             content: values.comment,
@@ -92,7 +91,7 @@ function CommentList({ postId, reload }) {
             </form>
 
             {listComment?.map((comment) => (
-                <CommentDetail key={comment.id} comment={comment} />
+                <CommentDetail key={comment.id} comment={comment} reload={reload} />
             ))}
         </div>
     );

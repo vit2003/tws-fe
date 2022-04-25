@@ -1,6 +1,6 @@
 import { NotificationsNone } from "@material-ui/icons";
-import { Avatar, IconButton, Menu, MenuItem, Badge } from '@mui/material/';
-import React, { useEffect } from 'react';
+import { Avatar, IconButton, Menu, MenuItem, Badge, Box, Typography } from '@mui/material/';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { logoutAccount } from "../../../redux/actions/login";
@@ -8,6 +8,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Chat from '@mui/icons-material/Chat';
 
 import "./Topbar.css";
+import notiApi from './../../../api/notiApi';
+import formatDate from './../../../utils/formatDate';
 
 
 Topbar.propTypes = {
@@ -19,14 +21,7 @@ function Topbar({ reload }) {
     const dispatch = useDispatch();
 
     const currentUser = useSelector(state => state.login.infoUser);
-    // console.log("infoUser: ", currentUser);
 
-    // useEffect(() => {
-    //     if (!currentUser) {
-    //         reload()
-    //     }
-    // }, [])
-    // NOTI OPEN
     // ANCHOR NOTIFICATION
     const [anchorElNoti, setAnchorElNoti] = React.useState(null);
 
@@ -41,6 +36,33 @@ function Topbar({ reload }) {
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
     };
+    // const [reload, setReload] = useState(false);
+    const [notiCount, setNotiCount] = useState('');
+    const [notiList, setNotiList] = useState([]);
+    useEffect(async () => {
+        const reponse = await notiApi.getAllByAccountId(currentUser.accountId);
+        setNotiList(reponse.data)
+        setNotiCount(reponse.count)
+    }, [3000, reload])
+
+    const handleReaded = async (noti) => {
+        if (noti.postId) {
+            history.push(`/post/${noti?.postId}`)
+        } else if (noti.tradingPostId) {
+            history.push(`/tradingPost/${noti?.tradingPostId}`)
+        } else if (noti.contestId) {
+            history.push(`/contest/${noti?.contestId}`)
+        }
+        try {
+            const itemId = {
+                id: noti.id
+            }
+            const reponse = await notiApi.changeReaded(noti.id);
+            setReload(!reload)
+        } catch (error) {
+            console.log("fail noti: ", error);
+        }
+    }
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -70,6 +92,14 @@ function Topbar({ reload }) {
         history.push(`/setting/account/${currentUser.accountId}`)
         // <Redirect to="/setting/account/edit" />
     }
+
+    // HANDLE OPEN PROPOSAL PAGE
+    const handleOpenProposal = () => {
+        // if(!AccountId) return;
+        history.push('/proposalToOpenContest')
+        // <Redirect to="/setting/account/edit" />
+    }
+
     // Menu in avatar
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -90,6 +120,7 @@ function Topbar({ reload }) {
         >
             <MenuItem onClick={handleOpenProfile}>Profile</MenuItem>
             <MenuItem onClick={handleOpenSetting}>Edit Account</MenuItem>
+            <MenuItem onClick={handleOpenProposal}>Proposal Open Contest</MenuItem>
             <MenuItem onClick={handleOpenMemberPage}>Go to member page</MenuItem>
             <MenuItem onClick={handleLogoutClick}>Log out</MenuItem>
 
@@ -113,10 +144,19 @@ function Topbar({ reload }) {
             open={isNotiOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem>Noti</MenuItem>
-            <MenuItem>Noti</MenuItem>
-            <MenuItem>Noti Noti</MenuItem>
-            <MenuItem>Noti Noti</MenuItem>
+            {notiList?.map((noti, index) => (
+                <MenuItem key={index} sx={{ backgroundColor: noti.isReaded ? "#fff" : '#bdc3c7' }} onClick={() => handleReaded(noti)}>
+                    <Box >
+                        <Typography>
+                            {noti.content}
+                        </Typography>
+                        <Typography>
+                            {formatDate(noti.createTime)}
+                        </Typography>
+                    </Box>
+
+                </MenuItem>
+            ))}
         </Menu>
     );
 
@@ -136,7 +176,7 @@ function Topbar({ reload }) {
                         <span className="topIconBadge">2</span>
                     </div> */}
                     <IconButton onClick={handleMessage} size="large" aria-label="show 4 new mails" >
-                        <Badge badgeContent={4} color="error">
+                        <Badge>
                             <Chat />
                         </Badge>
                     </IconButton>
@@ -147,7 +187,7 @@ function Topbar({ reload }) {
                         aria-haspopup="true"
                         onClick={handleNotifiMenuOpen}
                     >
-                        <Badge badgeContent={17} color="error">
+                        <Badge badgeContent={notiCount} color="error">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
@@ -165,6 +205,7 @@ function Topbar({ reload }) {
                 </div>
             </div>
             {renderMenu}
+            {renderNotifi}
         </div>
     );
 }

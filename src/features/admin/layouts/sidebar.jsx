@@ -130,6 +130,12 @@ export default function SidebarAdmin({ reload }) {
                                             Prize
                                         </li>
                                     </Link>
+                                    <Link to="/manager/proposal" className="link">
+                                        <li className="sidebarListItem">
+                                            <EmojiEventsIcon className="sidebarIcon" />
+                                            Proposal
+                                        </li>
+                                    </Link>
                                 </ul>
                             </div>
                             <div className="sidebarMenu">
@@ -150,7 +156,7 @@ export default function SidebarAdmin({ reload }) {
                                     </Link>
                                 </ul>
                             </div>
-                            <div className="sidebarMenu">
+                            {/* <div className="sidebarMenu">
                                 <h3 className="sidebarTitle">Staff</h3>
                                 <ul className="sidebarList">
                                     <li className="sidebarListItem">
@@ -166,7 +172,7 @@ export default function SidebarAdmin({ reload }) {
                                         Reports
                                     </li>
                                 </ul>
-                            </div>
+                            </div> */}
                         </>
                     }
 

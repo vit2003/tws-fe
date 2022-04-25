@@ -79,7 +79,7 @@ function ShowImage({ id }) {
         <>
             {
                 listPostImage?.length > 0 ? <div onClick={handleClickOpenImage} className={classes.onClickOpenImgDiv} className="image" >
-                    <img src={listPostImage && listPostImage[0]?.url} alt="" />
+                    <img width="100%" src={listPostImage && listPostImage[0]?.url} alt="" />
                     {
                         listPostImage?.length > 1 &&
                         <Typography className={classes.textOnImg}>

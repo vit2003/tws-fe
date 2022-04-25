@@ -21,10 +21,6 @@ function Register({ closeDialog }) {
     const handleSubmit = (values) => {
         try {
             dispatch(register(values, closeDialog))
-            // const { closeDialog } = props;
-            // if (closeDialog) {
-            //     closeDialog();
-            // }
         } catch (error) {
             console.log('Failed to register: ', error);
         }

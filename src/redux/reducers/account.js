@@ -29,11 +29,6 @@ const accountReducer = (state = initState, action) => {
                 role: action.payload.Role,
                 account: action.payload
             }
-        // case ACCOUNT.LOGIN:
-        //     return {
-        //         ...state,
-        //         infoUser: action.payload,
-        //     }
         case ACCOUNT.SET_ERROR_MESSAGE:
             return {
                 ...state,

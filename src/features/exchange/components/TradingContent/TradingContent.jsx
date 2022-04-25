@@ -29,7 +29,6 @@ function TradingContent(props) {
         const fetchListTradingPost = async () => {
             try {
                 const data = await tradingPostApi.getAll(tradingGroupId, filters);
-                console.log("getlistTradingByGroup: ", data);
                 setListTradingPost(data.data)
             } catch (error) {
                 console.log('Failed to fetch ListTradingPost', error)
@@ -38,8 +37,6 @@ function TradingContent(props) {
         }
         fetchListTradingPost();
     }, [tradingGroupId, filters, reload])
-
-    console.log("listTradingPost: ", listTradingPost);
 
     const handleCreatePostSubmit = (values) => {
 

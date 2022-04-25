@@ -13,7 +13,6 @@ export default function usePostDetails(postId, reload) {
             try {
                 setLoading(true)
                 const result = await postApi.get(postId);
-                console.log("post detail", result);
                 setPost(result);
             } catch (error) {
                 console.log('Failed to fetch toy', error)

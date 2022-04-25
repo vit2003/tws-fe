@@ -7,12 +7,10 @@ import Swal from 'sweetalert2';
 
 export const login = (params) => {
     return async (dispatch) => {
-        console.log("params: ", params);
         await axioClient.post('/accounts/login_by_system_account', params)
             .then((response) => {
                 axioClient.saveToken(response.token)
                 localStorage.setItem(StorageKeys.ACCOUNT, JSON.stringify(response));
-                console.log("response: ", response);
                 if (response) {
                     dispatch(setLogin(response))
                 }
@@ -26,6 +24,27 @@ export const login = (params) => {
             })
     }
 }
+
+export const loginByGoogle = (data) => {
+    return async (dispatch) => {
+        await axioClient.post('/accounts/login_by_email/?firebaseToken=' + data)
+            .then((response) => {
+                axioClient.saveToken(response.token)
+                localStorage.setItem(StorageKeys.ACCOUNT, JSON.stringify(response));
+                if (response) {
+                    dispatch(setLogin(response))
+                }
+            })
+            .catch((errors) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: errors,
+                })
+            })
+    }
+}
+
 
 export const register = (params, closeDialog) => {
     return (dispatch) => {
@@ -65,8 +84,6 @@ export const logoutAccount = (loading = true) => {
     }
 }
 
-
-
 export const setLogin = (payload) => {
     return {
         type: LOGIN.SET_LOGIN,
@@ -82,6 +99,12 @@ export const setLogout = (payload) => {
 export const setRegister = (payload) => {
     return {
         type: LOGIN.SET_REGISTER,
+        payload
+    }
+}
+export const setAccount = (payload) => {
+    return {
+        type: LOGIN.SET_ACCOUNT,
         payload
     }
 }

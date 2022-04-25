@@ -111,23 +111,20 @@ const useStyle = makeStyles(theme => ({
 
 function TradingPost({ tradingPost }) {
 
-    console.log("tradingPost: ", tradingPost);
 
     const currentUser = useSelector(state => state.login.infoUser);
     const currentUserId = currentUser.accountId
-    console.log("currentUser: ", currentUser);
-    console.log("tradingPost: ", tradingPost);
 
     const classes = useStyle();
 
-    const srcList = tradingPost.images;
+    const srcList = tradingPost?.images;
     const history = useHistory();
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('md');
     const [open, setOpen] = React.useState(false);
 
-    const [isLiked, setIsLiked] = React.useState(tradingPost.isLikedPost);
-    const [numOfLiked, setNumOfLiked] = React.useState(tradingPost.numOfReact);
+    const [isLiked, setIsLiked] = React.useState(tradingPost?.isLikedPost);
+    const [numOfLiked, setNumOfLiked] = React.useState(tradingPost?.numOfReact);
 
     const handleShowImageDialog = () => {
         setOpen(true);
@@ -160,7 +157,7 @@ function TradingPost({ tradingPost }) {
                 console.log('Failed to fetch api', error)
             }
         })()
-    }, [tradingPost.id])
+    }, [tradingPost?.id])
 
 
 
@@ -172,14 +169,7 @@ function TradingPost({ tradingPost }) {
     };
 
     const handleCloseDelete = async () => {
-        // try {
-        //     console.log("tradingPost.id: ", tradingPost.id)
-        //     const response = await postApi.deletePost(tradingPost.id)
-        //     console.log('delete: ', response)
-        // } catch (error) {
-        //     console.log("error: ", error);
-        // }
-        // setAnchorEl(null);
+
     }
 
     const handleCloseReport = () => {
@@ -206,8 +196,8 @@ function TradingPost({ tradingPost }) {
             console.log('Failed to reactPost', error)
         }
     }
-    const handleRedirectMsg = async () => {
 
+    const handleRedirectMsg = async () => {
         let messageId = '';
         if (currentUserId.toString() <= tradingPost.ownerId.toString()) {
             messageId = `${currentUserId}-${tradingPost.ownerId}-${tradingPost.id}`;
@@ -225,6 +215,7 @@ function TradingPost({ tradingPost }) {
                 sellerId: tradingPost ? tradingPost.ownerId : '',
                 contentPost: tradingPost ? tradingPost.content : '',
                 buyerId: currentUserId,
+                buyerName: currentUser.name,
                 billId: null
             });
         history.push(`/TradingMessage/${messageId}`, tradingPost);
@@ -244,7 +235,7 @@ function TradingPost({ tradingPost }) {
     }
 
     const renderStatus = () => {
-        switch (tradingPost.status) {
+        switch (tradingPost?.status) {
             case 0:
                 return <Typography className={classes.open}>
                     Status: Open
@@ -274,7 +265,7 @@ function TradingPost({ tradingPost }) {
                         '&:hover': {
                             cursor: 'pointer',
                         },
-                    }} src={tradingPost.ownerAvatar}>
+                    }} src={tradingPost?.ownerAvatar}>
                     </Avatar>
                 }
 
@@ -288,8 +279,8 @@ function TradingPost({ tradingPost }) {
                         <MoreVertIcon />
                     </IconButton>
                 }
-                title={tradingPost.ownerName}
-                subheader={formatDate(tradingPost.postDate)}
+                title={tradingPost?.ownerName}
+                subheader={formatDate(tradingPost?.postDate)}
             />
             <Menu
                 id="long-menu"
@@ -307,7 +298,7 @@ function TradingPost({ tradingPost }) {
                 }}
             >
                 {
-                    currentUserId === tradingPost.ownerId ?
+                    currentUserId === tradingPost?.ownerId ?
                         <MenuItem onClick={handleCloseDelete}>
                             Delete
                         </MenuItem> :
@@ -461,27 +452,27 @@ function TradingPost({ tradingPost }) {
             {/* CONTENT */}
             <CardContent sx={{ paddingLeft: '30px' }}>
                 <Typography className={classes.title}>
-                    {tradingPost.title}
+                    {tradingPost?.title}
                 </Typography>
                 {renderStatus()}
 
                 <Divider light />
                 <Typography className={classes.content}>
-                    {tradingPost.content}
+                    {tradingPost?.content}
                 </Typography>
 
                 <Typography className={classes.brand}>
-                    Brand: {tradingPost.brand}
+                    Brand: {tradingPost?.brand}
                 </Typography>
                 <Typography className={classes.type}>
-                    Type: {tradingPost.type}
+                    Type: {tradingPost?.type}
                 </Typography>
                 <Divider light />
                 <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
-                    <BalanceIcon sx={{ color: '#DB36A4', mr: 1 }} />  Exchange: {tradingPost.exchange}
+                    <BalanceIcon sx={{ color: '#DB36A4', mr: 1 }} />  Exchange: {tradingPost?.exchange}
                 </Typography>
                 <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2 }} className={classes.value}>
-                    <AttachMoneyIcon sx={{ color: '#DB36A4', mr: 1 }} /> Value: {tradingPost.value}
+                    <AttachMoneyIcon sx={{ color: '#DB36A4', mr: 1 }} /> Value: {tradingPost?.value}
                 </Typography>
             </CardContent>
 
@@ -501,13 +492,12 @@ function TradingPost({ tradingPost }) {
                     <Typography>{numOfCmt}</Typography>
                 </CardActions>
                 {
-                    currentUserId === tradingPost.ownerId || tradingPost.status == 2 ?
+                    currentUserId === tradingPost?.ownerId || tradingPost?.status == 2 ?
                         <></> :
                         <Button onClick={handleRedirectMsg}>
                             Contact me
                         </Button>
                 }
-
             </Box>
 
         </Card>

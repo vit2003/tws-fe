@@ -45,7 +45,6 @@ const eventApi = {
     },
 
     getPostOfContest(id, params) {
-        console.log("params: ", params);
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
@@ -92,7 +91,6 @@ const eventApi = {
     },
     createNewEvent(id, data) {
         const token = axioClient.getToken();
-        console.log("data: ", data);
         if (token) {
             axioClient.setHeaderAuth(token)
             return axioClient.post(`/contest/group/${id}`, data)
@@ -123,9 +121,14 @@ const eventApi = {
         }
     },
 
-    update(data) {
-
+    getWishListContest(params) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.get2('contest/wishlist', { params })
+        }
     },
+
     remove(id) {
 
     }

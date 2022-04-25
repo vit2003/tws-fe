@@ -55,9 +55,6 @@ function ChangePassword(props) {
 
     // Current Account logged in
     const currentAccount = useSelector(state => state.login.infoUser);
-    console.log(currentAccount)
-
-
 
     // Validate Form
     const schema = yup.object().shape({
@@ -82,10 +79,9 @@ function ChangePassword(props) {
                 old_password: values.oldPassword,
                 new_password: values.newPassword,
             }
-            console.log("newChangePass: ", newChangePass);
             const reponse = await accountApi.changePassword(newChangePass);
             await Swal.fire(
-                'Edit Account successfully',
+                'Change password successfully',
                 'Click Button to continute!',
                 'success'
             )

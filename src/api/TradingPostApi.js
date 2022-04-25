@@ -3,7 +3,6 @@ import axioClient from './axiosClient';
 const tradingPostApi = {
 
     getAll(id, params) {
-        console.log('params: ', params);
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
@@ -92,6 +91,22 @@ const tradingPostApi = {
         if (token) {
             axioClient.setHeaderAuth(token)
             return axioClient.putMiddleParams(`/trading_posts/${id}/0`)
+        }
+    },
+
+    getWishListTrading(params) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.get2('trading_posts/wishlist', { params })
+        }
+    },
+
+    getFind() {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.get('trading_posts/find')
         }
     },
 };

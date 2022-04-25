@@ -49,7 +49,6 @@ function FormEdit({ prize }) {
                 description: description,
                 value: parseInt(value),
             }
-            console.log('edit Prize: ', editPrize);
             dispatch(updatePrize(prize.id, editPrize))
             await Swal.fire(
                 'Edit prize successfully',

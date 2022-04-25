@@ -31,16 +31,26 @@ function ProposalToOpenContest(props) {
             <Box sx={{ paddingTop: '80px' }}></Box>
             <Container>
                 <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                        <Card height="300">
-                            <Typography variant="h3" sx={{ textAlign: 'center', margin: '30px 0', }}>
+                    <Grid item xs={3}>
+                        <Card height="300" sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Typography variant="h3" sx={{
+                                fontSize: '2.7rem',
+                                textAlign: 'center',
+                                margin: '30px 0',
+                                writingMode: 'vertical-rl',
+                                fontFamily: "Wallpoet !important",
+                                background: "-webkit-linear-gradient(#2C5364, #c31432)",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: 'transparent'
+
+                            }}>
                                 REGISTER TO OPEN CONTEST
                             </Typography>
-                            <Button onClick={handleOpenKnowMore}>Know More</Button>
-                            <Button onClick={handleOpenViewAllContest}>View All</Button>
+                            {/* <Button onClick={handleOpenKnowMore}>Know More</Button>
+                            <Button onClick={handleOpenViewAllContest}>View All</Button> */}
                         </Card>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={9}>
                         <Card>
                             <ProposalForm />
                         </Card>

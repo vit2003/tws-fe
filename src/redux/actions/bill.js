@@ -9,12 +9,10 @@ export const getBillByStatus = (statusId, filter) => {
         const token = axioClient.getToken();
         dispatch(setBills([]));
         if (token) {
-            console.log("filter: ", filter);
             axioClient.setHeaderAuth(token)
             axioClient.get2(`/bills/status/${statusId}?PageNumber=${filter ? filter.PageNumber : 1}&PageSize=${filter ? filter.PageSize : 9}`)
                 .then((response) => {
                     if (response && response.data) {
-                        // console.log(response);
                         dispatch(setBills(response.data));
                         dispatch(setCount(response.count));
                     } else {

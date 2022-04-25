@@ -92,7 +92,6 @@ function Bill({ tradingConver, id }) {
             if (tradingPostId) {
                 try {
                     const response = await tradingPostApi.getDetail(tradingPostId);
-                    console.log("response response: ", response);
                     setTradingPost(response)
                 } catch (error) {
                     console.log('Failed to fetch userList', error)
@@ -127,7 +126,6 @@ function Bill({ tradingConver, id }) {
         })()
     }, [tradingPostId])
 
-    console.log("tradingPost: ", tradingPost);
 
     const handleGoToPost = () => {
         history.push(`/tradingPost/${tradingPostId}`);

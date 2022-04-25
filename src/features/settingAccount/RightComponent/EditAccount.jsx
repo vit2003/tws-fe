@@ -6,13 +6,15 @@ import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as yup from "yup";
 import InputEditBioField from './../../../components/form-controls/InputEditBioField/InputEditBioField';
 import InputField from './../../../components/form-controls/InputFields/index';
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import accountApi from '../../../api/accountApi';
 import Swal from 'sweetalert2';
+import StorageKeys from './../../../constants/storage-keys';
+import { setAccount } from './../../../redux/actions/login';
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
 EditAccount.propTypes = {
 
@@ -52,38 +54,21 @@ const useStyles = makeStyles(theme => ({
     },
 
 }))
-function EditAccount(props) {
+function EditAccount() {
 
     // Make Styles 
     const classes = useStyles();
     // const location = useLocation
     // const account = location.state
     const history = useHistory()
+    const dispatch = useDispatch();
 
     // Current Account logged in
     const currentAccount = useSelector(state => state.login.infoUser);
     const storage = getStorage();
 
-    // console.log("currentAccount: ", currentAccount);
-    // console.log("account: ", account);
-
-    // const [newAccount, setNewAccount] = useState({
-    //     accountId: 4,
-    //     avatar: "https://firebasestorage.googleapis.com/v0/b/toy-world-system.appspot.com/o/Avatar%2Fvinhle2311.jpg?alt=media&token=bbb1015d-29fe-40f8-9db9-f2e3aa3aa8e1",
-    //     biography: "Not updated",
-    //     email: currentAccount.email,
-    //     gender: "Male",
-    //     isHasPassword: true,
-    //     name: "Vinh Manager",
-    //     phoneNumber: "0254215879",
-    //     role: 1,
-    //     status: true,
-    //     token: currentAccount.token
-    // })
-
-
-    console.log(currentAccount)
-
+    console.log("currentAccount: ", currentAccount)
+    const [reload, setReload] = useState(false)
     // Change Avatar
     const Input = styled('input')({
         display: 'none',
@@ -102,7 +87,6 @@ function EditAccount(props) {
 
     let imagesLink = [];
     const uploadAndGetLinkImg = async () => {
-        console.log("objImage: ", strgImg)
         for (let i = 0; i < strgImg.length; i++) {
             const storageRef = ref(storage, `/Avatar/${strgImg[i].name}`)
             // console.log(strgImg[i].name)
@@ -111,7 +95,6 @@ function EditAccount(props) {
             await getDownloadURL(storageRef)
                 .then((url) => {
                     imagesLink.push(url)
-                    console.log("url: ", url);
                 })
                 .catch((error) => {
                     console.log("error: ", error);
@@ -139,9 +122,18 @@ function EditAccount(props) {
                 biography: values.bio,
                 gender: values.gender,
             }
-            console.log("newEdit: ", newEdit);
             const reponse = await accountApi.editAccount(currentAccount.accountId, newEdit);
-            // history.push(`/account/${currentAccount.accountId}`)
+            history.push(`/account/${currentAccount.accountId}`)
+            const pushUserEdited = {
+                ...currentAccount,
+                name: values.accountName,
+                phone: values.phoneNumber,
+                avatar: imagesLink[0],
+                biography: values.bio,
+                gender: values.gender,
+            }
+            localStorage.setItem(StorageKeys.ACCOUNT, JSON.stringify(pushUserEdited))
+            dispatch(setAccount(pushUserEdited));
             await Swal.fire(
                 'Edit Account successfully',
                 'Click Button to continute!',
@@ -177,6 +169,8 @@ function EditAccount(props) {
                                     {/* <Avatar sx={{ margin: '20px 0', height: '70px', width: '70px' }} src={image} /> */}
                                     <Button sx={{ backgroundColor: "db36a4 !important", color: '#db36a4' }} variant="text" aria-label="upload picture" component="span" endIcon={<PhotoCamera />}>
                                         Change Avatar
+
+
 
                                     </Button>
                                 </label>

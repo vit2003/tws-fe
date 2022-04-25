@@ -4,17 +4,29 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import DoneIcon from '@mui/icons-material/Done';
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import InsertInvitationIcon from "@mui/icons-material/InsertInvitation";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import DiamondIcon from '@mui/icons-material/Diamond';
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
+import Swal from 'sweetalert2';
 import {
     Box,
+    Avatar,
+    Grid,
+    FormControlLabel,
+    RadioGroup,
+    FormLabel,
     Button,
     ButtonGroup,
     Card,
     CircularProgress,
     Dialog,
+    Radio,
     DialogActions,
     DialogContent,
     DialogTitle,
@@ -39,15 +51,22 @@ import eventApi from "./../../../api/eventApi";
 import InputDateTimeField from "./../../../components/form-controls/InputDateTimeField/InputDateTimeField";
 import MultiInputField from "./../../../components/form-controls/MultiInputField/MultiInputField";
 import SelectFormField from "./../../../components/form-controls/SelectField/SelectFormField";
+import ShowImage from './showImage';
 import {
-    addPrize, deleteContest, deleteSubcriber, getAllContestABC,
+    addPrize, approvePost, deleteContest, deletePostOfContest, deleteSubcriber, getAllContestABC, denyPost,
     getAllSubcribers,
     getBrand,
+    getPostOfContest,
     getPrizesOfContest,
-    getType
+    getSubmissions,
+    getTop10Submissions,
+    getType,
+    addWinner,
+    getPrizesForEnd
 } from "./../../../redux/actions/contest";
 import { getGroups } from "./../../../redux/actions/group";
 import { getPrizes } from "./../../../redux/actions/prize";
+import Top10Submissions from './Top10Submissions';
 import formatDate from './../../../utils/formatDate';
 
 // Style CSS
@@ -57,8 +76,6 @@ const useStyle = makeStyles((theme) => ({
     closeBtn: {
         position: "absolute !important",
         bottom: 0,
-
-
         right: 0,
         color: "black",
         backgroundColor: "rgba(219, 54, 164, 0.3)",
@@ -79,8 +96,23 @@ function ContestManagement(props) {
     const statePrize = useSelector((state) => state.prize);
     // const stateCount = state.count;
 
-    console.log("state: ", state);
-    // console.log("stateCount: ", stateCount);
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const [itemClick, setItemClick] = useState({});
+
+    const handleOpenConfirm = (item) => {
+
+        setOpenConfirm(true)
+        setItemClick(item)
+    }
+
+    const handleDelete = () => {
+        dispatch(deleteContest(itemClick.id))
+        setOpenConfirm(false)
+        setItemClick({})
+    }
+
+
+
 
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
@@ -92,13 +124,16 @@ function ContestManagement(props) {
         pageNumber: 1,
         pageSize: 9,
     });
+    const [filtersSubmission, setFiltersSubmission] = useState({
+        PageNumber: 1,
+        PageSize: 99,
+    });
     const [filtersContest, setFiltersContest] = useState({
         PageNumber: 1,
         PageSize: 9,
     });
 
     const handlePageChange = (e, page) => {
-        console.log("page: ", page);
         const newFilter = {
             PageNumber: page,
             PageSize: 9,
@@ -161,10 +196,16 @@ function ContestManagement(props) {
     const [openPrize, setOpenPrize] = useState(false);
     // STATE TO OPEN ADD PRIZE DIALOG
     const [openSubcribers, setOpenSubcribers] = useState(false);
+    // STATE TO OPEN ADD PRIZE DIALOG
+    const [openWinners, setOpenWinners] = useState(false);
+    // STATE TO OPEN ADD PRIZE DIALOG
+    const [openWaitingSubmissions, setOpenWaitingSubmissions] = useState(false);
+    // STATE TO OPEN ADD PRIZE DIALOG
+    const [openAllSubmissions, setOpenAllSubmissions] = useState(false);
 
     // STATE SET FULLWIDTH FOR DIALOG
     const [fullWidth, setFullWidth] = useState(true);
-    const [maxWidth, setMaxWidth] = useState("sm");
+    const [maxWidth, setMaxWidth] = useState("md");
 
     // STATE  SELECTED OBJECT IN DATAGRID
     const [itemSelected, setItemSelected] = useState({});
@@ -193,6 +234,54 @@ function ContestManagement(props) {
     }, [itemSelected]);
 
 
+
+    // ========== HANDLE DATAGRID FOR WINNER=============================
+    // STATE  SELECTED OBJECT IN DATAGRID
+    const [prizeSelected, setPrizeSelected] = useState({});
+
+    // STATE LIST SELECTION OF PRIZE IN DATAGRID
+    const [selectionPrize, setSelectionPrize] = useState([]);
+    const columnsPrize = [
+        { field: "name", headerName: "Prize Name", width: 160 },
+        { field: "description", headerName: "Description", width: 180 },
+        { field: "value", headerName: "Value", width: 250 },
+    ];
+    const rowsPrize = state.prizeForEnd;
+    const [columnPrize, setColumnPrize] = useState(columnsPrize);
+    const [rowPrize, setRowPrize] = useState(rowsPrize);
+
+
+    // STATE  SELECTED OBJECT IN DATAGRID
+    const [winnerSelected, setWinnerSelected] = useState({});
+    const [selectionWinner, setSelectionWinner] = useState([]);
+    const columnsWinner = [
+        { field: "ownerName", headerName: "Runner Name", width: 160 },
+        // { field: "images", headerName: "Post", width: 250 },
+        { field: "content", headerName: "Content", width: 250 },
+        { field: "averageStar", headerName: "Point", width: 180 },
+    ];
+    const rowsWinner = state.top10Submissions;
+    const [columnWinner, setColumnWinner] = useState(columnsWinner);
+    const [rowWinner, setRowWinner] = useState(rowsWinner);
+
+    useEffect(() => {
+        setRowPrize(state.prizeForEnd);
+        setRowWinner(state.top10Submissions);
+    });
+
+    const handleAddWinner = () => {
+
+        try {
+            const newAddWinner = {
+                postOfContestId: selectionWinner[0],
+                prizeId: selectionPrize[0]
+            }
+            dispatch(addWinner(newAddWinner, itemSelected.id));
+        } catch (errorr) {
+            console.log("error: ", errorr);
+        }
+
+    }
     // ==========GET DATA WHEN ONCLICK CHANGE HEADER SIDE==============
 
     const getHappeningContest = () => {
@@ -247,22 +336,49 @@ function ContestManagement(props) {
 
     useEffect(async () => {
         dispatch(getPrizesOfContest(itemSelected.id))
+        dispatch(getPrizesForEnd(itemSelected.id))
     }, [itemSelected])
 
     // HANDLE OPEN ADD PRIZE DIALOG
     const handleClickOpenSubcribers = (item) => {
         setItemSelected(item);
         setOpenSubcribers(true);
-        console.log("item: ", item);
         dispatch(getAllSubcribers(item.id));
+    };
+
+    // HANDLE OPEN ADD PRIZE DIALOG
+    const handleClickOpenWinners = (item) => {
+        setItemSelected(item);
+        setOpenWinners(true);
+        // Get top 10
+        dispatch(getPrizesForEnd(item.id))
+        dispatch(getTop10Submissions(item.id));
+    };
+    // HANDLE OPEN ADD PRIZE DIALOG
+    const handleClickOpenWaitingSubmissions = (item) => {
+        setItemSelected(item);
+        setOpenWaitingSubmissions(true);
+        dispatch(getSubmissions(item.id, filtersSubmission))
+    };
+    // HANDLE OPEN ADD PRIZE DIALOG
+    const handleClickOpenAllSubmissions = (item) => {
+        setItemSelected(item);
+        setOpenAllSubmissions(true);
+        dispatch(getPostOfContest(item.id, filtersSubmission))
     };
     // HANDLE CLOSE ALL DIALOG AND CLEAR IMAGE
     const handleClose = () => {
         setOpen(false);
         setOpenPrize(false);
+        setOpenWinners(false);
         setOpenSubcribers(false);
+        setOpenWaitingSubmissions(false);
+        setSelectionPrize([]);
+        setSelectionWinner([]);
+        setOpenAllSubmissions(false);
         setInputImage([]);
         setSelectionModel([]);
+        setOpenConfirm(false)
     };
     // ========HANDLE IMAGE================
 
@@ -354,23 +470,37 @@ function ContestManagement(props) {
                 endRegistration: values.endRegistration,
                 startDate: values.startDate,
                 endDate: values.endDate,
-                typeName: values.type,
+                typeName: "",
                 coverImage: imagesLink[0],
             };
-            console.log("newContest: ", newContest);
-
             const response = await eventApi.createNewEvent(
                 values.group,
                 newContest
             );
-            enqueueSnackbar("New Post successfully!!", { variant: "success" });
+            await Swal.fire(
+                'New contest Successfully',
+                'Click Button to continute!',
+                'success'
+            )
+            dispatch(getAllContestABC(2, {
+                ...filtersContest,
+                PageNumber: 1
+            }));
+            // enqueueSnackbar("New Post successfully!!", { variant: "success" });
         } catch (error) {
             console.log("Failed create new post: ", error);
-            enqueueSnackbar("Failed to New Post !!", { variant: "error" });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "Something go wrong",
+            })
+            // enqueueSnackbar("Failed to New Post !!", { variant: "error" });
         }
         setStrgImg([]);
         form.reset();
     };
+
+    const { isSubmitting } = form.formState;
 
     // HANDLE SUBMIT ADD PRIZE TO CONTEST
     const handleAddPrize = async () => {
@@ -378,6 +508,7 @@ function ContestManagement(props) {
         setOpenPrize(false);
         setSelectionModel([]);
     };
+
 
     return (
         <>
@@ -453,17 +584,11 @@ function ContestManagement(props) {
                                         <td>{index + 1}</td>
                                         <td>{item.title}</td>
                                         <td>{item.slogan}</td>
-
-                                        {/* <td>{item?.startDate}</td>
-                                        <td>{item?.endDate}</td>
-                                        <td>{item?.startRegistration}</td>
-                                        <td>{item?.endRegistration}</td> */}
-
-
-                                        <td>{formatDate(item?.startDate)}</td>
-                                        <td>{formatDate(item?.endDate)}</td>
                                         <td>{formatDate(item?.startRegistration)}</td>
                                         <td>{formatDate(item?.endRegistration)}</td>
+                                        <td>{formatDate(item?.startDate)}</td>
+                                        <td>{formatDate(item?.endDate)}</td>
+
 
                                         {/* <td>{item.location}</td>
                                     <td>{item.maxRegister}</td> */}
@@ -472,9 +597,7 @@ function ContestManagement(props) {
                                             <td>
                                                 <button
                                                     className="btn btn-add"
-                                                    onClick={() =>
-                                                        handleClickOpenPrize(item)
-                                                    }
+                                                    onClick={() => handleClickOpenPrize(item)}
                                                 >
                                                     <Tooltip title="Add Prize To Contest">
                                                         <EmojiEventsIcon />
@@ -482,23 +605,41 @@ function ContestManagement(props) {
                                                 </button>
                                                 <button className="btn btn-see">
                                                     <Tooltip
-                                                        title="See"
-                                                        onClick={() =>
-                                                            handleClickOpenSubcribers(item)
-                                                        }
+                                                        title="See subcribers"
+                                                        onClick={() => handleClickOpenSubcribers(item)}
                                                     >
                                                         <RemoveRedEyeIcon />
                                                     </Tooltip>
                                                 </button>
-                                                <button
-                                                    className="btn btn-deny"
-                                                    onClick={() =>
-                                                        dispatch(
-                                                            deleteContest(item.id)
-                                                        )
-                                                    }
-                                                >
-                                                    <Tooltip title="delete">
+                                                <button className="btn btn-see">
+                                                    <Tooltip
+                                                        title="Award"
+                                                        onClick={() => handleClickOpenWinners(item)}
+                                                    >
+                                                        <DiamondIcon />
+                                                    </Tooltip>
+                                                </button>
+                                                <button className="btn btn-see">
+                                                    <Tooltip
+                                                        title="Get Waiting Submissons"
+                                                        onClick={() => handleClickOpenWaitingSubmissions(item)}
+                                                    >
+                                                        <TurnedInIcon />
+                                                    </Tooltip>
+                                                </button>
+                                                <button className="btn btn-see">
+                                                    <Tooltip
+                                                        title="Get All Submission"
+                                                        onClick={() => handleClickOpenAllSubmissions(item)}
+                                                    >
+                                                        <DynamicFeedIcon />
+                                                    </Tooltip>
+                                                </button>
+                                                <button className="btn btn-deny">
+                                                    <Tooltip
+                                                        title="delete"
+                                                        onClick={() => handleOpenConfirm(item)}
+                                                    >
                                                         <DeleteIcon />
                                                     </Tooltip>
                                                 </button>
@@ -508,12 +649,8 @@ function ContestManagement(props) {
                                             <td>
                                                 <button className="btn btn-see">
                                                     <Tooltip
-                                                        title="See"
-                                                        onClick={() =>
-                                                            handleClickOpenSubcribers(
-                                                                item
-                                                            )
-                                                        }
+                                                        title="See subcribers"
+                                                        onClick={() => handleClickOpenSubcribers(item)}
                                                     >
                                                         <RemoveRedEyeIcon />
                                                     </Tooltip>
@@ -522,11 +659,7 @@ function ContestManagement(props) {
                                                     className="btn btn-deny"
                                                     onClick={() =>
                                                         dispatch(
-                                                            deleteContest(
-                                                                item.id
-                                                            )
-                                                        )
-                                                    }
+                                                            deleteContest(item.id))}
                                                 >
                                                     <Tooltip title="Deny">
                                                         <DeleteIcon />
@@ -651,13 +784,67 @@ function ContestManagement(props) {
                             </table>
                         </div>
                     </div>
-
                 </DialogContent>
                 <DialogActions>
                     <Button color="inherit" onClick={handleClose}>
                         Cancel
                     </Button>
                     {/* <Button className={classes.btn} onClick={handleAddPrize} >Add</Button> */}
+                </DialogActions>
+            </Dialog>
+
+
+
+            {/* TOP 10 */}
+            <Dialog
+                open={openWinners}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    Add Winner to {itemSelected.title}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px" }}>
+                    <FormControl sx={{ mt: 1, height: "500px" }} fullWidth>
+                        <DataGrid
+                            // checkboxSelection
+                            onSelectionModelChange={(newSelectionModel) => {
+                                setSelectionPrize(newSelectionModel);
+                            }}
+                            selectionModel={selectionPrize}
+                            rows={rowPrize}
+                            columns={columnPrize}
+                            pageSize={5}
+                        />
+                    </FormControl>
+                </DialogContent>
+                <DialogContent sx={{ marginTop: "10px" }}>
+                    <FormControl sx={{ mt: 1, height: "500px" }} fullWidth>
+                        <DataGrid
+                            // checkboxSelection
+                            onSelectionModelChange={(newSelectionModel) => {
+                                setSelectionWinner(newSelectionModel);
+                            }}
+                            selectionModel={selectionWinner}
+                            rows={rowWinner}
+                            columns={columnWinner}
+                            pageSize={10}
+                        />
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleAddWinner}>
+                        Add
+                    </Button>
                 </DialogActions>
             </Dialog>
 
@@ -796,7 +983,7 @@ function ContestManagement(props) {
                             <InputDateTimeField id="datetime-local" type="datetime-local" name="startDate" label="Start date" form={form} />
                             <InputDateTimeField id="datetime-local" type="datetime-local" name="endDate" label="End date" form={form} />
                         </div>
-                        <FormControl sx={{ mt: 1 }} fullWidth>
+                        {/* <FormControl sx={{ mt: 1 }} fullWidth>
                             <InputLabel id="select-role">Type</InputLabel>
                             <SelectFormField labelId="select-type" id="type" name="type" label="Type" control={control} defaultValue="none" variant="outlined" margin="normal" form={form}>
                                 {state.types?.map((type, index) => (
@@ -809,7 +996,7 @@ function ContestManagement(props) {
                                     </MenuItem>
                                 ))}
                             </SelectFormField>
-                        </FormControl>
+                        </FormControl> */}
 
                         <label htmlFor="contained-button-file">
                             <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={handleFileChange} />
@@ -854,11 +1041,218 @@ function ContestManagement(props) {
                         <Button color="inherit" onClick={handleClose}>
                             Cancel
                         </Button>
-                        <Button className={classes.btn} type="submit">
-                            Post
+                        <Button disabled={isSubmitting} className={classes.btn} type="submit">
+                            Create
                         </Button>
                     </DialogActions>
                 </form>
+            </Dialog>
+
+
+            {/* DIALOG HANDLE WAITING SUBMISSIONS */}
+            <Dialog
+                open={openWaitingSubmissions}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    List Submissions of {itemSelected.title}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px" }}>
+                    <div className="card-box">
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Owner Name</th>
+                                        <th>Avatar</th>
+                                        <th>Content</th>
+                                        <th>Image</th>
+                                        <th>Created At</th>
+                                        <th className="th-action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {state.submissions.data && state.submissions.data.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.ownerName}</td>
+                                            <td>
+                                                <div className="avatar">
+                                                    <Avatar src={item.ownerAvatar} alt="avatar" sx={{ position: 'static !important' }}></Avatar>
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div>{item.content}</div>
+                                            </td>
+                                            <td className="td-images" >
+                                                <div className="images">
+                                                    <ShowImage images={item.images} />
+                                                </div>
+                                            </td>
+                                            <td>{formatDate(item.dateCreate)}</td>
+                                            <td>
+                                                <a className="btn btn-edit" onClick={() => dispatch(approvePost(item.id, itemSelected.id, filtersSubmission))}>
+                                                    <Tooltip title="Approve">
+                                                        <DoneIcon />
+                                                    </Tooltip>
+                                                </a>
+                                                <button className="btn btn-deny" onClick={() => dispatch(denyPost(item.id, itemSelected.id, filtersSubmission))}>
+                                                    <Tooltip title="Deny">
+                                                        <DoDisturbIcon />
+                                                    </Tooltip>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+
+                                    {
+                                        !state.submissions.data &&
+                                        <tr>
+                                            <td colSpan={active === 'waiting' ? "7" : "6"}>
+                                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <CircularProgress />
+                                                </Box>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    {/* <Button className={classes.btn} onClick={handleAddPrize} >Add</Button> */}
+                </DialogActions>
+            </Dialog>
+
+            {/* DIALOG HANDLE ALL SUBMISSIONS */}
+            <Dialog
+                open={openAllSubmissions}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    List Post of {itemSelected.title}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px" }}>
+                    <div className="card-box">
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Owner Name</th>
+                                        <th>Avatar</th>
+                                        <th>Content</th>
+                                        <th>Image</th>
+                                        {/* <th>Created At</th> */}
+                                        <th className="th-action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {state.postOfContest.data && state.postOfContest.data.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.ownerName}</td>
+                                            <td>
+                                                <div className="avatar">
+                                                    <Avatar src={item.ownerAvatar} alt="avatar" sx={{ position: 'static !important' }}></Avatar>
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+                                                <div>{item.content}</div>
+                                            </td>
+                                            <td className="td-images" >
+                                                <div className="images">
+                                                    <ShowImage images={item.images} />
+                                                </div>
+                                            </td>
+                                            {/* <td>{formatDate(item.dateCreate)}</td> */}
+                                            <td>
+                                                <button className="btn btn-deny" onClick={() => dispatch(deletePostOfContest(item.id, itemSelected.id, filtersSubmission))}>
+                                                    <Tooltip title="Delete">
+                                                        <DeleteIcon />
+                                                    </Tooltip>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+
+                                    {
+                                        !state.postOfContest.data &&
+                                        <tr>
+                                            <td colSpan={active === 'waiting' ? "7" : "6"}>
+                                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <CircularProgress />
+                                                </Box>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    {/* <Button className={classes.btn} onClick={handleAddPrize} >Add</Button> */}
+                </DialogActions>
+            </Dialog>
+
+
+            <Dialog
+                open={openConfirm}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    Are you sure to delete {itemClick.title}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px", display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                    <Box >
+                        {/* <ShowImage images={itemClick.coverImage} /> */}
+                        <img width="100%" src={itemClick.coverImage} alt="" />
+                    </Box>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDelete}>
+                        Delete
+                    </Button>
+                </DialogActions>
             </Dialog>
         </>
     );

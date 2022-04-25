@@ -1,11 +1,16 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import SearchIcon from '@mui/icons-material/Search';
 import BalanceIcon from '@mui/icons-material/Balance';
 import Chat from '@mui/icons-material/Chat';
 import Home from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import SearchIcon from '@mui/icons-material/Search';
-import { Avatar } from '@mui/material';
+import { Avatar, Checkbox, Paper, MenuList, ListItemIcon, ListItemText, Divider, Popper, ClickAwayListener, Grow, Slide, Typography, Button, ListItem, Grid, CardMedia, CardActionArea, Container, Card, CardContent, CardActions } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
+import List from '@mui/material/List';
+import CloseIcon from '@mui/icons-material/Close';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
@@ -16,16 +21,29 @@ import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import { makeStyles } from '@mui/styles';
+import groupApi from './../../api/groupApi';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import WishList from './WishList';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../../features/authentication/accountSlice';
 import { logoutAccount } from '../../redux/actions/login';
 import StorageKeys from './../../constants/storage-keys'
-import { login } from './../../redux/actions/login';
-import { useEffect, useState } from 'react';
+import { login, setAccount } from './../../redux/actions/login';
+import { useEffect, useState, useRef } from 'react';
+import Swal from 'sweetalert2';
+import formatDate from './../../utils/formatDate';
 import accountApi from './../../api/accountApi';
+import notiApi from './../../api/notiApi';
+import tradingPostApi from './../../api/TradingPostApi';
+import SearchBar from '../SearchBar/SearchBar';
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -102,13 +120,49 @@ function Header() {
 
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const currentAccount = useSelector(state => state.login.infoUser);
-  const [account, setAccount] = useState({})
+  let loggedInAccount = useSelector(state => state.login.infoUser);
+  console.log("loggedInAccount: ", loggedInAccount);
 
+  const AccountAvatar = loggedInAccount.avatar;
+  const AccountId = loggedInAccount.accountId;
+  const [reload, setReload] = useState(false);
+  const [notiCount, setNotiCount] = useState('');
+  const [notiList, setNotiList] = useState([]);
   useEffect(async () => {
-    const response = await accountApi.getDetailAccountById(currentAccount.accountId)
-    setAccount(response);
+    const reponse = await notiApi.getAllByAccountId(AccountId);
+    setNotiList(reponse.data)
+    setNotiCount(reponse.count)
+  }, [3000, reload])
+
+  // const countNoti = notiList.map(noti => noti.isReaded === false);
+
+  const [openWishList, setOpenWishList] = useState(false);
+  const handleClose = () => {
+    setOpenWishList(true);
+  };
+
+  const [isSubmitWL, setIsSubmitWL] = useState(false)
+
+  useEffect(() => {
+    if (loggedInAccount.isHasWishlist === false) {
+      setOpenWishList(true)
+      // reload()
+    }
+  }, [isSubmitWL])
+
+  const [groupList, setGroupList] = React.useState([]);
+  useEffect(async () => {
+    const fetchGroup = async () => {
+      try {
+        const response = await groupApi.getAllGroup()
+        setGroupList(response)
+      } catch (error) {
+        console.log('Failed to fetch groupList', error)
+      }
+    }
+    fetchGroup();
   }, [])
 
   // ANCHOR MENU
@@ -128,63 +182,68 @@ function Header() {
   // NOTI OPEN
   const isNotiOpen = Boolean(anchorElNoti);
 
-  let loggedInAccount = useSelector(state => state.login.infoUser);
-  console.log("loggedInAccount", loggedInAccount);
 
-  const AccountAvatar = loggedInAccount.avatar;
-  const AccountId = loggedInAccount.accountId;
 
-  const history = useHistory();
 
+  // HANDLE OPEN PROFILE MENU
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  // HANDLE OPEN NOTI MENU
   const handleNotifiMenuOpen = (event) => {
     setAnchorElNoti(event.currentTarget);
   };
 
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
+  // HANDLE CLOSE MENU
   const handleMenuClose = () => {
     setAnchorEl(null);
     setAnchorElNoti(null);
     handleMobileMenuClose();
   };
 
+  // HANDLE LOGOUT
   const handleLogoutClick = () => {
     dispatch(logoutAccount(true));
   }
 
-  // Onclick redirect to Profile
+  // HANDLE OPEN PROFILE PAGE
   const handleOpenProfile = () => {
     history.push(`/account/${AccountId}`)
   }
+
+  // HANDLE OPEN MSG PAGE
   const handleMessage = () => {
     history.push(`/message`)
   }
+
+  // HANDLE OPEN SETTING PAGE
   const handleOpenSetting = () => {
     // if(!AccountId) return;
     history.push(`/setting/account/${AccountId}`)
     // <Redirect to="/setting/account/edit" />
   }
+  // HANDLE OPEN PROPOSAL PAGE
+  const handleOpenProposal = () => {
+    // if(!AccountId) return;
+    history.push('/proposalToOpenContest')
+    // <Redirect to="/setting/account/edit" />
+  }
 
+  // HANDLE OPEN ADMIN PAGE
   const handleOpenAdmin = () => {
     history.push(`/admin`)
   }
+
+  // HANDLE OPEN ADMIN PAGE
   const handleOpenManager = () => {
     history.push(`/manager`)
   }
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
 
 
-  // Menu in avatar
+  // AVATAR MENU
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -205,6 +264,7 @@ function Header() {
     >
       <MenuItem onClick={handleOpenProfile}>Profile</MenuItem>
       <MenuItem onClick={handleOpenSetting}>Setting</MenuItem>
+      <MenuItem onClick={handleOpenProposal}>Proposal Open Contest</MenuItem>
       {/* <MenuItem onClick={handleOpenProposalContest}>proposal Contest</MenuItem> */}
       {
         loggedInAccount.role == 0 && <MenuItem onClick={handleOpenAdmin}>Admin Page</MenuItem> ||
@@ -215,7 +275,44 @@ function Header() {
   );
 
 
-  // Menu in Notification
+
+  // SEARCH FUNTION
+  const [q, setQ] = useState("");
+  const [searchParam] = useState(["name"]);
+  function search(users) {
+    return users.filter((user) => {
+      return searchParam.some((newUser) => {
+        return (
+          user[newUser]
+            .toString()
+            .toLowerCase()
+            .indexOf(q.toLowerCase()) > -1
+        );
+      });
+    });
+  }
+
+
+  const handleReaded = async (noti) => {
+    if (noti.postId) {
+      history.push(`/post/${noti?.postId}`)
+    } else if (noti.tradingPostId) {
+      history.push(`/tradingPost/${noti?.tradingPostId}`)
+    } else if (noti.contestId) {
+      history.push(`/contest/${noti?.contestId}`)
+    }
+    try {
+      const itemId = {
+        id: noti.id
+      }
+      const reponse = await notiApi.changeReaded(noti.id);
+      setReload(!reload)
+    } catch (error) {
+      console.log("fail noti: ", error);
+    }
+  }
+
+  // NOTIFICATION MENU
   const notifiId = 'primary-search-account-menu';
   const renderNotifi = (
     <Menu
@@ -233,12 +330,31 @@ function Header() {
       open={isNotiOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem>Noti</MenuItem>
-      <MenuItem>Noti</MenuItem>
-      <MenuItem>Noti Noti</MenuItem>
-      <MenuItem>Noti Noti</MenuItem>
+      {notiList?.map((noti, index) => (
+        <MenuItem key={index} sx={{ backgroundColor: noti.isReaded ? "#fff" : '#bdc3c7' }} onClick={() => handleReaded(noti)}>
+          <Box >
+            <Typography>
+              {noti.content}
+            </Typography>
+            <Typography sx={{ color: '#485563', fontSize: '13px', fontStyle: 'italic' }}>
+              {formatDate(noti.createTime)}
+            </Typography>
+          </Box>
+        </MenuItem>
+      ))}
     </Menu>
   );
+
+
+
+  // HANDLE OPEN MOBILE MENU
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+  // HANDLE CLOSE MOBILE MENU 
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
 
   // RENDER MOBILE RESSPONSIVE MENU
   const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -260,7 +376,7 @@ function Header() {
     >
       <MenuItem onClick={handleMessage}>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+          <Badge>
             <Chat />
           </Badge>
         </IconButton>
@@ -272,7 +388,7 @@ function Header() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={notiCount} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -292,7 +408,69 @@ function Header() {
       </MenuItem>
     </Menu>
   );
-  // END OF RENDER MOBILE RESPONSIVE
+  // END OF RENDER MOBILE RESPONSIV
+
+  const [tradingPost, setTradingPost] = useState([]);
+  const [filter, setFilter] = useState({
+    PageNumber: 1,
+    PageSize: 99
+  })
+
+  useEffect(async () => {
+    const response = await tradingPostApi.getFind();
+    setTradingPost(response);
+  }, [])
+
+  const anchorRefSearch = useRef(null);
+
+
+  // WISH LIST
+  let groupIdsSelect = [];
+  const handleSelect = async (id) => {
+    if (!groupIdsSelect.includes(id)) {
+      groupIdsSelect.push(id)
+    } else {
+      const index = groupIdsSelect.indexOf(id);
+      groupIdsSelect.splice(index, 1);
+    }
+  };
+
+  const pushUserWishList = {
+    ...loggedInAccount,
+    isHasWishlist: true,
+  }
+
+  const handleSubmitWishList = async () => {
+    try {
+      const newWishList = {
+        groupIds: groupIdsSelect
+      }
+      const response = await accountApi.addWishList(newWishList);
+      localStorage.setItem('user', JSON.stringify(pushUserWishList))
+      setIsSubmitWL(!isSubmitWL)
+      const pushUserEdited = {
+        ...loggedInAccount,
+        isHasWishlist: true,
+      }
+      localStorage.setItem(StorageKeys.ACCOUNT, JSON.stringify(pushUserEdited))
+      dispatch(setAccount(pushUserEdited));
+      setOpenWishList(false);
+      await Swal.fire(
+        'Add Wish List successfully',
+        'Click Button to continute!',
+        'success'
+      )
+      setOpenWishList(false);
+    } catch (error) {
+      await Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+      })
+    }
+  }
+
+
 
   return (
     <Box className={classes.TopHeader} sx={{ flexGrow: 1 }}>
@@ -303,18 +481,24 @@ function Header() {
           {/* ===========LEFT HEADER */}
           {/* Logo toysworld */}
           <Avatar src='/2.png' sx={{ height: '70px', width: '150px' }}></Avatar>
-          {/* Search */}
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
 
-          {/* end search */}
+          {/* Search */}
+          {/* <Paper
+            variant="outlined"
+            sx={{
+              // p: '2px 4px',
+              display: 'flex',
+              alignItems: 'center',
+              height: '20px',
+              // width: '15%',
+              // margin: "10px 0 10px 10px",
+              backgroundColor: 'grey !important',
+            }}
+          > */}
+          <SearchBar placeholder="Enter trading title..." data={tradingPost} />
+          {/* </Paper> */}
+
+          {/* END SEARCH */}
 
           {/* ===============MIDDLE HEADER  */}
           <Box className={classes.middleHeader} sx={{ flexGrow: 1, textAlign: 'center', }} >
@@ -328,7 +512,7 @@ function Header() {
 
 
             {/* Notification icon */}
-            <NavLink activeClassName="active" to="/trading">
+            <NavLink activeClassName="active" to="/trading/1">
               <IconButton size="large">
                 <BalanceIcon sx={{ fontSize: 38 }} />
               </IconButton>
@@ -346,7 +530,7 @@ function Header() {
           <Box sx={{ display: { xs: 'none', md: 'flex' }, width: 400, justifyContent: 'flex-end' }}>
             {/* Message icon */}
             <IconButton onClick={handleMessage} size="large" aria-label="show 4 new mails" >
-              <Badge badgeContent={4} color="error">
+              <Badge >
                 <Chat />
               </Badge>
             </IconButton>
@@ -359,7 +543,7 @@ function Header() {
               aria-haspopup="true"
               onClick={handleNotifiMenuOpen}
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={notiCount} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -373,7 +557,7 @@ function Header() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
             >
-              <Avatar src={account.avatar}></Avatar>
+              <Avatar src={AccountAvatar}></Avatar>
             </IconButton>
           </Box>
 
@@ -395,7 +579,43 @@ function Header() {
       {renderMobileMenu}
       {renderMenu}
       {renderNotifi}
-    </Box>
+
+      <Dialog
+        fullScreen
+        open={openWishList}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar sx={{ position: 'relative', backgroundColor: '#0F2027' }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1, textAlign: 'center', }} variant="h6" component="div">
+              Select your favorite
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleSubmitWishList}>
+              save
+            </Button>
+          </Toolbar>
+        </AppBar>
+
+        <Container>
+          <Grid container spacing={2} sx={{ mt: 5 }}>
+            {groupList?.map((group, index) => (
+              <Grid key={index} item xs={6} onClick={() => handleSelect(group.id)}>
+                <WishList group={group} />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Dialog>
+    </Box >
   );
 }
 export default Header;

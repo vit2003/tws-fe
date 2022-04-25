@@ -34,6 +34,7 @@ import ProposalToOpenContest from './features/ProposalToOpenContest/index';
 import SettingAccount from './features/settingAccount/SettingAccount';
 import Toys from './features/toys/index';
 import DetailPage from './features/toys/ListPage.jsx/DetailPage';
+import ProposalManagement from './features/admin/proposal/Proposal';
 
 
 function App() {
@@ -55,7 +56,6 @@ function App() {
               <Route path='/admin' exact render={() => {
                 return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 ? <Dashboard /> : <Redirect to="/" />
               }} />
-
               {/* ACCOUNT MANAGEMENT */}
               <Route path='/admin/account' exact render={() => {
                 return currentUser && currentUser['role'] == 0 ? <AccountManagement /> : <Redirect to="/" />
@@ -95,6 +95,11 @@ function App() {
               {/* CONTEST MANAGEMENT */}
               <Route path='/manager/contest' exact render={() => {
                 return currentUser && currentUser['role'] == 1 ? <ContestManagement /> : <Redirect to="/" />
+              }} />
+
+              {/* PROPOSAL MANAGEMENT */}
+              <Route path='/manager/proposal' exact render={() => {
+                return currentUser && currentUser['role'] == 1 ? <ProposalManagement /> : <Redirect to="/" />
               }} />
 
               {/* PRIZE MANAGEMENT */}
@@ -176,6 +181,11 @@ function App() {
         {/* CONTEST */}
         <Route path="/contest/:contestId" exact render={() => {
           return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <Contest /> : <Redirect to="/" />
+        }} />
+
+        {/* PROPOSAL */}
+        <Route path="/proposalToOpenContest" exact render={() => {
+          return currentUser && currentUser['role'] == 0 || currentUser && currentUser['role'] == 1 || currentUser && currentUser['role'] == 2 ? <ProposalToOpenContest /> : <Redirect to="/" />
         }} />
 
         {/* MESSAGE */}

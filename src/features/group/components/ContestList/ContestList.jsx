@@ -17,7 +17,7 @@ function ContestList({ contestList }) {
     return (
         <Card>
             <CardHeader
-                sx={{ color: '#DB36A4', fontWeight: 'bold !important' }}
+                sx={{ fontWeight: 'bold !important', fontFamily: "Wallpoet !important", textTransform: 'uppercase', background: "-webkit-linear-gradient(#c31432, #2C5364)", WebkitBackgroundClip: "text", WebkitTextFillColor: 'transparent' }}
                 title="Top Contests"
             />
             <div>

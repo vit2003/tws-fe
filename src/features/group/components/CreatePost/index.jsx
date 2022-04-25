@@ -47,7 +47,7 @@ const useStyle = makeStyles(theme => ({
 }))
 
 
-function CreatePost({ groupId }) {
+function CreatePost({ groupId, reload }) {
 
     const currentUser = useSelector(state => state.login.infoUser);
     // Style MUI
@@ -73,7 +73,6 @@ function CreatePost({ groupId }) {
         let image = [];
         let storageImage = [];
         for (let i = 0; i < event.target.files.length; i++) {
-            console.log(event.target.files[i].type)
             if (event.target.files[i].type === 'image/png' || event.target.files[i].type === 'image/jpeg' || event.target.files[i].type === 'image/jpg' || event.target.files[i].type === 'image/gif') {
                 image.push(URL.createObjectURL(event.target.files[i]))
                 storageImage.push(event.target.files[i]);
@@ -131,7 +130,6 @@ function CreatePost({ groupId }) {
             await getDownloadURL(storageRef)
                 .then((url) => {
                     imagesLink.push(url)
-                    console.log("url: ", url);
                 })
                 .catch((error) => {
                     console.log("error: ", error);
@@ -152,6 +150,9 @@ function CreatePost({ groupId }) {
             setIsSubmit(true)
             const response = await postApi.createNewPost(newPost)
             setIsSubmit(false)
+            reload();
+            setOpen(false);
+            setStrgImg([]);
             await Swal.fire(
                 'New Post successfully',
                 'Click Button to continute!',
@@ -236,7 +237,6 @@ function CreatePost({ groupId }) {
                                 <ImageList variant="masonry" cols={3} gap={8}>
                                     {inputImage.map((image, index) => (
                                         // console.log(source),
-                                        console.log(image),
                                         <div key={index} className="image-item">
                                             <ImageListItem key={index}>
                                                 <img

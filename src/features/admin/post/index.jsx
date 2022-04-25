@@ -25,35 +25,15 @@ import ShowImage from './showImage';
 import formatDate from './../../../utils/formatDate';
 
 export default function PostManagement() {
-    console.log('post management')
     const state = useSelector(state => state.post)
-
-    console.log("state: ", state);
-
     const groups = useSelector(state => state.group)
-    const [active, setActive] = useState('waiting');
+    const [active, setActive] = useState('group');
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getPostsWaiting())
         dispatch(getGroups())
     }, [])
 
-
-
-    const getPostOfAccount = () => {
-        if (active !== 'account') {
-            setActive('account');
-            dispatch(getPostsByUserId(1))
-        }
-    }
-
-    const getPostWaiting = () => {
-        if (active !== 'waiting') {
-            setActive('waiting');
-            dispatch(getPostsWaiting())
-        }
-    }
     // ================GROUP STATE=============================
     const anchorRefGroup = useRef(null);
     const [selectedGroup, setSelectedGroup] = useState("SELECT GROUP");
@@ -101,77 +81,13 @@ export default function PostManagement() {
                 <span>Post management</span>
             </div>
 
-            {/* <div className="btn-group">
-                <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                    <Button onClick={getPostWaiting} className={active == 'waiting' && 'active'}>
-                        <PendingIcon />
-                        <span style={{ marginLeft: '5px' }}>Waiting</span>
-                    </Button>
-                    <Button onClick={getPostOfAccount} className={active == 'account' && 'active'}>
-                        <ManageAccountsIcon />
-                        <span style={{ marginLeft: '5px' }}>Account</span>
-                    </Button>
-                    <Button
-                        className={active == 'group' && 'active'}
-                        size="small"
-                        aria-controls={open ? 'split-button-menu' : undefined}
-                        aria-expanded={open ? 'true' : undefined}
-                        aria-label="select merge strategy"
-                        aria-haspopup="menu"
-                        onClick={handleToggle}
-                    >
-                        <GroupIcon /> <span style={{ marginLeft: '5px' }}>{selectedName}</span>  <ArrowDropDownIcon />
-                    </Button>
-
-                </ButtonGroup>
-
-                <Popper
-                    open={open}
-                    anchorEl={anchorRef.current}
-                    role={undefined}
-                    transition
-                    disablePortal
-                >
-                    {({ TransitionProps, placement }) => (
-                        <Grow
-                            {...TransitionProps}
-                            style={{
-                                transformOrigin:
-                                    placement === 'bottom' ? 'center top' : 'center bottom',
-                            }}
-                        >
-                            <Paper>
-                                <ClickAwayListener onClickAway={handleClose}>
-                                    <MenuList id="split-button-menu" autoFocusItem>
-                                        {groups.groups?.map((group, index) => (
-                                            <MenuItem
-                                                key={index}
-                                                // selected={index === selectedIndex}
-                                                onClick={(event) => handleMenuItemClick(event, group.id, group.name)}
-                                            >
-                                                {group.name}
-                                            </MenuItem>
-                                        ))}
-                                    </MenuList>
-                                </ClickAwayListener>
-                            </Paper>
-                        </Grow>
-                    )}
-                </Popper>
-
-
-            </div> */}
-
             <div className="btn-group">
                 <ButtonGroup variant="contained" aria-label="split button">
-                    <Button onClick={getPostWaiting} className={active == 'waiting' && 'active'}>
-                        <PendingIcon />
-                        <span style={{ marginLeft: '5px' }}>Waiting</span>
-                    </Button>
-                    <Button onClick={getPostOfAccount} className={active == 'account' && 'active'}>
+
+                    {/* <Button onClick={getPostOfAccount} className={active == 'account' && 'active'}>
                         <ManageAccountsIcon />
                         <span style={{ marginLeft: '5px' }}>Account</span>
-                    </Button>
+                    </Button> */}
                     <Button
                         ref={anchorRefGroup}
                         className={active == 'group' && 'active'}
@@ -237,8 +153,8 @@ export default function PostManagement() {
                                 <th>Image</th>
                                 <th>Content</th>
                                 <th>Created At</th>
-                                {active === 'waiting' &&
-                                    <th className="th-action">Action</th>}
+                                {/* {active === 'waiting' &&
+                                    <th className="th-action">Action</th>} */}
                             </tr>
                         </thead>
                         <tbody>
@@ -260,7 +176,7 @@ export default function PostManagement() {
                                         <div>{item.content}</div>
                                     </td>
                                     <td>{formatDate(item.publicDate ? item.publicDate : item.postDate)}</td>
-                                    {active === 'waiting' && (
+                                    {/* {active === 'waiting' && (
                                         <td>
                                             <a className="btn btn-edit" onClick={() => dispatch(approvePost(item.id))}>
                                                 <Tooltip title="Approve">
@@ -273,14 +189,14 @@ export default function PostManagement() {
                                                 </Tooltip>
                                             </button>
                                         </td>
-                                    )}
+                                    )} */}
                                 </tr>
                             ))}
 
                             {
                                 !state.posts &&
                                 <tr>
-                                    <td colSpan={active === 'waiting' ? "7" : "6"}>
+                                    <td colSpan={active === 'group' ? "7" : "6"}>
                                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                                             <CircularProgress />
                                         </Box>

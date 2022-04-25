@@ -27,7 +27,6 @@ function BillManagement(props) {
     const state = useSelector(state => state.bill)
     const dispatch = useDispatch();
     const classes = useStyle();
-    console.log("state: ", state);
 
     // const groups = useSelector(state => state.group)
 
@@ -53,38 +52,6 @@ function BillManagement(props) {
     useEffect(() => {
         dispatch(getBillByStatus(0, filters))
     }, [])
-
-    // const handleClickGroupItem = (event, id, name) => {
-    //     setSelectedGroup(name)
-    //     setSelectedGroupId(id)
-    //     const newFilter = {
-    //         pageNumber: 1,
-    //         pageSize: 9,
-    //     }
-    //     dispatch(getTradingPostsByGroupId(id, newFilter))
-    //     setFiltersGroup(prevFilters => ({
-    //         ...prevFilters,
-    //         pageNumber: 1
-    //     }))
-    //     console.log('filtersGroup: ', filtersGroup);
-    //     console.log('id: ', id);
-    //     setOpenGroup(false);
-    // };
-
-    // Hanle selected Group
-    // const handleToggleGroup = () => {
-    //     setOpenGroup((prevOpen) => !prevOpen);
-    //     if (active !== 'group') {
-    //         setActive('group');
-    //     }
-    // };
-
-    // const handleCloseGroup = (event) => {
-    //     if (anchorRefGroup.current && anchorRefGroup.current.contains(event.target)) {
-    //         return;
-    //     }
-    //     setOpenGroup(false);
-    // };
 
     // =========================PAGING===============
     const handlePageChange = (e, page) => {

@@ -2,7 +2,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { IconButton, Avatar } from '@mui/material';
+import { IconButton, Avatar, Dialog, DialogTitle, DialogActions, DialogContent, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
@@ -10,6 +10,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deactiveAccount, getAccounts } from '../../../redux/actions/account';
+import { useState } from 'react';
 
 export default function AccountManagement() {
     const state = useSelector(state => state.account)
@@ -17,6 +18,26 @@ export default function AccountManagement() {
     useEffect(() => {
         dispatch(getAccounts())
     }, [])
+
+
+    const [fullWidth, setFullWidth] = useState(true);
+    const [maxWidth, setMaxWidth] = useState("md");
+    const [open, setOpen] = useState(false);
+    const [itemClick, setItemClick] = useState({});
+
+    const handleOpenConfirm = (item) => {
+        setOpen(true)
+        setItemClick(item)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
+    const handleDisable = () => {
+        dispatch(deactiveAccount(itemClick.id))
+        setOpen(false)
+    }
 
     return (
         <>
@@ -63,11 +84,6 @@ export default function AccountManagement() {
                                         }
                                         <td>
                                             <Link to={`/admin/account/${item.id}`}>
-                                                {/* <Tooltip title="Edit">
-                                                    <IconButton sx={{ backgroundColor: '#5886db', color: '#fff' }} size="small">
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                </Tooltip> */}
                                                 <a className="btn btn-edit" >
                                                     <Tooltip title="Approve">
                                                         <EditIcon />
@@ -76,40 +92,23 @@ export default function AccountManagement() {
                                             </Link>
                                             {
                                                 item.status == 'Active' ?
-                                                    <a className="btn btn-disable" onClick={() => dispatch(deactiveAccount(item.id))}>
+                                                    <a className="btn btn-disable" onClick={() => handleOpenConfirm(item)}>
                                                         <Tooltip title="Disable account">
                                                             <LockIcon />
                                                         </Tooltip>
                                                     </a>
-                                                    // <IconButton size="normal" color="inherit" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                                    //     <LockIcon />
-                                                    // </IconButton>
                                                     :
                                                     <a className="btn btn-disable" onClick={() => dispatch(deactiveAccount(item.id))}>
                                                         <Tooltip title="Enable account">
                                                             <LockOpenIcon />
                                                         </Tooltip>
                                                     </a>
-                                                // <IconButton size="normal" color="inherit" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                                //     <LockOpenIcon />
-                                                // </IconButton>
-
                                             }
                                         </td>
                                     </tr>
                                 ))
                             }
 
-                            {/* <button className="btn btn-lock" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                <Tooltip title="Lock">
-                                    <LockIcon />
-                                </Tooltip>
-                            </button>
-                            <button className="btn btn-unlock" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                <Tooltip title="Unlock">
-                                    <LockOpenIcon />
-                                </Tooltip>
-                            </button> */}
                             {
                                 state.accounts.length < 1 &&
                                 <tr>
@@ -124,6 +123,34 @@ export default function AccountManagement() {
                     </table>
                 </div>
             </div>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    Are you sure to disable {itemClick.name}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px", display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                    <Avatar src={itemClick.avatar} alt="avatar" sx={{ position: 'static !important', mr: 2, width: '100px', height: '100px' }}></Avatar>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDisable}>
+                        Disable
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }

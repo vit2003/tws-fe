@@ -14,7 +14,6 @@ import TradingPost from './../TradingPost/TradingPost';
 function TradingPostDetailPage() {
 
     const { params: { postId } } = useRouteMatch();
-    console.log("id: ", postId);
 
     const [tradingPost, setTradingPost] = useState([]);
     const [reload, setReload] = useState(false);

@@ -57,15 +57,12 @@ function ListPage(props) {
             try {
                 if (typeName === null) {
                     const data = await toysApi.getAll(filters);
-                    console.log("fix data: ", data)
                     setToyList(data.data);
                     setCount(data.count);
 
                 } else {
                     const params = new URLSearchParams(filters);
                     const data = await toysApi.getToyByTypeName(typeName + '?' + params);
-                    console.log("TypeName: ", typeName)
-                    console.log("gettoybytypeName: ", data)
                     setToyList(data.data);
                     setCount(data.count);
                 }
@@ -85,7 +82,6 @@ function ListPage(props) {
     }
 
     const handleTypeName = (newTypeName) => {
-        console.log("afterClick: ", newTypeName)
         setTypeName(newTypeName);
         setFilters(prevFilters => ({
             ...prevFilters,

@@ -1,21 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import CloseIcon from '@mui/icons-material/Close';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { Box, Button, Card, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, FormControl, Grid, Typography, InputLabel, MenuItem } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
+import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { useSnackbar } from 'notistack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import CircularProgressWithLabel from '../../../components/CircularWithLabel/CircularProgressWithLabel';
 import eventApi from './../../../api/eventApi';
+import groupApi from './../../../api/groupApi';
 import InputEditBioField from './../../../components/form-controls/InputEditBioField/InputEditBioField';
 import InputField from './../../../components/form-controls/InputFields/index';
+import Swal from 'sweetalert2';
 
 
 const useStyles = makeStyles(theme => ({
@@ -61,35 +64,39 @@ function ProposalForm({ value }) {
 
     const { enqueueSnackbar } = useSnackbar();
 
+    const [groupList, setGroupList] = useState([]);
+
+    // STATE FOR SELECTION
+    const [selected, setSelected] = useState(false);
+
+    useEffect(async () => {
+        const response = await groupApi.getAllGroup();
+        setGroupList(response)
+    })
+
     const Input = styled('input')({
         display: 'none',
     });
     // Validate Form
     const schema = yup.object().shape({
         title: yup.string().required(`Please enter Contest's Title.`),
-        minRegister: yup.string().required(`Please enter min of register.`),
-        maxRegister: yup.string().required(`Please enter max of register.`),
         description: yup.string().required(`Please enter Description of Contest.`),
-        typeName: yup.string().required(`Please enter type of contest.`),
-        brandName: yup.string().required(`Please enter Brand of Toy.`),
-        location: yup.string().required(`Please enter Location.`),
-        duration: yup.string().required(`Please enter Duration of contest.`),
+        reason: yup.string().required(`Please enter reason.`),
+        rule: yup.string().required(`Please enter rule of contest.`),
+        slogan: yup.string().required(`Please enter slogan of contest.`),
     });
+
+    const control = useForm();
     const form = useForm({
         defaultValues: {
             title: '',
-            minRegister: '',
-            maxRegister: '',
             description: '',
-            typeName: '',
-            brandName: '',
-            location: '',
-            duration: '',
-            imagesUrl: [],
+            reason: '',
+            rule: '',
+            slogan: '',
         },
         resolver: yupResolver(schema),
     })
-
 
 
     const [inputImage, setInputImage] = React.useState([]);
@@ -120,49 +127,81 @@ function ProposalForm({ value }) {
     const storage = getStorage();
 
     const handleSubmit = async (values) => {
-        console.log("strgImg: ", strgImg)
-        for (let i = 0; i < strgImg.length; i++) {
-            const storageRef = ref(storage, `/Proposal/${strgImg[i].name}`)
-            // console.log(strgImg[i].name)
-            const uploadTask = uploadBytes(storageRef, strgImg[i]);
-        }
 
         const newProposal = {
+            groupId: values.group,
             title: values.title,
-            minRegister: values.minRegister,
-            maxRegister: values.maxRegister,
             description: values.description,
-            typeName: values.typeName,
-            brandName: values.brandName,
-            location: values.location,
-            duration: values.duration,
-            imagesUrl: inputImage,
+            reason: values.reason,
+            rule: values.rule,
+            slogan: values.slogan,
+            // imagesUrl: inputImage,
         }
-        console.log('newProposal: ', newProposal)
         try {
-            const response = await eventApi.proposalToOpenContest(newProposal)
-            enqueueSnackbar('New Proposal successfully!!', { variant: 'success' })
+            const response = await eventApi.proposalToOpenContest(newProposal);
+            await Swal.fire(
+                'Send Proposal successfully',
+                'Click Button to continute!',
+                'success'
+            )
             console.log("response: ", response);
         } catch (error) {
-            console.log('Failed create comment: ', error);
-            enqueueSnackbar('Failed to Proposal !!', { variant: 'error' })
+            console.log('Failed create Proposal: ', error);
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
         }
         form.reset();
-        setInputImage([]);
-
+        // setInputImage([]);
     }
 
     const { isSubmitting } = form.formState;
 
     return (
         <div>
-            <Typography variant="h4" sx={{ textAlign: 'center', margin: '30px 0' }}>Proposal Here</Typography>
+            <Typography variant="h3" sx={{ textAlign: 'center', margin: '30px 0', fontFamily: "Wallpoet !important", textTransform: 'uppercase', background: "-webkit-linear-gradient(#c31432, #2C5364)", WebkitBackgroundClip: "text", WebkitTextFillColor: 'transparent' }}>Proposal Here</Typography>
 
 
             <Box sx={{ display: 'flex', padding: '0 50px', }}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className={classes.form}>
                     <Grid container>
                         {/* TITLE */}
+
+
+                        <Grid item xs={4}>
+                            <Typography className={classes.labelText}>Group</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <FormControl sx={{ mt: 1 }} fullWidth>
+                                <InputLabel id="select-role">
+                                    Select Group
+                                </InputLabel>
+                                <SelectFormField
+                                    labelId="select-group"
+                                    id="group"
+                                    name="group"
+                                    label="group"
+                                    control={control}
+                                    defaultValue="1"
+                                    variant="outlined"
+                                    margin="normal"
+                                    form={form}
+                                >
+                                    {groupList?.map((group, index) => (
+                                        <MenuItem
+                                            key={index}
+                                            value={group.id}
+                                            selected={selected}
+                                        >
+                                            {group.name}
+                                        </MenuItem>
+                                    ))}
+                                </SelectFormField>
+                            </FormControl>
+                        </Grid>
+
                         <Grid item xs={4}>
                             <Typography className={classes.labelText}>Title</Typography>
                         </Grid>
@@ -170,21 +209,6 @@ function ProposalForm({ value }) {
                             <InputField className={classes.inputtext} name="title" form={form} />
                         </Grid>
 
-                        {/* MIN REGISTER */}
-                        <Grid item xs={4}>
-                            <Typography className={classes.labelText}>Min Register</Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="minRegister" form={form} />
-                        </Grid>
-
-                        {/* MAX REGISTER */}
-                        <Grid item xs={4}>
-                            <Typography className={classes.labelText}>Max Register</Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="maxRegister" form={form} />
-                        </Grid>
 
                         {/* DESCRIPTION */}
                         <Grid item xs={4}>
@@ -194,82 +218,35 @@ function ProposalForm({ value }) {
                             <InputEditBioField className={classes.inputtext} name="description" form={form} />
                         </Grid>
 
-                        {/* TYPE NAME */}
+                        {/* REASON  */}
                         <Grid item xs={4}>
-                            <Typography className={classes.labelText}>typeName</Typography>
+                            <Typography className={classes.labelText}>Reason</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="typeName" form={form} />
+                            <InputEditBioField className={classes.inputtext} name="reason" form={form} />
                         </Grid>
 
-                        {/* BRAND NAME */}
+                        {/* RULE*/}
                         <Grid item xs={4}>
-                            <Typography className={classes.labelText}>brandName</Typography>
+                            <Typography className={classes.labelText}>Rule</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="brandName" form={form} />
+                            <InputEditBioField className={classes.inputtext} name="rule" form={form} />
                         </Grid>
 
-                        {/* locations */}
+                        {/* SLOGAN */}
                         <Grid item xs={4}>
-                            <Typography className={classes.labelText}>Location</Typography>
+                            <Typography className={classes.labelText}>Slogan</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="location" form={form} />
+                            <InputField className={classes.inputtext} name="slogan" form={form} />
                         </Grid>
-
-                        {/* Duration */}
-                        <Grid item xs={4}>
-                            <Typography className={classes.labelText}>Duration (day)</Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="duration" form={form} />
-                        </Grid>
-
-                        {/* IMAGE */}
-                        <Grid item xs={4}>
-                            <Typography className={classes.labelText}>Image</Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <label htmlFor="contained-button-file">
-                                <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={handleFileChange} name="imagesUrl" form={form} />
-                                <Button sx={{ backgroundColor: "#db36a4 !important" }} variant="contained" aria-label="upload picture" onClick={handleChoose} component="span" endIcon={<PhotoCamera />}>
-                                    Photo
-
-
-                                </Button>
-                            </label>
-                        </Grid>
-
-                        {/* SHOW IMAGE SELECTED */}
-                        {inputImage.length ?
-                            <Card variant="outlined" sx={{ padding: '10px', marginTop: 2, position: 'relative' }}>
-                                <ImageList variant="masonry" cols={3} gap={8}>
-                                    {inputImage.map((image, index) => (
-                                        console.log(image),
-                                        <div key={index} className="image-item">
-                                            <ImageListItem key={index}>
-                                                <img
-                                                    src={image}
-                                                    alt={'image'}
-                                                    loading="lazy"
-                                                />
-                                            </ImageListItem>
-                                        </div>
-                                    ))}
-                                </ImageList>
-                                <IconButton className={classes.closeBtn} onClick={handleDeleteSelectedSource}>
-                                    <CloseIcon />
-                                </IconButton>
-                            </Card>
-                            : <></>
-                        }
 
                         {/* Button */}
                         <Button disabled={isSubmitting} type='submit' className={classes.button} variant='contained'>
                             Proposal
                         </Button>
-                        {isSubmitting && <CircularProgressWithLabel value={100} />}
+                        {/* {isSubmitting && <CircularProgressWithLabel value={100} />} */}
                     </Grid>
                 </form>
             </Box>

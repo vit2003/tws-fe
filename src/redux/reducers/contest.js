@@ -8,7 +8,11 @@ const initState = {
     types: [],
     subcribers: [],
     count: '',
-    prizesContest: []
+    prizesContest: [],
+    top10Submissions: [],
+    submissions: [],
+    postOfContest: [],
+    prizeForEnd: [],
 }
 
 const contestReducer = (state = initState, action) => {
@@ -47,6 +51,26 @@ const contestReducer = (state = initState, action) => {
             return {
                 ...state,
                 prizesContest: action.payload
+            }
+        case CONTEST.SET_TOP10_SUBMISSIONS:
+            return {
+                ...state,
+                top10Submissions: action.payload
+            }
+        case CONTEST.SET_SUBMISSIONS:
+            return {
+                ...state,
+                submissions: action.payload
+            }
+        case CONTEST.SET_POST_OF_CONTEST:
+            return {
+                ...state,
+                postOfContest: action.payload
+            }
+        case CONTEST.SET_PRIZE_FOR_END:
+            return {
+                ...state,
+                prizeForEnd: action.payload
             }
         default:
             return state

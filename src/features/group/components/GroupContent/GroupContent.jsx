@@ -11,8 +11,6 @@ import PostDetail from './../PostDetail/index';
 function GroupContent(props) {
 
     const { id: groupId } = useParams();
-    console.log(groupId);
-
 
     const [postList, setPostList] = useState([]);
     const [contestList, setContestList] = useState([]);
@@ -56,7 +54,7 @@ function GroupContent(props) {
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
                         {/* Form to create a post */}
-                        <CreatePost groupId={groupId} />
+                        <CreatePost groupId={groupId} reload={() => setReload(!reload)} />
 
                         {/* get List post */}
 

@@ -182,16 +182,6 @@ function Contest(props) {
         })();
     }, [contestId, isAttended]);
 
-    // useEffect(async () => {
-    //     await getDownloadURL(storageRef)
-    //         .then((url) => {
-    //             setUrlImg(url);
-    //             console.log("url: ", url);
-    //         })
-    //         .catch((error) => {
-    //             console.log("error: ", error);
-    //         });
-    // }, [])
 
     // GET API CONTEST, PRIZE,
     useEffect(() => {
@@ -312,7 +302,7 @@ function Contest(props) {
             setOpenRunnerDialog(false);
             setReload(!reload);
             await Swal.fire(
-                'Post your toy successfully',
+                'New submissions successfully',
                 'Click Button to continute!',
                 'success'
             )
@@ -346,7 +336,7 @@ function Contest(props) {
             .then((response) => {
                 if (response) {
                     Swal.fire(
-                        'Rate Contest successfully',
+                        'Evaluate Contest successfully',
                         'Click Button to continute!',
                         'success'
                     )
@@ -599,89 +589,87 @@ function Contest(props) {
                 </div>
 
                 {/* TOP 3 LIST */}
-                <LazyLoad>
-                    {
-                        contest.status == 3 & top3List?.length && <>
-                            <div className="contestDetail__content__firstPrize">
-                                <div className="contestDetail__content__firstPrize__border">
-                                    <div className="contestDetail__content__firstPrize__title">
-                                        <h1>TOP 1 RUNNER</h1>
-                                        <h2>{top3List[0]?.ownerName}</h2>
-                                    </div>
-                                    <div className="contestDetail__content__firstPrize__prize">
-                                        <img src={top3List[0]?.images[0].url} alt="" />
-                                    </div>
+                {
+                    contest.status == 3 & top3List?.length &&
+                    <>
+                        <div className="contestDetail__content__firstPrize">
+                            <div className="contestDetail__content__firstPrize__border">
+                                <div className="contestDetail__content__firstPrize__title">
+                                    <h1>TOP 1 RUNNER</h1>
+                                    <h2>{top3List[0]?.ownerName}</h2>
+                                </div>
+                                <div className="contestDetail__content__firstPrize__prize">
+                                    <img src={top3List[0]?.images[0].url} alt="" />
                                 </div>
                             </div>
-                            <Grid className="contestDetail__content__ortherPrize" container >
-                                <Grid item xs={6} sm={6} md={6} lg={6}>
-                                    <div className="contestDetail__content__ortherPrize__title">
-                                        <h1>TOP 2 RUNNER</h1>
-                                        <h2>{top3List[1]?.ownerName}</h2>
-                                    </div>
-                                    <div className="contestDetail__content__ortherPrize__prize">
-                                        <img src={top3List[1]?.images[0].url} alt="" />
-                                    </div>
-                                </Grid>
-                                <Grid item xs={6} sm={6} md={6} lg={6}>
-                                    <div className="contestDetail__content__ortherPrize__title">
-                                        <h1>TOP 3 RUNNER</h1>
-                                        <h2>{top3List[2]?.ownerName}</h2>
-                                    </div>
-                                    <div className="contestDetail__content__ortherPrize__prize">
-                                        <img src={top3List[2]?.images[0].url} alt="" />
-                                    </div>
-                                </Grid>
+                        </div>
+                        <Grid className="contestDetail__content__ortherPrize" container >
+                            <Grid item xs={6} sm={6} md={6} lg={6}>
+                                <div className="contestDetail__content__ortherPrize__title">
+                                    <h1>TOP 2 RUNNER</h1>
+                                    <h2>{top3List[1]?.ownerName}</h2>
+                                </div>
+                                <div className="contestDetail__content__ortherPrize__prize">
+                                    <img src={top3List[1]?.images[0].url} alt="" />
+                                </div>
                             </Grid>
-                        </>
+                            <Grid item xs={6} sm={6} md={6} lg={6}>
+                                <div className="contestDetail__content__ortherPrize__title">
+                                    <h1>TOP 3 RUNNER</h1>
+                                    <h2>{top3List[2]?.ownerName}</h2>
+                                </div>
+                                <div className="contestDetail__content__ortherPrize__prize">
+                                    <img src={top3List[2]?.images[0].url} alt="" />
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </>
 
-                    }
-                </LazyLoad>
+                }
 
                 {/* REWARD LIST */}
-                <LazyLoad>
-                    {contest.status == 4 & rewardList?.length &&
-                        <>
-                            <div className="contestDetail__content__firstPrize">
-                                <div className="contestDetail__content__firstPrize__border">
-                                    <div className="contestDetail__content__firstPrize__title">
-                                        <h1>{rewardList[0]?.prizes.description}</h1>
-                                        <h2>{rewardList[0]?.prizes.name}:{" "}{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(rewardList[0].prizes.value)}</h2>
-                                    </div>
-                                    <div className="contestDetail__content__firstPrize__prize">
-                                        <img src={rewardList[0]?.post.images[0].url} alt="" />
-                                        <h2> {rewardList[0]?.post.ownerName}</h2>
-                                        <h2>Sum of Star: {rewardList[0]?.post.sumOfStart}</h2>
-                                    </div>
+
+                {contest.status == 4 & rewardList?.length &&
+                    <>
+                        <div className="contestDetail__content__firstPrize">
+                            <div className="contestDetail__content__firstPrize__border">
+                                <div className="contestDetail__content__firstPrize__title">
+                                    <h1>{rewardList[0]?.prizes.description}</h1>
+                                    <h2>{rewardList[0]?.prizes.name}:{" "}{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(rewardList[0].prizes.value)}</h2>
+                                </div>
+                                <div className="contestDetail__content__firstPrize__prize">
+                                    <img src={rewardList[0]?.post.images[0].url} alt="" />
+                                    <h2> {rewardList[0]?.post.ownerName}</h2>
+                                    <h2>Sum of Star: {rewardList[0]?.post.sumOfStart}</h2>
                                 </div>
                             </div>
-                            <Grid className="contestDetail__content__ortherPrize" container >
-                                <Grid item xs={6} sm={6} md={6} lg={6}>
-                                    <div className="contestDetail__content__ortherPrize__title">
-                                        <h1>{rewardList[1]?.prizes.description}</h1>
-                                        <h2>{rewardList[1]?.prizes.name}:{" "}{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(rewardList[1].prizes.value)}</h2>
-                                    </div>
-                                    <div className="contestDetail__content__ortherPrize__prize">
-                                        <img src={rewardList[1]?.post.images[0].url} alt="" />
-                                        <h2>Name: {rewardList[1]?.post.ownerName}</h2>
-                                        <h2>Sum of Star: {rewardList[1]?.post.sumOfStart}</h2>
-                                    </div>
-                                </Grid>
-                                <Grid item xs={6} sm={6} md={6} lg={6}>
-                                    <div className="contestDetail__content__ortherPrize__title">
-                                        <h1>{rewardList[2]?.prizes.description}</h1>
-                                        <h2>{rewardList[2]?.prizes.name}:{" "}{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(rewardList[2].prizes.value)}</h2>
-                                    </div>
-                                    <div className="contestDetail__content__ortherPrize__prize">
-                                        <img src={rewardList[2]?.post.images[0].url} alt="" />
-                                        <h2>Name: {rewardList[2]?.post.ownerName}</h2>
-                                        <h2>Sum of Star: {rewardList[2]?.post.sumOfStart}</h2>
-                                    </div>
-                                </Grid>
+                        </div>
+                        <Grid className="contestDetail__content__ortherPrize" container >
+                            <Grid item xs={6} sm={6} md={6} lg={6}>
+                                <div className="contestDetail__content__ortherPrize__title">
+                                    <h1>{rewardList[1]?.prizes.description}</h1>
+                                    <h2>{rewardList[1]?.prizes.name}:{" "}{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(rewardList[1].prizes.value)}</h2>
+                                </div>
+                                <div className="contestDetail__content__ortherPrize__prize">
+                                    <img src={rewardList[1]?.post.images[0].url} alt="" />
+                                    <h2>Name: {rewardList[1]?.post.ownerName}</h2>
+                                    <h2>Sum of Star: {rewardList[1]?.post.sumOfStart}</h2>
+                                </div>
                             </Grid>
-                        </>
-                    }
-                </LazyLoad>
+                            <Grid item xs={6} sm={6} md={6} lg={6}>
+                                <div className="contestDetail__content__ortherPrize__title">
+                                    <h1>{rewardList[2]?.prizes.description}</h1>
+                                    <h2>{rewardList[2]?.prizes.name}:{" "}{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(rewardList[2].prizes.value)}</h2>
+                                </div>
+                                <div className="contestDetail__content__ortherPrize__prize">
+                                    <img src={rewardList[2]?.post.images[0].url} alt="" />
+                                    <h2>Name: {rewardList[2]?.post.ownerName}</h2>
+                                    <h2>Sum of Star: {rewardList[2]?.post.sumOfStart}</h2>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </>
+                }
 
 
                 {/* CONTEST RUNNER */}
@@ -751,8 +739,7 @@ function Contest(props) {
 
                         <DialogContent sx={{ marginTop: '30px' }}>
                             <DialogContentText>
-                                To subscribe to this website, please enter your email address here. We
-                                will send updates occasionally.
+                                Let everyone now that, your toy is the greatest.
                             </DialogContentText>
 
                             <InputField name='content' label='Content' form={form} />
@@ -795,11 +782,11 @@ function Contest(props) {
                 {/* ========================================= */}
 
                 <Dialog open={openEvaluate} onClose={handleClose} fullWidth={fullWidth} maxWidth={maxWidth}>
-                    <DialogTitle sx={{ textAlign: 'center' }}>RATE CONTEST</DialogTitle>
+                    <DialogTitle sx={{ textAlign: 'center' }}>EVALUATE CONTEST</DialogTitle>
                     <form onSubmit={formRate.handleSubmit(handleCreateRate)}>
                         <DialogContent>
                             <DialogContentText>
-                                Your trading info will be saved in our systemYour trading info will be saved in our systemYour trading info will be saved in our system
+                                Your trading info will be saved in our system
                             </DialogContentText>
 
                             <StyledRating
@@ -815,17 +802,17 @@ function Contest(props) {
                                         setIsRate(true);
                                     }
                                     catch (error) {
-                                        console.log("fail to rate: ", error)
+                                        console.log("fail to evaluate: ", error)
                                     }
                                 }}
                             />
-                            <InputPostField name='rate' label='rate' form={formRate} />
+                            <InputPostField name='rate' label='Evaluate' form={formRate} />
 
 
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} sx={{ color: "#db36a4" }}>Cancel</Button>
-                            <Button sx={{ color: "#db36a4" }} type="submit">RATE ACCOUNT</Button>
+                            <Button sx={{ color: "#db36a4" }} type="submit">EVALUATE ACCOUNT</Button>
                         </DialogActions>
                     </form>
                 </Dialog>

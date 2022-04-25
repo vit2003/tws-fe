@@ -13,7 +13,7 @@ axios.defaults.baseURL = 'https://tws-system-release.herokuapp.com/api/'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
 // axios.defaults.headers.put['Access-Control-Allow-Origin'] = '*'
-// axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*'
+axios.defaults.headers.delete['Access-Control-Allow-Origin'] = '*'
 
 export const axioClient = {
     get(url, slug = '') {
@@ -26,7 +26,7 @@ export const axioClient = {
     getWithFilter(url, slug = '', params) {
         return axios.get(`${url}/${slug}`, params).catch(error => console.log(error))
     },
-    getWithFilterMiddleId(url, url2, slug = '', params) {
+    getWithFilterMiddleId(url, slug = '', url2, params) {
         return axios.get(`${url}/${slug}/${url2}`, params).catch(error => console.log(error))
     },
     getMiddleParams(url, slug = '', url2) {
@@ -61,6 +61,9 @@ export const axioClient = {
     },
     delete(url, params, config) {
         return axios.delete(`${url}`, params, config)
+    },
+    delete2(url, params) {
+        return axios.delete(url, params)
     },
     saveToken(token, expired) {
         window.localStorage.setItem('access_token', JSON.stringify(token))

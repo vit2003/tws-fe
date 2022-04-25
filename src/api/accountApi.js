@@ -79,6 +79,21 @@ const accountApi = {
             return axioClient.put('accounts/change_password', params)
         }
     },
+    addWishList(params) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.post('accounts/wishlist', params)
+        }
+    },
+
+    deleteWishList(data) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.delete2('accounts/wishlist', { data })
+        }
+    },
 
 
     updateRole(id, role) {

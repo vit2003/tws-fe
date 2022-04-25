@@ -2,18 +2,34 @@ import { Card, CardContent, CardMedia, Container, Typography, Button } from '@mu
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import React, { Fragment, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import eventApi from './../../api/eventApi';
 import GroupBar from './../../components/GroupBar/index';
 import Header from './../../components/Header/index';
 import CrawlDataUnit from './CrawlDataUnit/index';
-import { Navigation, Pagination } from "swiper";
+import Dialog from '@mui/material/Dialog';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import tradingPostApi from './../../api/TradingPostApi';
+import { useSelector } from 'react-redux';
+import { Autoplay, Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
+import "swiper/css/autoplay";
 import { Swiper, SwiperSlide } from "swiper/react";
+import WishListTrading from './wishListTrading/WishListTrading';
+
 import './styles.scss';
+import WishListContest from './wishListContest/WishListContest';
 
 
 Home.propTypes = {
@@ -31,11 +47,14 @@ const useStyle = makeStyles(theme => ({
         fontWeight: 'bold !important',
         margin: '30px 0 !important',
         color: '#db36a4',
+
+
     },
     media: {
-        objectFit: 'contain',
-        minWidth: 'auto',
-        minHeight: 'auto',
+        objectFit: 'cover !important',
+        width: "100%",
+        // minWidth: 'auto',
+        // minHeight: 'auto',
         filter: "brightness(65%)",
     },
     boxContainImg: {
@@ -51,13 +70,18 @@ const useStyle = makeStyles(theme => ({
 
 }));
 
+
 function Home(props) {
 
-
-
     const classes = useStyle();
+    const history = useHistory();
+
+
+    let loggedInAccount = useSelector(state => state.login.infoUser);
 
     const [listHighLight, setListHighLight] = useState([]);
+
+
     const [reload, setReload] = useState(false);
 
 
@@ -74,6 +98,7 @@ function Home(props) {
             }
         })()
     }, [])
+
 
 
 
@@ -101,7 +126,9 @@ function Home(props) {
     ];
 
 
-    console.log("listHighLight: ", listHighLight);
+    const handleRedirectToContest = (id) => {
+        history.push(`/contest/${id}`);
+    }
     const { sx, ...other } = props;
     return (
         <div className='gradient-background'>
@@ -111,51 +138,45 @@ function Home(props) {
                 </Box>
                 <GroupBar />
 
-                {/* Event Slider */}
-                {/* <div className='EventSlider__around '>
-                    <Slider {...settings}>
-                        {listHighLight.map((event) => {
-                            return (
-                                <div key={event.id} className='EventSlider'>
+                <Container>
+                    <div className='EventSlider__around '>
+                        <Swiper
+                            modules={[Navigation, Pagination, Autoplay]}
+                            navigation
+                            spaceBetween={50}
+                            slidesPerView={1}
+                            autoplay
+                            pagination={{ clickable: true }}
+                            onSlideChange={() => console.log('slide change')}
+                            onSwiper={(swiper) => console.log(swiper)}
+                        >
+                            {listHighLight?.map((hightLight, index) => (
+                                <SwiperSlide className={classes.boxContainImg} key={index}>
                                     <div className="EventSlider__detail">
-                                        <img className='EventSlider__detail__image' src={event.coverImage} />
-                                        <h1>{event.title}</h1>
-                                        <h2>{event.slogan}</h2>
-                                        <Button variant="contained">VIEW MORE</Button>
+                                        <CardMedia className={classes.media} height="700" component="img" src={hightLight?.coverImage}></CardMedia>
+                                        <h1>{hightLight.title}</h1>
+                                        <h2>{hightLight.slogan}</h2>
+                                        <Button className={classes.btn} variant="contained" onClick={() => handleRedirectToContest(hightLight.id)}>VIEW MORE</Button>
                                     </div>
-                                </div>
-                            )
-                        })}
-                    </Slider>
-                </div> */}
-                <div className='EventSlider__around '>
-                    <Swiper
-                        modules={[Navigation, Pagination]}
-                        navigation
-                        spaceBetween={50}
-                        slidesPerView={1}
-                        autoplay
-                        pagination={{ clickable: true }}
-                        onSlideChange={() => console.log('slide change')}
-                        onSwiper={(swiper) => console.log(swiper)}
-                    >
-                        {listHighLight?.map((hightLight, index) => (
-                            <SwiperSlide className={classes.boxContainImg} key={index}>
-                                <div className="EventSlider__detail">
-                                    <CardMedia className={classes.media} height="700" component="img" src={hightLight?.coverImage}></CardMedia>
-                                    <h1>{hightLight.title}</h1>
-                                    <h2>{hightLight.slogan}</h2>
-                                    <Button className={classes.btn} variant="contained">VIEW MORE</Button>
-                                </div>
 
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
+
+                </Container>
+
+
+                {/* ======================  WHISPER  ===================== */}
+                <WishListTrading />
+
+                {/* ==================================== */}
+
+                <WishListContest />
 
                 {/* ================TOYS============== */}
                 <div className='hometoys'>
-                    <Typography className={classes.titleToys}>
+                    <Typography className={classes.titleToys} sx={{ fontWeight: 'bold !important', fontFamily: "Wallpoet !important", textTransform: 'uppercase', background: "-webkit-linear-gradient(#c31432, #2C5364)", WebkitBackgroundClip: "text", WebkitTextFillColor: 'transparent' }}>
                         TOYS
                     </Typography>
 

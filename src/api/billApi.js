@@ -23,7 +23,6 @@ const billApi = {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
-            console.log("accept or deny: ", data);
             return axioClient.putMiddleParams(`/bills/${id}/accept_or_deny?accept_or_deny=${data}`)
         }
     },

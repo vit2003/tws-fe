@@ -5,6 +5,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import GroupIcon from '@mui/icons-material/Group';
 import { Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
+import { Dialog, DialogContent, DialogTitle, DialogActions } from '@mui/material/';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -21,7 +22,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGroups } from '../../../redux/actions/group';
 import { enablePost, getTradingPostsByGroupId } from '../../../redux/actions/tradingPost';
-import { disablePost, getTradingPostsByEnableStatus } from './../../../redux/actions/tradingPost';
+import { disablePost, getTradingPostsByEnableStatus, disablePostGroup } from './../../../redux/actions/tradingPost';
 import ShowImage from './showImage';
 import formatDate from './../../../utils/formatDate';
 // Style CSS
@@ -42,6 +43,36 @@ export default function TradingPostManagement() {
     const classes = useStyle();
 
     const groups = useSelector(state => state.group)
+
+    const [fullWidth, setFullWidth] = useState(true);
+    const [maxWidth, setMaxWidth] = useState("md");
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const [openConfirmGroup, setOpenConfirmGroup] = useState(false);
+
+    const [itemClick, setItemClick] = useState(false);
+
+    const handleOpenConfirm = (item) => {
+        setOpenConfirm(true);
+        setItemClick(item)
+    }
+    const handleOpenConfirmGroup = (item) => {
+        setOpenConfirmGroup(true);
+        setItemClick(item)
+    }
+    const handleClose = () => {
+        setOpenConfirm(false);
+        setOpenConfirmGroup(false);
+    }
+
+    const handleConfirm = () => {
+        dispatch(disablePost(itemClick.id, selectedEnableId, filtersEnable))
+        setOpenConfirm(false);
+    }
+    const handleConfirmGroup = () => {
+        dispatch(disablePostGroup(itemClick.id, selectedGroupId, filtersEnable))
+        setOpenConfirmGroup(false);
+    }
+
     const enableLabel = [
         {
             id: 0,
@@ -99,6 +130,9 @@ export default function TradingPostManagement() {
 
 
     const handleClickGroupItem = (event, id, name) => {
+        if (active !== 'group') {
+            setActive('group');
+        }
         setSelectedGroup(name)
         setSelectedGroupId(id)
         const newFilter = {
@@ -116,9 +150,9 @@ export default function TradingPostManagement() {
     // Hanle selected Group
     const handleToggleGroup = () => {
         setOpenGroup((prevOpen) => !prevOpen);
-        if (active !== 'group') {
-            setActive('group');
-        }
+        // if (active !== 'group') {
+        //     setActive('group');
+        // }
     };
 
     const handleCloseGroup = (event) => {
@@ -130,6 +164,9 @@ export default function TradingPostManagement() {
 
     // ===================ENABLE===========================
     const handleClickEnableItem = (event, id, name) => {
+        if (active !== 'enable') {
+            setActive('enable');
+        }
         setSelectedEnable(name)
         setSelectedEnableId(id)
         const newFilter = {
@@ -146,9 +183,7 @@ export default function TradingPostManagement() {
 
     const handleToggleEnable = () => {
         setOpenEnable((prevOpen) => !prevOpen);
-        if (active !== 'enable') {
-            setActive('enable');
-        }
+
     };
 
     const handleCloseEnable = (event) => {
@@ -192,7 +227,7 @@ export default function TradingPostManagement() {
         <>
             <div className="title-page">
                 <DescriptionIcon />
-                <span>tradingPost management</span>
+                <span>trading post management</span>
             </div>
 
             <div className="btn-group">
@@ -308,6 +343,7 @@ export default function TradingPostManagement() {
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Avatar</th>
+                                <th>Title</th>
                                 <th>Image</th>
                                 <th>Content</th>
                                 <th>Toy Name</th>
@@ -323,11 +359,13 @@ export default function TradingPostManagement() {
                                 <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{item.ownerName}</td>
+
                                     <td>
                                         <div className="avatar">
                                             <Avatar src={item.ownerAvatar} alt="avatar" sx={{ position: 'static !important' }}></Avatar>
                                         </div>
                                     </td>
+                                    <td>{item.title}</td>
                                     <td className="td-images" >
                                         <div className="images">
                                             <ShowImage id={item.id} />
@@ -346,13 +384,15 @@ export default function TradingPostManagement() {
                                         <div>{item.address}</div>
                                     </td>
                                     <td>
-                                        <div>{item.status}</div>
+                                        {
+                                            item.status == 0 ? <div>Open</div> : item.status == 1 ? <div>Exchanging</div> : item.status == 2 ? <div>Closed</div> : <></>
+                                        }
                                     </td>
                                     <td>{formatDate(item.postDate)}</td>
                                     {
                                         active === 'enable' && selectedEnableId == 2 ?
                                             <td>
-                                                <button className="btn btn-delete" onClick={() => dispatch(disablePost(item.id, selectedEnableId, filtersEnable))}>
+                                                <button className="btn btn-deny" onClick={() => handleOpenConfirm(item)}>
                                                     <Tooltip title="Disable">
                                                         <DoDisturbOnIcon />
                                                     </Tooltip>
@@ -368,7 +408,8 @@ export default function TradingPostManagement() {
                                                 </td> :
                                                 active === 'group' ?
                                                     <td>
-                                                        <button className="btn btn-deny" onClick={() => dispatch(disablePost(item.id, 2, filtersEnable))}>
+                                                        <button className="btn btn-deny" onClick={() => handleOpenConfirmGroup(item)}>
+                                                            {/* <button className="btn btn-deny" onClick={() => handleOpenConfirm(item)}> */}
                                                             <Tooltip title="Disable">
                                                                 <DoDisturbOnIcon />
                                                             </Tooltip>
@@ -402,6 +443,64 @@ export default function TradingPostManagement() {
                     </Box>
                 </div>
             </div>
+
+            <Dialog
+                open={openConfirm}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    Are you sure to disable trading {itemClick.title}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px", display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                    <ShowImage id={itemClick.id} />
+                </DialogContent>
+
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleConfirm}>
+                        Disable
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                open={openConfirmGroup}
+                onClose={handleClose}
+                fullWidth={fullWidth}
+                maxWidth={maxWidth}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: "center",
+                        borderBottom: "1px solid #d3d3d3",
+                    }}
+                >
+                    Are you sure to disable trading {itemClick.title}
+                </DialogTitle>
+                <DialogContent sx={{ marginTop: "10px", display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                    <Box >
+                        <ShowImage id={itemClick.id} />
+                    </Box>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button color="inherit" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleConfirmGroup}>
+                        Disable
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }

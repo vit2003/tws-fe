@@ -10,7 +10,6 @@ import FormEdit from './formEdit';
 
 export default function EditPrize() {
     const state = useSelector(state => state.prize);
-    console.log("state: ", state);
     const history = useHistory();
     const params = useParams();
     const dispatch = useDispatch();

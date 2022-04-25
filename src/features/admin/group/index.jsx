@@ -27,23 +27,23 @@ export default function GroupManagement() {
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Action</th>
+                                {/* <th>Action</th> */}
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 state.groups && state.groups.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{item.id}</td>
+                                        <td>{index + 1}</td>
                                         <td>{item.name}</td>
-                                        <td>
+                                        {/* <td>
                                             <Link className="btn btn-edit" to={`/admin/group/${item.id}`}>
                                                 <EditIcon />
                                             </Link>
-                                            {/* <button className="btn btn-delete" onClick={() => dispatch(deleteGroup(item.id))}>
+                                            <button className="btn btn-delete" onClick={() => dispatch(deleteGroup(item.id))}>
                                                 <DeleteForeverIcon />
-                                            </button> */}
-                                        </td>
+                                            </button>
+                                        </td> */}
                                     </tr>
                                 ))
                             }
