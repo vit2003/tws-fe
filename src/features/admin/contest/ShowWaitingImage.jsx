@@ -1,10 +1,7 @@
 import { CardMedia, Dialog, DialogContent, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Navigation, Pagination } from "swiper";
-import postApi from '../../../api/postApi';
-import eventApi from '../../../api/eventApi';
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';

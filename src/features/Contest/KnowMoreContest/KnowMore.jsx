@@ -18,14 +18,6 @@ function KnowMore(props) {
     const classes = useStyles();
     const [files, setFiles] = useState("");
 
-    // Create a reference to the file we want to download
-    // const storage = getStorage();
-    // const listRef = ref(storage, 'Proposal/');
-    // const firstPage = await list(listRef, { maxResults: 100 });
-
-
-
-
     return (
         <div className='knowmore'>
             <Header />

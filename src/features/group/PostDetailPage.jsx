@@ -1,14 +1,13 @@
 import { Box, Card, Container } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import GroupBar from '../../components/GroupBar';
 import Header from '../../components/Header';
+import postApi from './../../api/postApi';
 import CommentSkeleton from './../../components/CommentSkeleton/CommentSkeleton';
 import PostSkeleton from './../../components/PostSkeleton/PostSkeleton';
 import CommentList from './components/CommentList';
 import PostDetail from './components/PostDetail';
-import usePostDetails from './hooks/usePostDetails';
-import postApi from './../../api/postApi';
 
 PostDetailPage.propTypes = {
 

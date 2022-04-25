@@ -1,16 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Box } from '@mui/material/';
-
-import { makeStyles } from '@mui/styles';
 import CardMedia from '@mui/material/CardMedia';
-import { useState } from 'react';
-import { Swiper, SwiperSlide } from "swiper/react";
+import { makeStyles } from '@mui/styles';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
-import { Pagination, Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+
 
 ToyThumbnails.propTypes = {
     toy: PropTypes.object,

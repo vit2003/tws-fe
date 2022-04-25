@@ -3,7 +3,7 @@ import BalanceIcon from '@mui/icons-material/Balance';
 import CommentIcon from '@mui/icons-material/Comment';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { DialogContent, DialogTitle, DialogActions } from '@mui/material';
+import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Box, Dialog, Divider, Typography } from '@mui/material/';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -18,9 +18,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { makeStyles } from '@mui/styles';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import Swal from 'sweetalert2';
 import { Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
@@ -32,7 +33,6 @@ import { db } from '../../../../Firebase/firebase';
 import tradingPostApi from './../../../../api/TradingPostApi';
 import formatDate from './../../../../utils/formatDate';
 import ShowImage from './../../../admin/tradingPost/showImage';
-import Swal from 'sweetalert2';
 
 
 

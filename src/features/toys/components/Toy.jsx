@@ -2,7 +2,7 @@ import { CardContent, CardMedia, Typography } from '@mui/material';
 import { Box, Card } from '@mui/material/';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {useHistory} from 'react-router';
+import { useHistory } from 'react-router';
 import './Toy.scss';
 
 

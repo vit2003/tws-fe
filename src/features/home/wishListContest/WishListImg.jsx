@@ -1,9 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { CardMedia } from '@mui/material/';
-import { useEffect } from 'react';
-import tradingPostApi from '../../../api/TradingPostApi';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 WishListImg.propTypes = {
 

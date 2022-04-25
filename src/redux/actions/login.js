@@ -1,9 +1,9 @@
-import axioClient from '../../api/axiosClient'
+import Swal from 'sweetalert2';
+import axioClient from '../../api/axiosClient';
+import StorageKeys from './../../constants/storage-keys';
 import {
     LOGIN
-} from './types'
-import StorageKeys from './../../constants/storage-keys';
-import Swal from 'sweetalert2';
+} from './types';
 
 export const login = (params) => {
     return async (dispatch) => {

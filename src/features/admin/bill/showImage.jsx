@@ -1,14 +1,13 @@
 import { CardMedia, Dialog, DialogContent, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigation, Pagination } from "swiper";
-import billApi from './../../../api/billApi';
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
+import billApi from './../../../api/billApi';
 
 const useStyle = makeStyles(theme => ({
     onClickOpenImgDiv: {

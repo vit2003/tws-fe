@@ -1,7 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import Swal from 'sweetalert2';
 import axioClient from '../../api/axiosClient';
 import { PRIZE } from './types';
-import Swal from 'sweetalert2';
 
 
 

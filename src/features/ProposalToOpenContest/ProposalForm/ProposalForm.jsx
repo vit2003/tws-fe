@@ -1,24 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import CloseIcon from '@mui/icons-material/Close';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { Box, Button, Card, FormControl, Grid, Typography, InputLabel, MenuItem } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import * as yup from "yup";
-import CircularProgressWithLabel from '../../../components/CircularWithLabel/CircularProgressWithLabel';
 import eventApi from './../../../api/eventApi';
 import groupApi from './../../../api/groupApi';
 import InputEditBioField from './../../../components/form-controls/InputEditBioField/InputEditBioField';
 import InputField from './../../../components/form-controls/InputFields/index';
-import Swal from 'sweetalert2';
+import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
 
 
 const useStyles = makeStyles(theme => ({

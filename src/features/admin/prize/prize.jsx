@@ -1,21 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import { Button, ImageListItem, ImageList, Card, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { Button, ButtonGroup, Card, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, ImageList, ImageListItem } from '@mui/material';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import { styled } from "@mui/material/styles";
 import Tooltip from '@mui/material/Tooltip';
+import { makeStyles } from "@mui/styles";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { Link } from 'react-router-dom';
-import { makeStyles } from "@mui/styles";
-import { styled } from "@mui/material/styles";
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Swal from 'sweetalert2';
 import * as yup from "yup";
 import AdminInputField from '../../../components/form-controls/AdminInputField/AdminInputField';
@@ -272,46 +272,11 @@ function PrizeManagement() {
                                                     <DeleteIcon />
                                                 </Tooltip>
                                             </a>
-                                            {/* <button className="btn btn-delete" onClick={
-                                                async () => {
-                                                    dispatch(deletePrize(item.id))
-                                                    await Swal.fire(
-                                                        'Delete prize successfully',
-                                                        'Click Button to continute!',
-                                                        'success'
-                                                    )
-                                                }
-                                            }>
-                                                <Tooltip title="Delete">
-                                                    <DeleteIcon />
-                                                </Tooltip>
-                                            </button> */}
-                                            {/* {
-                                                item.status == 'Active' ?
-                                                    <IconButton size="normal" color="inherit" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                                        <LockIcon />
-                                                    </IconButton>
-                                                    :
-                                                    <IconButton size="normal" color="inherit" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                                        <LockOpenIcon />
-                                                    </IconButton>
-
-                                            } */}
                                         </td>
                                     </tr>
                                 ))
                             }
 
-                            {/* <button className="btn btn-lock" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                <Tooltip title="Lock">
-                                    <LockIcon />
-                                </Tooltip>
-                            </button>
-                            <button className="btn btn-unlock" onClick={() => dispatch(deactiveAccount(item.id))}>
-                                <Tooltip title="Unlock">
-                                    <LockOpenIcon />
-                                </Tooltip>
-                            </button> */}
                             {
                                 state.prizes.length < 1 &&
                                 <tr>

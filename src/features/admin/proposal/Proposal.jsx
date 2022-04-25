@@ -1,36 +1,19 @@
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DescriptionIcon from '@mui/icons-material/Description';
 import DoDisturbIcon from '@mui/icons-material/DoDisturb';
-import DoneIcon from '@mui/icons-material/Done';
-import GroupIcon from '@mui/icons-material/Group';
 import EditIcon from '@mui/icons-material/Edit';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import PendingIcon from '@mui/icons-material/Pending';
 import { Tooltip } from '@mui/material';
-import Box from '@mui/material/Box';
 import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle
 } from '@mui/material/';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import CircularProgress from '@mui/material/CircularProgress';
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import AddIcon from '@mui/icons-material/Add';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import { TextField } from '@mui/material/';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGroups } from './../../../redux/actions/group';
-import formatDate from './../../../utils/formatDate';
 import { disableProposal, getAllProposals } from './../../../redux/actions/proposal';
 import CreateContestForm from './CreateContestForm';
 

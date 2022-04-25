@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Box, Grid } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
-import { Grid,Box } from '@mui/material';
+import PropTypes from 'prop-types';
+import React from 'react';
 ToyTypeSkeletionList.propTypes = {
     length: PropTypes.number,
 };
@@ -17,7 +17,7 @@ function ToyTypeSkeletionList({ length }) {
                 {Array.from(new Array(length)).map((x, index) => (
                     <Grid key={index} item xs={12}>
                         <Box padding={1}>
-                        <Skeleton animation="wave" />
+                            <Skeleton animation="wave" />
                         </Box>
                     </Grid>
                 ))}

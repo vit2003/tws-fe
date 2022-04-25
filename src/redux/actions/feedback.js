@@ -1,7 +1,7 @@
-import axioClient from '../../api/axiosClient'
+import axioClient from '../../api/axiosClient';
 import {
     FEEDBACK
-} from './types'
+} from './types';
 
 
 export const getFeedbackAccount = (filter) => {

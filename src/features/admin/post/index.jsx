@@ -1,13 +1,8 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DescriptionIcon from '@mui/icons-material/Description';
-import DoDisturbIcon from '@mui/icons-material/DoDisturb';
-import DoneIcon from '@mui/icons-material/Done';
 import GroupIcon from '@mui/icons-material/Group';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import PendingIcon from '@mui/icons-material/Pending';
-import { Tooltip } from '@mui/material';
-import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -19,10 +14,10 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { approvePost, denyPost, getPostsByGroupId, getPostsByUserId, getPostsWaiting } from '../../../redux/actions/post';
+import { getPostsByGroupId } from '../../../redux/actions/post';
 import { getGroups } from './../../../redux/actions/group';
-import ShowImage from './showImage';
 import formatDate from './../../../utils/formatDate';
+import ShowImage from './showImage';
 
 export default function PostManagement() {
     const state = useSelector(state => state.post)

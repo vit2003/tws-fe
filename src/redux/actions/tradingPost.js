@@ -1,6 +1,6 @@
-import axioClient from '../../api/axiosClient'
-import { TRADINGPOST } from './types'
 import Swal from 'sweetalert2';
+import axioClient from '../../api/axiosClient';
+import { TRADINGPOST } from './types';
 
 export const getTradingPostsByGroupId = (groupID, params) => {
     return (dispatch) => {

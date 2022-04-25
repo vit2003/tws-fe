@@ -1,14 +1,13 @@
-import { Avatar, Box, Typography, Menu, MenuItem } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Avatar, Box, Menu, MenuItem, Typography } from '@mui/material';
+import { IconButton } from '@mui/material/';
 import { makeStyles } from '@mui/styles';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { IconButton } from '@mui/material/';
-import CommentIcon from '@mui/icons-material/Comment';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import postApi from './../../../api/postApi';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import postApi from './../../../api/postApi';
 CommentDetail.propTypes = {
 
 };

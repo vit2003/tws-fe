@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { TextField, FormControl, InputLabel, MenuItem, Button, Card, ImageList, ImageListItem, IconButton } from '@mui/material/';
-import SaveIcon from '@mui/icons-material/Save';
-import CloseIcon from "@mui/icons-material/Close";
-import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
-import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
-import InputDateTimeField from './../../../components/form-controls/InputDateTimeField/InputDateTimeField';
-import { styled } from '@mui/material/styles';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useSelector, useDispatch } from 'react-redux';
-import { getGroups } from './../../../redux/actions/group';
-import Swal from 'sweetalert2';
+import CloseIcon from "@mui/icons-material/Close";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import * as yup from "yup";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { useForm } from 'react-hook-form';
+import { Button, Card, FormControl, IconButton, ImageList, ImageListItem, InputLabel, MenuItem, TextField } from '@mui/material/';
+import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import * as yup from "yup";
 import eventApi from './../../../api/eventApi';
+import InputDateTimeField from './../../../components/form-controls/InputDateTimeField/InputDateTimeField';
+import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
+import { getGroups } from './../../../redux/actions/group';
 
 const useStyle = makeStyles((theme) => ({
     closeBtn: {

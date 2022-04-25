@@ -1,7 +1,7 @@
- import axioClient from '../../api/axiosClient'
- import {
-     GROUP
- } from './types'
+import axioClient from '../../api/axiosClient';
+import {
+    GROUP
+} from './types';
 
 export const getGroups = () => {
     return (dispatch) => {

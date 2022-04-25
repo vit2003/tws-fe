@@ -1,5 +1,5 @@
 import { Box, Card, Container, Grid } from '@mui/material';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import eventApi from './../../../../api/eventApi';
 import postApi from './../../../../api/postApi';

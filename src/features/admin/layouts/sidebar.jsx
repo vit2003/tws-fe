@@ -1,15 +1,14 @@
 import {
-    AttachMoney, ChatBubbleOutline, LineStyle, PermIdentity, Report, Timeline,
-    TrendingUp, WorkOutline
+    AttachMoney, ChatBubbleOutline, LineStyle, PermIdentity, Timeline,
+    TrendingUp
 } from "@material-ui/icons";
 import DescriptionIcon from '@mui/icons-material/Description';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
 
 export default function SidebarAdmin({ reload }) {
     const currentUser = useSelector(state => state.login.infoUser)
@@ -156,23 +155,6 @@ export default function SidebarAdmin({ reload }) {
                                     </Link>
                                 </ul>
                             </div>
-                            {/* <div className="sidebarMenu">
-                                <h3 className="sidebarTitle">Staff</h3>
-                                <ul className="sidebarList">
-                                    <li className="sidebarListItem">
-                                        <WorkOutline className="sidebarIcon" />
-                                        Manage
-                                    </li>
-                                    <li className="sidebarListItem">
-                                        <Timeline className="sidebarIcon" />
-                                        Analytics
-                                    </li>
-                                    <li className="sidebarListItem">
-                                        <Report className="sidebarIcon" />
-                                        Reports
-                                    </li>
-                                </ul>
-                            </div> */}
                         </>
                     }
 

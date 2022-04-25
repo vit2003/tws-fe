@@ -1,8 +1,8 @@
 import CloseIcon from '@mui/icons-material/Close';
-import StarIcon from '@mui/icons-material/Star';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import StarIcon from '@mui/icons-material/Star';
 import {
-    Box, Avatar, Button, Card, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, ImageList, ImageListItem, Rating, Typography
+    Box, Button, Card, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, ImageList, ImageListItem, Rating, Typography
 } from "@mui/material/";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
@@ -14,18 +14,14 @@ import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
 import Swal from 'sweetalert2';
 import InputField from '../../../components/form-controls/InputFields';
+import InputPostField from '../../../components/form-controls/InputPostFields';
 import eventApi from "./../../../api/eventApi";
 import prizeApi from "./../../../api/prizeApi";
 import Header from "./../../../components/Header/index";
+import formatDate from './../../../utils/formatDate';
 import Runner from './../Runner/Runner';
 import RunnerClosed from './../RunnerClosed/RunnerClosed';
-import formatDate from './../../../utils/formatDate';
 import "./Contest.scss";
-import InputPostField from '../../../components/form-controls/InputPostFields';
-
-
-
-
 
 Contest.propTypes = {};
 

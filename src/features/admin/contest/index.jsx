@@ -1,33 +1,24 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DiamondIcon from '@mui/icons-material/Diamond';
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import DoneIcon from '@mui/icons-material/Done';
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
-import DoDisturbIcon from '@mui/icons-material/DoDisturb';
-import DoneIcon from '@mui/icons-material/Done';
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import InsertInvitationIcon from "@mui/icons-material/InsertInvitation";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
-import DiamondIcon from '@mui/icons-material/Diamond';
-import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
-import Swal from 'sweetalert2';
 import {
-    Box,
-    Avatar,
-    Grid,
-    FormControlLabel,
-    RadioGroup,
-    FormLabel,
-    Button,
+    Avatar, Box, Button,
     ButtonGroup,
     Card,
     CircularProgress,
-    Dialog,
-    Radio,
-    DialogActions,
+    Dialog, DialogActions,
     DialogContent,
     DialogTitle,
     FormControl,
@@ -45,29 +36,25 @@ import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from 'sweetalert2';
 import * as yup from "yup";
 import AdminInputField from "../../../components/form-controls/AdminInputField/AdminInputField";
 import eventApi from "./../../../api/eventApi";
 import InputDateTimeField from "./../../../components/form-controls/InputDateTimeField/InputDateTimeField";
 import MultiInputField from "./../../../components/form-controls/MultiInputField/MultiInputField";
 import SelectFormField from "./../../../components/form-controls/SelectField/SelectFormField";
-import ShowImage from './showImage';
 import {
-    addPrize, approvePost, deleteContest, deletePostOfContest, deleteSubcriber, getAllContestABC, denyPost,
-    getAllSubcribers,
+    addPrize, addWinner, approvePost, deleteContest, deletePostOfContest, deleteSubcriber, denyPost, getAllContestABC, getAllSubcribers,
     getBrand,
-    getPostOfContest,
-    getPrizesOfContest,
+    getPostOfContest, getPrizesForEnd, getPrizesOfContest,
     getSubmissions,
     getTop10Submissions,
-    getType,
-    addWinner,
-    getPrizesForEnd
+    getType
 } from "./../../../redux/actions/contest";
 import { getGroups } from "./../../../redux/actions/group";
 import { getPrizes } from "./../../../redux/actions/prize";
-import Top10Submissions from './Top10Submissions';
 import formatDate from './../../../utils/formatDate';
+import ShowImage from './showImage';
 
 // Style CSS
 const useStyle = makeStyles((theme) => ({

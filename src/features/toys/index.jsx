@@ -1,6 +1,6 @@
 import { Box } from '@mui/material/';
 import React from 'react';
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import Header from './../../components/Header/index';
 import ListPage from './ListPage.jsx';
 import DetailPage from './ListPage.jsx/DetailPage';

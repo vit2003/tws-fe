@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Card, Grid, Typography, Box } from '@mui/material/';
-import { CardMedia } from '@mui/material/';
+import { Box, Card, CardMedia, Grid, Typography } from '@mui/material/';
 import { makeStyles } from '@mui/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useHistory } from 'react-router';
 import formatDate from './../../../../utils/formatDate';
 const useStyles = makeStyles(theme => ({
@@ -10,8 +9,6 @@ const useStyles = makeStyles(theme => ({
         color: 'grey',
         fontSize: '13px !important'
     },
-
-
 }))
 
 

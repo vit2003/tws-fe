@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Provider, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import '../../../assets/css/admin.css';
-import store from '../../../redux/store';
 import Topbar from './../topbar/Topbar';
 import SidebarAdmin from './sidebar';
 
@@ -11,7 +10,6 @@ function AdminLayout({ children }) {
     const [reload, setReload] = useState(false)
 
     return (
-        // <Provider store={store}>
         <React.Fragment>
             <Topbar reload={() => setReload(!reload)} />
             <div className='container'>
@@ -25,7 +23,6 @@ function AdminLayout({ children }) {
 
 
         </React.Fragment>
-        // </Provider>
     );
 }
 

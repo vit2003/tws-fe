@@ -1,7 +1,7 @@
-import axioClient from '../../api/axiosClient'
+import axioClient from '../../api/axiosClient';
 import {
     BILL
-} from './types'
+} from './types';
 
 
 export const getBillByStatus = (statusId, filter) => {

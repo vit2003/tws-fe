@@ -1,14 +1,14 @@
-import { Box, Container } from '@mui/material/';
-import React from 'react';
-import { makeStyles } from '@mui/styles';
 import { Grid } from '@material-ui/core';
+import { Box, Container } from '@mui/material/';
 import Paper from '@mui/material/Paper';
-import ToyThumbnails from './../components/ToyThumbnails';
+import { makeStyles } from '@mui/styles';
+import React from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import useToyDetails from './../hooks/useToyDetails';
 import ToyInfo from '../components/ToyInfo';
-import PostSkeleton from './../../../components/PostSkeleton/PostSkeleton';
 import Header from './../../../components/Header/index';
+import PostSkeleton from './../../../components/PostSkeleton/PostSkeleton';
+import ToyThumbnails from './../components/ToyThumbnails';
+import useToyDetails from './../hooks/useToyDetails';
 
 
 const useStyles = makeStyles(theme => ({

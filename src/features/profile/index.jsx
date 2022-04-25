@@ -1,34 +1,33 @@
-import { Avatar, AppBar, Toolbar, IconButton, Box, Button, Slide, Card, Container, Typography, Chip, Stack, DialogActions, DialogContent } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import { AppBar, Avatar, Box, Button, Card, Chip, Container, DialogActions, DialogContent, IconButton, Slide, Stack, Toolbar, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
-import CloseIcon from '@mui/icons-material/Close';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import AddIcon from '@mui/icons-material/Add';
-import WishList from './../../components/Header/WishList';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
-import groupApi from './../../api/groupApi';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useRouteMatch, useHistory } from 'react-router-dom';
-import accountApi from './../../api/accountApi';
-import postApi from './../../api/postApi';
-import Header from './../../components/Header/index';
-import PostSkeleton from './../../components/PostSkeleton/PostSkeleton';
-import PostList from './../group/components/PostList/index';
-import tradingPostApi from './../../api/TradingPostApi';
-import TradingPostDetail from './../exchange/components/TradingPostDetail/TradingPostDetail';
-import TradingPostList from './../exchange/components/TradingPostList/TradingPostList';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import accountApi from './../../api/accountApi';
+import groupApi from './../../api/groupApi';
+import postApi from './../../api/postApi';
 import proposalApi from './../../api/proposalApi';
-import { makeStyles } from '@mui/styles';
+import tradingPostApi from './../../api/TradingPostApi';
+import Header from './../../components/Header/index';
+import WishList from './../../components/Header/WishList';
+import PostSkeleton from './../../components/PostSkeleton/PostSkeleton';
+import TradingPostList from './../exchange/components/TradingPostList/TradingPostList';
+import PostList from './../group/components/PostList/index';
 
 const useStyles = makeStyles(theme => ({
     cssBtn: {

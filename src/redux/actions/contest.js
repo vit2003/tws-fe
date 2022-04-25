@@ -1,6 +1,6 @@
-import axioClient from '../../api/axiosClient'
-import { CONTEST } from './types';
 import Swal from 'sweetalert2';
+import axioClient from '../../api/axiosClient';
+import { CONTEST } from './types';
 
 export const getAllContestABC = (statusId, filtersContest) => {
     return (dispatch) => {

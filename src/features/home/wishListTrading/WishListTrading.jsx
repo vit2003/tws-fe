@@ -1,17 +1,17 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { Card, CardContent, CardMedia, Container, Typography, Button, Box } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Autoplay, Navigation, Pagination } from "swiper";
-
 // Import Swiper styles
 import "swiper/css";
+import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import "swiper/css/pagination";
-import 'swiper/css/autoplay';
 import { Swiper, SwiperSlide } from "swiper/react";
 import tradingPostApi from './../../../api/TradingPostApi';
-import { makeStyles } from '@mui/styles';
-import { useHistory } from 'react-router-dom';
 import WishListImg from './WishListImg';
+
 
 
 const useStyle = makeStyles(theme => ({

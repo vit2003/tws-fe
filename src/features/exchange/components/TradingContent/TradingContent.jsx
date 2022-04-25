@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import tradingPostApi from '../../../../api/TradingPostApi';
 import PostSkeleton from '../../../../components/PostSkeleton/PostSkeleton';
 import CreateTradingPost from '../../CreateTradingPost/CreateTradingPost';
-import TradingPostList from './../TradingPostList/TradingPostList';
 import TradingPostDetail from './../TradingPostDetail/TradingPostDetail';
 
 TradingContent.propTypes = {

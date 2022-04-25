@@ -1,8 +1,7 @@
-import axioClient from '../../api/axiosClient'
+import axioClient from '../../api/axiosClient';
 import {
     POST
-} from './types'
-import Swal from 'sweetalert2';
+} from './types';
 
 export const getPostsByUserId = (userID) => {
     return (dispatch) => {

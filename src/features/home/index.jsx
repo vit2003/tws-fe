@@ -1,35 +1,24 @@
-import { Card, CardContent, CardMedia, Container, Typography, Button } from '@mui/material';
+import { Button, Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { makeStyles } from '@mui/styles';
 import React, { Fragment, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
+import { Autoplay, Navigation, Pagination } from "swiper";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/autoplay";
+import 'swiper/css/navigation';
+import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
 import eventApi from './../../api/eventApi';
 import GroupBar from './../../components/GroupBar/index';
 import Header from './../../components/Header/index';
 import CrawlDataUnit from './CrawlDataUnit/index';
-import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import tradingPostApi from './../../api/TradingPostApi';
-import { useSelector } from 'react-redux';
-import { Autoplay, Navigation, Pagination } from "swiper";
-// Import Swiper styles
-import "swiper/css";
-import 'swiper/css/navigation';
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
-import { Swiper, SwiperSlide } from "swiper/react";
-import WishListTrading from './wishListTrading/WishListTrading';
-
 import './styles.scss';
 import WishListContest from './wishListContest/WishListContest';
+import WishListTrading from './wishListTrading/WishListTrading';
+
 
 
 Home.propTypes = {

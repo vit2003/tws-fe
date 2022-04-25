@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { DialogContent, DialogContentText, Card, IconButton, ImageList, ImageListItem, Button, Dialog, DialogTitle } from '@mui/material/';
-import InputField from '../../../components/form-controls/InputFields';
-import { useForm } from 'react-hook-form';
 import CloseIcon from '@mui/icons-material/Close';
-import { makeStyles } from '@mui/styles';
-import { styled } from '@mui/material/styles';
-import { getStorage } from 'firebase/storage';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { Button, Card, Dialog, DialogContent, DialogContentText, DialogTitle, IconButton, ImageList, ImageListItem } from '@mui/material/';
+import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import { getStorage } from 'firebase/storage';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import InputField from '../../../components/form-controls/InputFields';
 
 const useStyle = makeStyles(theme => ({
 

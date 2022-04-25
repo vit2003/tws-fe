@@ -1,10 +1,9 @@
-import axioClient from '../../api/axiosClient'
+import Swal from 'sweetalert2';
+import axioClient from '../../api/axiosClient';
 import {
 
     ACCOUNT
-} from './types'
-import StorageKeys from './../../constants/storage-keys';
-import Swal from 'sweetalert2';
+} from './types';
 /*
 * Token
 * - Manager: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJSb2xlIjoiMSIsIkFjY291bnRJZCI6IjQiLCJuYmYiOjE2NDU4NDQzMzIsImV4cCI6MTY0NjQ1MDkzMiwiaWF0IjoxNjQ1ODQ0MzMyfQ.WLztfRoQh3HqEj9HNcVWpQM9VItgvWbo_FKngycvsB8

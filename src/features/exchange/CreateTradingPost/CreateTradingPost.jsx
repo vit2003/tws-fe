@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import CloseIcon from '@mui/icons-material/Close';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { Avatar, Button, Card, CardHeader, FormControl, FormControlLabel, InputLabel, MenuItem, Switch, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardHeader, FormControl, FormControlLabel, Switch, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { grey } from '@mui/material/colors';
 import Dialog from '@mui/material/Dialog';
@@ -16,16 +16,14 @@ import { makeStyles } from '@mui/styles';
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 import * as yup from "yup";
-import eventApi from './../../../api/eventApi';
 import tradingPostApi from './../../../api/TradingPostApi';
 import InputField from './../../../components/form-controls/InputFields/index';
 import InputPostField from './../../../components/form-controls/InputPostFields/index';
-import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
-import Swal from 'sweetalert2';
 
 CreateTradingPost.propTypes = {
     onSubmit: PropTypes.func,
@@ -91,18 +89,6 @@ function CreateTradingPost({ tradingGroupId }) {
     const inputRef = React.useRef();
     const storage = getStorage();
 
-    // useEffect(async () => {
-    //     try {
-    //         const [brandList, typeList] = await Promise.all([
-    //             eventApi.getBrand(),
-    //             eventApi.getType(),
-    //         ]);
-    //         setBrands(brandList)
-    //         setTypes(typeList)
-    //     } catch (error) {
-    //         console.log("fail to get brand: ", error);
-    //     }
-    // }, [])
 
 
     const [isExchangeByMoney, setIsExchangeByMoney] = useState(false);
@@ -231,15 +217,12 @@ function CreateTradingPost({ tradingGroupId }) {
                 icon: 'error',
                 title: 'Oops...',
                 text: "Something go wrong",
-                // footer: '<a href="">Why do I have this issue?</a>'
             })
         }
         setStrgImg([]);
         form.reset();
     }
-    // const handleOpenProfile = () => {
-    //     history.push(`/account/${account.id}`)
-    // }
+
 
     return (
         <div className='CreatePost'>
