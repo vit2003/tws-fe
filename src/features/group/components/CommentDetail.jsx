@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography, Menu, MenuItem } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -6,7 +6,9 @@ import { IconButton } from '@mui/material/';
 import CommentIcon from '@mui/icons-material/Comment';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import postApi from './../../../api/postApi';
-
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 CommentDetail.propTypes = {
 
 };
@@ -35,10 +37,41 @@ function CommentDetail({ comment, reload }) {
 
     const classes = useStyles();
     const history = useHistory();
+    const currentUser = useSelector(state => state.login.infoUser);
 
     const [isLiked, setIsLiked] = useState(comment.isReacted);
     const [numOfLiked, setNumOfLiked] = useState(comment.numOfReact);
 
+    // More icon open
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openMore = Boolean(anchorEl);
+    const handleClickMoreIcon = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleDeleteCmt = async () => {
+        try {
+            await postApi.deleteCmt(comment.id);
+            reload();
+            await Swal.fire(
+                'Delete successfully',
+                'Click Button to continute!',
+                'success'
+            )
+            setAnchorEl(null);
+        } catch (error) {
+            await Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
+        }
+
+    }
+
+    const handleCloseMore = () => {
+        setAnchorEl(null);
+    }
     const handleOpenProfile = () => {
         history.push(`/account/${comment.ownerId}`)
     }
@@ -54,6 +87,8 @@ function CommentDetail({ comment, reload }) {
             console.log('Failed to reactPost', error)
         }
     }
+
+
     console.log("comment: ", comment);
 
     return (
@@ -77,7 +112,39 @@ function CommentDetail({ comment, reload }) {
                 <IconButton onClick={handleEmotionClick} aria-label="add to favorites">
                     {isLiked === true ? <FavoriteIcon className={classes.heartIcon} /> : <FavoriteIcon className={classes.unHeartIcon} />}
                 </IconButton>
+
+                {
+                    currentUser.accountId === comment.ownerId && <IconButton onClick={handleClickMoreIcon}
+                        aria-label="more"
+                        id="long-button"
+                        aria-controls={openMore ? 'long-menu' : undefined}
+                        aria-expanded={openMore ? 'true' : undefined}
+                        aria-haspopup="true">
+                        <MoreVertIcon />
+                    </IconButton>
+                }
+
             </Box>
+
+            <Menu
+                id="long-menu"
+                MenuListProps={{
+                    'aria-labelledby': 'long-button',
+                }}
+                anchorEl={anchorEl}
+                open={openMore}
+                onClose={handleCloseMore}
+                PaperProps={{
+                    style: {
+                        maxHeight: 48 * 4.5,
+                        width: '20ch',
+                    },
+                }}
+            >
+                <MenuItem onClick={handleDeleteCmt}>
+                    Delete
+                </MenuItem>
+            </Menu>
         </Box >
 
     );

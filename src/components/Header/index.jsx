@@ -1,19 +1,15 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import SearchIcon from '@mui/icons-material/Search';
 import BalanceIcon from '@mui/icons-material/Balance';
 import Chat from '@mui/icons-material/Chat';
+import CloseIcon from '@mui/icons-material/Close';
 import Home from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Avatar, Checkbox, Paper, MenuList, ListItemIcon, ListItemText, Divider, Popper, ClickAwayListener, Grow, Slide, Typography, Button, ListItem, Grid, CardMedia, CardActionArea, Container, Card, CardContent, CardActions } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
-import List from '@mui/material/List';
-import CloseIcon from '@mui/icons-material/Close';
+import { Avatar, Button, Container, Grid, Slide, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
+import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Menu from '@mui/material/Menu';
@@ -21,23 +17,22 @@ import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import { makeStyles } from '@mui/styles';
-import groupApi from './../../api/groupApi';
 import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import WishList from './WishList';
 import { NavLink } from 'react-router-dom';
-import { logout } from '../../features/authentication/accountSlice';
-import { logoutAccount } from '../../redux/actions/login';
-import StorageKeys from './../../constants/storage-keys'
-import { login, setAccount } from './../../redux/actions/login';
-import { useEffect, useState, useRef } from 'react';
 import Swal from 'sweetalert2';
-import formatDate from './../../utils/formatDate';
+import { logoutAccount } from '../../redux/actions/login';
+import SearchBar from '../SearchBar/SearchBar';
 import accountApi from './../../api/accountApi';
+import groupApi from './../../api/groupApi';
 import notiApi from './../../api/notiApi';
 import tradingPostApi from './../../api/TradingPostApi';
-import SearchBar from '../SearchBar/SearchBar';
+import StorageKeys from './../../constants/storage-keys';
+import { setAccount } from './../../redux/actions/login';
+import formatDate from './../../utils/formatDate';
+import WishList from './WishList';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -273,8 +268,6 @@ function Header() {
       <MenuItem onClick={handleLogoutClick}>Log out</MenuItem>
     </Menu>
   );
-
-
 
   // SEARCH FUNTION
   const [q, setQ] = useState("");

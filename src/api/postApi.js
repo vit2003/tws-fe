@@ -61,6 +61,13 @@ const postApi = {
             return axioClient.delete(`/posts/${id}`)
         }
     },
+    deleteCmt(id) {
+        const token = axioClient.getToken();
+        if (token) {
+            axioClient.setHeaderAuth(token)
+            return axioClient.delete(`/comments/${id}`)
+        }
+    },
 
     getPostImage(id) {
         const token = axioClient.getToken();

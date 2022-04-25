@@ -93,7 +93,7 @@ function CommentList({ comments, postId, reload }) {
             </form>
 
             {listComment?.map((comment) => (
-                <CommentDetail key={comment.id} comment={comment} />
+                <CommentDetail key={comment.id} comment={comment} reload={reload} />
             ))}
         </div>
     );
