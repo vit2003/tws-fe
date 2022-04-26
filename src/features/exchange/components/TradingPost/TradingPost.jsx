@@ -461,12 +461,12 @@ function TradingPost({ tradingPost }) {
                     {tradingPost?.content}
                 </Typography>
 
-                <Typography className={classes.brand}>
+                {/* <Typography className={classes.brand}>
                     Brand: {tradingPost?.brand}
                 </Typography>
                 <Typography className={classes.type}>
                     Type: {tradingPost?.type}
-                </Typography>
+                </Typography> */}
                 <Divider light />
                 <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
                     <BalanceIcon sx={{ color: '#DB36A4', mr: 1 }} />  Exchange: {tradingPost?.exchange}
