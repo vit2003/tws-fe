@@ -58,7 +58,8 @@ function Topbar({ reload }) {
                 id: noti.id
             }
             const reponse = await notiApi.changeReaded(noti.id);
-            setReload(!reload)
+            // setReload(!reload)
+            reload();
         } catch (error) {
             console.log("fail noti: ", error);
         }
