@@ -14,17 +14,25 @@ const useStyles = makeStyles(theme => ({
         padding: '18px'
     },
     name: {
-        fontWeight: '400 !important'
+        fontWeight: '400 !important',
+        fontSize: '3rem !important',
+        marginBottom: '50px !important'
     },
     typeName: {
         margin: '10px 0 !important',
+        fontSize: '1.3rem !important',
+        marginBottom: '20px !important'
 
     },
     brandName: {
-        margin: '10px 0 !important'
+        margin: '10px 0 !important',
+        fontSize: '1.3rem !important',
+        marginBottom: '20px !important'
     },
     description: {
-        fontStyle: 'italic !important'
+        fontStyle: 'italic !important',
+        fontSize: '1.3rem !important',
+        marginBottom: '20px !important'
     }
 }))
 

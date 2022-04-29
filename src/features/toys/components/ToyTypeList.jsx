@@ -53,7 +53,7 @@ function ToyTypeList({ onChange }) {
         <Box className={classes.root}>
             <Typography sx={{ borderBottom: '1px solid grey' }} variant='subtitle1'>LIST TOY TYPE</Typography>
             <ul className={classes.menu}>
-                {categoryList.map((category, index) => (
+                {categoryList?.map((category, index) => (
                     <li key={index} onClick={() => handleCategoryClick(category)}>
                         <Typography variant='body2' >{category}</Typography>
                     </li>
