@@ -503,6 +503,10 @@ function TradingPostDetail({ tradingPost, reload }) {
                 </Typography> */}
                 <Divider light />
 
+                <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
+                    <LocationOnIcon sx={{ color: '#DB36A4', mr: 1 }} />  Address: {tradingPost?.address}
+                </Typography>
+
                 {
                     tradingPost.exchange ? <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
                         <BalanceIcon sx={{ color: '#DB36A4', mr: 1 }} />  Exchange: {tradingPost.exchange}

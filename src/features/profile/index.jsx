@@ -338,7 +338,7 @@ function UserProfile(props) {
     const handleOpenProfile = (accountId) => {
         history.push(`/account/${accountId}`)
         setOpenFollowingDlg(false);
-        setOpenFollowerDlgDlg(false);
+        setOpenFollowerDlg(false);
     }
 
     return (

@@ -5,6 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { DialogContent } from '@mui/material';
 import { Box, Dialog, Divider, Typography } from '@mui/material/';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -463,10 +464,11 @@ function TradingPost({ tradingPost }) {
 
                 {/* <Typography className={classes.brand}>
                     Brand: {tradingPost?.brand}
+                </Typography>*/}
+                <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
+                    <LocationOnIcon sx={{ color: '#DB36A4', mr: 1 }} />  Address: {tradingPost?.address}
                 </Typography>
-                <Typography className={classes.type}>
-                    Type: {tradingPost?.type}
-                </Typography> */}
+
                 <Divider light />
                 {
                     tradingPost.exchange ? <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
