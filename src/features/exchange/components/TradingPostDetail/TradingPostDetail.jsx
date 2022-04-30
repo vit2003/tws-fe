@@ -6,6 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Box, Dialog, Divider, Typography } from '@mui/material/';
 import Avatar from '@mui/material/Avatar';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
