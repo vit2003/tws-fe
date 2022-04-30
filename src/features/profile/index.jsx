@@ -591,7 +591,7 @@ function UserProfile(props) {
                                     <td>{proposalItem?.title}</td>
                                 </tr>
                                 <tr>
-                                    <td>Reasone</td>
+                                    <td>Reason</td>
                                     <td>
                                         {proposalItem?.reason}
                                     </td>
