@@ -124,15 +124,9 @@ function App() {
               <Route path='/manager/feedback' exact render={() => {
                 return currentUser && currentUser['role'] == 1 ? <FeedbackManagement /> : <Redirect to="/" />
               }} />
-
-
-
-
             </Switch>
           </AdminLayout>
         </Route>
-
-
 
         {/* USER PAGE */}
         <Route path="/" component={Authentication} exact />

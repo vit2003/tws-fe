@@ -134,7 +134,7 @@ function ProposalForm({ value }) {
         try {
             const response = await eventApi.proposalToOpenContest(newProposal);
             await Swal.fire(
-                'Send Proposal successfully',
+                'Send proposal successfully',
                 'Click Button to continute!',
                 'success'
             )

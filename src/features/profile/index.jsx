@@ -227,6 +227,7 @@ function UserProfile(props) {
     }
 
     const handleOpenEdit = () => {
+        // history.push(`/setting/account/${currentAccount.accountId}`, account)
         history.push(`/setting/account/${currentAccount.accountId}`, account)
     }
 
@@ -243,7 +244,7 @@ function UserProfile(props) {
             await accountApi.deleteWishList(newDeleteId)
             setReload(!reload);
             await Swal.fire(
-                'Delete Wish List successfully',
+                'Delete wish List successfully',
                 'Click Button to continute!',
                 'success'
             )
@@ -294,7 +295,7 @@ function UserProfile(props) {
             await accountApi.addWishList(newWishList);
             setReload(!reload);
             await Swal.fire(
-                'Add Wish Lish successfully',
+                'Add wish Lish successfully',
                 'Click Button to continute!',
                 'success'
             )

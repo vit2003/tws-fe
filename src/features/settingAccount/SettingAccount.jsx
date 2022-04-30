@@ -22,7 +22,7 @@ function SettingAccount(props) {
 
     const location = useLocation();
     const pathName = location.pathname;
-
+    // const currentAccount = useSelector(state => state.login.infoUser);
 
     return (
         <div>
@@ -36,8 +36,9 @@ function SettingAccount(props) {
                             <LeftNavigation />
                         </Grid>
                         <Grid item xs={8}>
+
                             {pathName === '/setting/account/edit' ? <EditAccount /> :
-                                pathName === '/setting/account/changePassword' ? <ChangePassword /> : <></>
+                                pathName === '/setting/account/changePassword' ? <ChangePassword /> : <EditAccount />
                             }
                         </Grid>
                     </Grid>

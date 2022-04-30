@@ -465,8 +465,8 @@ function ContestManagement(props) {
                 newContest
             );
             await Swal.fire(
-                'New contest Successfully',
-                'Click Button to continute!',
+                'New contest successfully',
+                'Click button to continute!',
                 'success'
             )
             dispatch(getAllContestABC(2, {

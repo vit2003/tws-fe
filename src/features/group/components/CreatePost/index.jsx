@@ -154,7 +154,7 @@ function CreatePost({ groupId, reload }) {
             setOpen(false);
             setStrgImg([]);
             await Swal.fire(
-                'New Post successfully',
+                'New post successfully',
                 'Click Button to continute!',
                 'success'
             )

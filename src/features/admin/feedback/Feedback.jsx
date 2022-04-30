@@ -166,8 +166,8 @@ function FeedbackManagement(props) {
         try {
             await feedbackApi.reply(feedbackItem.id, values.reply)
             await Swal.fire(
-                'Reply Successfully',
-                'Click Button to continute!',
+                'Reply successfully',
+                'Click button to continute!',
                 'success'
             )
             setOpenReply(false)

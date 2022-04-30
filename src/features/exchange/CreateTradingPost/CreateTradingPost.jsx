@@ -207,7 +207,7 @@ function CreateTradingPost({ tradingGroupId }) {
             const response = await tradingPostApi.createNewTradingPost(tradingGroupId, newTradingPost)
             setOpen(false);
             await Swal.fire(
-                'Create Trading Post Successfully',
+                'Create trading post successfully',
                 'Click Button to continute!',
                 'success'
             )

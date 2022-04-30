@@ -135,7 +135,7 @@ function EditAccount() {
             localStorage.setItem(StorageKeys.ACCOUNT, JSON.stringify(pushUserEdited))
             dispatch(setAccount(pushUserEdited));
             await Swal.fire(
-                'Edit Account successfully',
+                'Edit account successfully',
                 'Click Button to continute!',
                 'success'
             )

@@ -6,12 +6,10 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { showAccount, updateRole } from '../../../redux/actions/account';
-import Swal from 'sweetalert2';
-import accountApi from '../../../api/accountApi';
+import { updateRole } from '../../../redux/actions/account';
 
 export default function EditAccount() {
     const state = useSelector(state => state.account);

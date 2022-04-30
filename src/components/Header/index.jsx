@@ -449,8 +449,8 @@ function Header() {
       dispatch(setAccount(pushUserEdited));
       setOpenWishList(false);
       await Swal.fire(
-        'Add Wish List successfully',
-        'Click Button to continute!',
+        'Add wish list successfully',
+        'Click button to continute!',
         'success'
       )
       setOpenWishList(false);

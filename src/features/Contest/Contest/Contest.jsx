@@ -332,7 +332,7 @@ function Contest(props) {
             .then((response) => {
                 if (response) {
                     Swal.fire(
-                        'Evaluate Contest successfully',
+                        'Evaluate contest successfully',
                         'Click Button to continute!',
                         'success'
                     )
