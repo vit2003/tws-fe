@@ -31,7 +31,7 @@ CreateContestForm.propTypes = {
 
 };
 
-function CreateContestForm({ proposal }) {
+function CreateContestForm({ proposal, handleClose }) {
 
     const classes = useStyle();
 
@@ -182,7 +182,9 @@ function CreateContestForm({ proposal }) {
                 text: "Something go wrong",
             })
         }
+        handleClose();
         setStrgImg([]);
+        setInputImage([]);
         form.reset();
     };
     const { isSubmitting } = form.formState;

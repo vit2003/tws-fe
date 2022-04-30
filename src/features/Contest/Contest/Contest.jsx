@@ -57,7 +57,7 @@ const useStyle = makeStyles((theme) => ({
 
 const StyledRating = styled(Rating)({
     "& .MuiRating-iconFilled": {
-        color: "#6f0000",
+        color: "#fdc830",
     },
     "& .MuiRating-iconHover": {
         color: "#ffe000",
@@ -119,7 +119,7 @@ function Contest(props) {
     const [isRate, setIsRate] = useState(false);
 
     // STATE CONTEST RATE
-    const [ratingNum, setRatingNum] = React.useState(0);
+    const [ratingNum, setRatingNum] = React.useState(2);
 
     // STATE URL SHOW IMAGE
     const [urlImg, setUrlImg] = useState("");

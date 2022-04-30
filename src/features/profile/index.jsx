@@ -593,9 +593,7 @@ function UserProfile(props) {
                                 <tr>
                                     <td>Reasone</td>
                                     <td>
-                                        {(proposalItem?.reasone?.split('\n'))?.map((res, index) => (
-                                            <li key={index}>{res}</li>
-                                        ))}
+                                        {proposalItem?.reason}
                                     </td>
                                 </tr>
                                 {/* {(contest?.description?.split('\n'))?.map((des, index) => (
