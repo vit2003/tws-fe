@@ -5,7 +5,7 @@ const formatDate = (dateTime) => {
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    const date = event?.toLocaleDateString("vi-Vn", options);
+    const date = event?.toLocaleDateString("en-US", options);
     if (hour < 10) {
         hour = '0' + hour;
     } if (minutes < 10) {
