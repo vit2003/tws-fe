@@ -598,14 +598,7 @@ function ContestManagement(props) {
                                                         <RemoveRedEyeIcon />
                                                     </Tooltip>
                                                 </button>
-                                                <button className="btn btn-see">
-                                                    <Tooltip
-                                                        title="Award"
-                                                        onClick={() => handleClickOpenWinners(item)}
-                                                    >
-                                                        <DiamondIcon />
-                                                    </Tooltip>
-                                                </button>
+
                                                 <button className="btn btn-see">
                                                     <Tooltip
                                                         title="Get Waiting Submissons"
@@ -624,7 +617,7 @@ function ContestManagement(props) {
                                                 </button>
                                                 <button className="btn btn-deny">
                                                     <Tooltip
-                                                        title="delete"
+                                                        title="Delete"
                                                         onClick={() => handleOpenConfirm(item)}
                                                     >
                                                         <DeleteIcon />
@@ -642,13 +635,28 @@ function ContestManagement(props) {
                                                         <RemoveRedEyeIcon />
                                                     </Tooltip>
                                                 </button>
-                                                <button
-                                                    className="btn btn-deny"
-                                                    onClick={() =>
-                                                        dispatch(
-                                                            deleteContest(item.id))}
-                                                >
-                                                    <Tooltip title="Deny">
+                                                <button className="btn btn-see">
+                                                    <Tooltip
+                                                        title="Award"
+                                                        onClick={() => handleClickOpenWinners(item)}
+                                                    >
+                                                        <DiamondIcon />
+                                                    </Tooltip>
+                                                </button>
+
+                                                <button className="btn btn-see">
+                                                    <Tooltip
+                                                        title="Get All Submission"
+                                                        onClick={() => handleClickOpenAllSubmissions(item)}
+                                                    >
+                                                        <DynamicFeedIcon />
+                                                    </Tooltip>
+                                                </button>
+                                                <button className="btn btn-deny">
+                                                    <Tooltip
+                                                        title="Delete"
+                                                        onClick={() => handleOpenConfirm(item)}
+                                                    >
                                                         <DeleteIcon />
                                                     </Tooltip>
                                                 </button>
