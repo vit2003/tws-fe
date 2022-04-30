@@ -153,6 +153,7 @@ function CreatePost({ groupId, reload }) {
             reload();
             setOpen(false);
             setStrgImg([]);
+            setInputImage([]);
             await Swal.fire(
                 'New post successfully',
                 'Click Button to continute!',
@@ -167,6 +168,7 @@ function CreatePost({ groupId, reload }) {
             })
         }
         setOpen(false);
+        setInputImage([]);
         setStrgImg([]);
         form.reset();
     }

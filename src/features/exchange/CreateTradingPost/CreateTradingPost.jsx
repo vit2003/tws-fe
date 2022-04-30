@@ -61,7 +61,7 @@ const useStyle = makeStyles(theme => ({
     },
 }))
 
-function CreateTradingPost({ tradingGroupId }) {
+function CreateTradingPost({ tradingGroupId, reload }) {
 
     const currentUser = useSelector(state => state.login.infoUser);
 
@@ -205,6 +205,7 @@ function CreateTradingPost({ tradingGroupId }) {
                 imagesLink: imagesLink,
             }
             const response = await tradingPostApi.createNewTradingPost(tradingGroupId, newTradingPost)
+            reload();
             setOpen(false);
             await Swal.fire(
                 'Create trading post successfully',

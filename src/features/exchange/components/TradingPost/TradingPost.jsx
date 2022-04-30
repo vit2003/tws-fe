@@ -468,12 +468,13 @@ function TradingPost({ tradingPost }) {
                     Type: {tradingPost?.type}
                 </Typography> */}
                 <Divider light />
-                <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
-                    <BalanceIcon sx={{ color: '#DB36A4', mr: 1 }} />  Exchange: {tradingPost?.exchange}
-                </Typography>
-                <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2 }} className={classes.value}>
-                    <AttachMoneyIcon sx={{ color: '#DB36A4', mr: 1 }} /> Value: {tradingPost?.value}
-                </Typography>
+                {
+                    tradingPost.exchange ? <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2 }} className={classes.exchange}>
+                        <BalanceIcon sx={{ color: '#DB36A4', mr: 1 }} />  Exchange: {tradingPost.exchange}
+                    </Typography> : tradingPost.value ? <Typography sx={{ display: 'flex', alignItems: 'center', pl: 2 }} className={classes.value}>
+                        <AttachMoneyIcon sx={{ color: '#DB36A4', mr: 1 }} /> Value: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tradingPost.value)}
+                    </Typography> : <></>
+                }
             </CardContent>
 
             {/* CARD ACTION LIKE & COMMENT */}
@@ -494,7 +495,7 @@ function TradingPost({ tradingPost }) {
                 {
                     currentUserId === tradingPost?.ownerId || tradingPost?.status == 2 ?
                         <></> :
-                        <Button onClick={handleRedirectMsg}>
+                        <Button onClick={handleRedirectMsg} sx={{ color: '#DB36A4 !important' }}>
                             Contact me
                         </Button>
                 }

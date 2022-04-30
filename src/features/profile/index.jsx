@@ -334,6 +334,13 @@ function UserProfile(props) {
         }
     }
 
+    // HANDLE OPEN PROFILE PAGE
+    const handleOpenProfile = (accountId) => {
+        history.push(`/account/${accountId}`)
+        setOpenFollowingDlg(false);
+        setOpenFollowerDlgDlg(false);
+    }
+
     return (
         <div>
             <Header />
@@ -433,19 +440,32 @@ function UserProfile(props) {
                                     <Typography sx={{ mb: 2 }}>
                                         My Favorite
                                     </Typography>
-                                    <Stack direction="row" spacing={1}>
-                                        {account.wishLists?.map((wl, index) => (
-                                            <Chip
-                                                label={wl.name}
+
+
+                                    {
+                                        accountId == currentAccount.accountId ? <Stack direction="row" spacing={1}>
+                                            {account.wishLists?.map((wl, index) => (
+                                                <Chip
+                                                    label={wl.name}
+                                                    variant="outlined"
+                                                    onDelete={() => handleDeleteWishList(wl.id, wl.name)}
+                                                />
+                                            ))}
+                                            <Chip label={<AddIcon />}
                                                 variant="outlined"
-                                                onDelete={() => handleDeleteWishList(wl.id, wl.name)}
+                                                onClick={handleOpenWishlist}
                                             />
-                                        ))}
-                                        <Chip label={<AddIcon />}
-                                            variant="outlined"
-                                            onClick={handleOpenWishlist}
-                                        />
-                                    </Stack>
+                                        </Stack> : <Stack direction="row" spacing={1}>
+                                            {account.wishLists?.map((wl, index) => (
+                                                <Chip
+                                                    label={wl.name}
+                                                    variant="outlined"
+                                                />
+                                            ))}
+                                        </Stack>
+                                    }
+
+
                                 </CardContent>
 
                             </Card>
@@ -471,8 +491,8 @@ function UserProfile(props) {
                 <Dialog fullWidth={fullWidth} maxWidth={maxWidth} onClose={handleClose} open={openFollowingDlg}>
                     <DialogTitle sx={{ width: '100%' }}>Following Account</DialogTitle>
                     <List sx={{ pt: 0 }}>
-                        {followingList.map((following) => (
-                            <ListItem button key={following.id}>
+                        {followingList?.map((following) => (
+                            <ListItem button key={following.id} onClick={() => handleOpenProfile(following.id)}>
                                 <ListItemAvatar>
                                     <Avatar src={following.avatar}></Avatar>
                                 </ListItemAvatar>
@@ -486,8 +506,8 @@ function UserProfile(props) {
                 <Dialog fullWidth={fullWidth} maxWidth={maxWidth} onClose={handleClose} open={openFollowerDlg}>
                     <DialogTitle>Follower Account</DialogTitle>
                     <List sx={{ pt: 0 }}>
-                        {followerList.map((follower) => (
-                            <ListItem button key={follower.id}>
+                        {followerList?.map((follower) => (
+                            <ListItem button key={follower.id} onClick={() => handleOpenProfile(follower.id)}>
                                 <ListItemAvatar>
                                     <Avatar src={follower.avatar}></Avatar>
                                 </ListItemAvatar>
@@ -614,7 +634,7 @@ function UserProfile(props) {
                     </DialogActions>
                 </Dialog>
             </Container>
-        </div>
+        </div >
     );
 }
 

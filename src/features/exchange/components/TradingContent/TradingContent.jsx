@@ -50,7 +50,7 @@ function TradingContent(props) {
                     </Grid>
                     <Grid item xs={8}>
                         {/* Form to create a post */}
-                        <CreateTradingPost tradingGroupId={tradingGroupId} onSubmit={handleCreatePostSubmit} />
+                        <CreateTradingPost tradingGroupId={tradingGroupId} onSubmit={handleCreatePostSubmit} reload={() => setReload(!reload)} />
 
                         {/* get List post */}
                         {loading ? <PostSkeleton /> : listTradingPost?.map((tradingPost) => <TradingPostDetail key={tradingPost.id} tradingPost={tradingPost} reload={() => setReload(!reload)} />)}
