@@ -39,14 +39,7 @@ function WishList({ group }) {
 
 
     return (
-        // <Grid item xs={6} >
-        <Card sx={{
-            // "&:hover": {
-            //   opacity: [0.9, 0.8, 0.7],
-            //   cursor: "pointer",
-            //   transition: "all 0.5s",
-            // },
-        }}>
+        <Card>
             <CardActionArea
                 onClick={() => handleClickWishList(group.id)}
                 className={object.selected ? classes.objSelected : classes.objUnSelected}
@@ -65,19 +58,9 @@ function WishList({ group }) {
                         {group.description}
                     </Typography>
                 </CardContent>
-                {/* <CardActions>
-                      <Checkbox
-                        inputProps={{ 'aria-label': 'controlled' }}
-                        icon={<FavoriteBorder />}
-                        checkedIcon={<Favorite />}
-                        onChange={handleChange}
-                        onClick={() => handleClickWishList(group.id)}
-                      />
 
-                    </CardActions> */}
             </CardActionArea>
         </Card>
-        // </Grid>
     );
 }
 

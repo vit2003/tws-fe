@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { AppBar, Avatar, Box, Button, Card, Chip, Container, DialogActions, DialogContent, IconButton, Slide, Stack, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, Box, Button, Card, Chip, Container, DialogActions, DialogContent, IconButton, Slide, Stack, Toolbar, Typography, CardMedia } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Dialog from '@mui/material/Dialog';
@@ -244,8 +244,8 @@ function UserProfile(props) {
             await accountApi.deleteWishList(newDeleteId)
             setReload(!reload);
             await Swal.fire(
-                'Delete wish List successfully',
-                'Click Button to continute!',
+                'Delete wish list successfully',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -295,8 +295,8 @@ function UserProfile(props) {
             await accountApi.addWishList(newWishList);
             setReload(!reload);
             await Swal.fire(
-                'Add wish Lish successfully',
-                'Click Button to continute!',
+                'Add wish list successfully',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -320,7 +320,7 @@ function UserProfile(props) {
             await proposalApi.deleteProposal(proposalItem.id);
             await Swal.fire(
                 'Delete successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
             setOpenProposalList(false)
@@ -346,292 +346,381 @@ function UserProfile(props) {
             <Header />
             <Box sx={{ paddingTop: '80px' }}></Box>
 
-            <Container>
-                <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={4}>
-                            <Box sx={{
-                                textAlign: 'center',
-                                p: 1,
-                                m: 1,
-                                bgcolor: 'background.paper',
-                                borderRadius: 1,
-                            }}>
-                                <Avatar sx={{ margin: '10px auto', height: '200px', width: '200px' }} src={account.avatar}></Avatar>
-                                <Typography>{account.name}</Typography>
-                                {
-                                    accountId == currentAccount.accountId ? <Button className={classes.cssBtn} onClick={handleOpenEdit}>Edit Profile</Button> :
-                                        accountId !== currentAccount.accountId && account.isFollowed === false ? <Button className={classes.cssBtn} onClick={handleFollow}>Follow</Button> :
-                                            accountId !== currentAccount.accountId && account.isFollowed === true ? <Button className={classes.cssBtn} onClick={handleUnfollow}>Unfollow</Button> : <></>
-                                }
 
-                            </Box>
-                            <Box
-                                sx={{
+            <Grid container>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={10}>
+
+
+
+                    {/* <Container> */}
+                    <Box sx={{ flexGrow: 1 }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={4}>
+                                <Box sx={{
                                     textAlign: 'center',
-                                    display: 'flex',
-                                    justifyContent: 'space-around',
-                                    p: 2,
+                                    p: 1,
                                     m: 1,
                                     bgcolor: 'background.paper',
                                     borderRadius: 1,
-                                }}
-                            >
-                                <Box onClick={handleClickOpenFollower} sx={{
-                                    '&:hover': {
-                                        cursor: 'pointer',
-                                        transition: 'all 0.5s'
-                                    },
                                 }}>
-                                    <Typography >{account.noOfFollower}</Typography>
-                                    <Typography>Follower</Typography>
+                                    <Avatar sx={{ margin: '10px auto', height: '200px', width: '200px' }} src={account.avatar}></Avatar>
+                                    <Typography>{account.name}</Typography>
+                                    {
+                                        accountId == currentAccount.accountId ? <Button className={classes.cssBtn} onClick={handleOpenEdit}>Edit Profile</Button> :
+                                            accountId !== currentAccount.accountId && account.isFollowed === false ? <Button className={classes.cssBtn} onClick={handleFollow}>Follow</Button> :
+                                                accountId !== currentAccount.accountId && account.isFollowed === true ? <Button className={classes.cssBtn} onClick={handleUnfollow}>Unfollow</Button> : <></>
+                                    }
+
                                 </Box>
-                                <Box onClick={handleClickOpenFollowing} sx={{
-                                    '&:hover': {
-                                        cursor: 'pointer',
-                                        transition: 'all 0.5s'
-                                    },
-                                }}>
-                                    <Typography>{account.noOfFollowing}</Typography>
-                                    <Typography>Following</Typography>
-                                </Box>
-                                <Box>
-                                    <Typography>{account.noOfPost}</Typography>
-                                    <Typography>Post</Typography>
-                                </Box>
-                            </Box>
-                            <Box sx={{
-                                textAlign: 'center',
-                                p: 1,
-                                m: 1,
-                                bgcolor: 'background.paper',
-                                borderRadius: 1,
-                            }}>
-                                <Typography sx={{ fontSize: '1.5rem', fontFamily: "Wallpoet !important", textTransform: 'uppercase', background: "-webkit-linear-gradient(#c31432, #2C5364)", WebkitBackgroundClip: "text", WebkitTextFillColor: 'transparent' }}>My Proposals</Typography>
-                                {proposals?.map((proposal, index) => (
-                                    <Box
-                                        onClick={() => handleOpenProposalList(proposal)}
-                                        key={index}
-                                        sx={{
-                                            height: '50px',
-                                            '&:hover': {
-                                                opacity: [0.9, 0.8, 0.7],
-                                                cursor: 'pointer',
-                                                transition: 'all 0.5s'
-                                            },
-                                        }}
-                                    >
-                                        <Typography sx={{ fontSize: '20px', fontStyle: 'italic', color: 'gray' }}>Contest: {proposal?.title}</Typography>
+                                <Box
+                                    sx={{
+                                        textAlign: 'center',
+                                        display: 'flex',
+                                        justifyContent: 'space-around',
+                                        p: 2,
+                                        m: 1,
+                                        bgcolor: 'background.paper',
+                                        borderRadius: 1,
+                                    }}
+                                >
+                                    <Box onClick={handleClickOpenFollower} sx={{
+                                        '&:hover': {
+                                            cursor: 'pointer',
+                                            transition: 'all 0.5s'
+                                        },
+                                    }}>
+                                        <Typography >{account.noOfFollower}</Typography>
+                                        <Typography>Follower</Typography>
                                     </Box>
-                                ))}
-                            </Box>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Card>
-                                <CardHeader
-                                    title="Biography"
-                                />
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {account.biography}
-                                    </Typography>
-                                </CardContent>
-                                <CardContent>
-                                    <Typography sx={{ mb: 2 }}>
+                                    <Box onClick={handleClickOpenFollowing} sx={{
+                                        '&:hover': {
+                                            cursor: 'pointer',
+                                            transition: 'all 0.5s'
+                                        },
+                                    }}>
+                                        <Typography>{account.noOfFollowing}</Typography>
+                                        <Typography>Following</Typography>
+                                    </Box>
+                                    <Box>
+                                        <Typography>{account.noOfPost}</Typography>
+                                        <Typography>Post</Typography>
+                                    </Box>
+                                </Box>
+                                <Box sx={{
+                                    textAlign: 'center',
+                                    p: 1,
+                                    m: 1,
+                                    bgcolor: 'background.paper',
+                                    borderRadius: 1,
+                                }}>
+                                    <Typography sx={{ fontSize: '1.5rem', fontFamily: "Wallpoet !important", textTransform: 'uppercase', background: "-webkit-linear-gradient(#c31432, #2C5364)", WebkitBackgroundClip: "text", WebkitTextFillColor: 'transparent' }}>My Proposals</Typography>
+                                    {proposals?.map((proposal, index) => (
+                                        <Box
+                                            onClick={() => handleOpenProposalList(proposal)}
+                                            key={index}
+                                            sx={{
+                                                height: '50px',
+                                                '&:hover': {
+                                                    opacity: [0.9, 0.8, 0.7],
+                                                    cursor: 'pointer',
+                                                    transition: 'all 0.5s'
+                                                },
+                                            }}
+                                        >
+                                            <Typography sx={{ fontSize: '20px', fontStyle: 'italic', color: 'gray' }}>Contest: {proposal?.title}</Typography>
+                                        </Box>
+                                    ))}
+                                </Box>
+                                <Box sx={{
+                                    textAlign: 'center',
+                                    p: 1,
+                                    m: 1,
+                                    bgcolor: 'background.paper',
+                                    borderRadius: 1,
+                                }}>
+                                    <Typography sx={{
+                                        fontSize: '1.5rem',
+                                        fontFamily: "Wallpoet !important",
+                                        textTransform: 'uppercase',
+                                        background: "-webkit-linear-gradient(#c31432, #2C5364)",
+                                        WebkitBackgroundClip: "text",
+                                        WebkitTextFillColor: 'transparent'
+                                    }}
+                                    >
                                         My Favorite
                                     </Typography>
-
-
                                     {
-                                        accountId == currentAccount.accountId ? <Stack direction="row" spacing={1}>
+                                        accountId == currentAccount.accountId ? <Stack direction="column" spacing={1}>
                                             {account.wishLists?.map((wl, index) => (
-                                                <Chip
-                                                    label={wl.name}
-                                                    variant="outlined"
-                                                    onDelete={() => handleDeleteWishList(wl.id, wl.name)}
-                                                />
+                                                <Box key={index}>
+                                                    <CardMedia
+                                                        component="img"
+                                                        height="194"
+                                                        image={wl.coverImg}
+                                                        alt={wl.name}
+                                                    />
+                                                    <Button variant="contained"
+                                                        sx={{
+                                                            width: '100%',
+                                                            backgroundColor: "#0f2027",
+                                                            color: 'white',
+                                                            "&:hover": {
+                                                                backgroundColor: "white", color: 'black',
+                                                            }
+
+                                                        }}
+                                                        onClick={() => handleDeleteWishList(wl.id, wl.name)}
+                                                    >
+                                                        Delete</Button>
+                                                </Box>
                                             ))}
                                             <Chip label={<AddIcon />}
                                                 variant="outlined"
                                                 onClick={handleOpenWishlist}
                                             />
-                                        </Stack> : <Stack direction="row" spacing={1}>
+                                        </Stack> : <Stack direction="column" spacing={1}>
                                             {account.wishLists?.map((wl, index) => (
-                                                <Chip
-                                                    label={wl.name}
-                                                    variant="outlined"
-                                                />
+                                                <Box key={index}>
+                                                    <CardMedia
+
+                                                        component="img"
+                                                        height="194"
+                                                        image={wl.coverImg}
+                                                        alt={wl.name}
+                                                    />
+                                                </Box>
                                             ))}
                                         </Stack>
                                     }
-
-
-                                </CardContent>
-
-                            </Card>
-                            <Box sx={{ width: '100%' }}>
-                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                        <Tab label="Post" {...a11yProps(0)} />
-                                        <Tab label="Trading Post" {...a11yProps(1)} />
-                                    </Tabs>
+                                    {/* {proposals?.map((proposal, index) => (
+                                        <Box
+                                            onClick={() => handleOpenProposalList(proposal)}
+                                            key={index}
+                                            sx={{
+                                                height: '50px',
+                                                '&:hover': {
+                                                    opacity: [0.9, 0.8, 0.7],
+                                                    cursor: 'pointer',
+                                                    transition: 'all 0.5s'
+                                                },
+                                            }}
+                                        >
+                                            <Typography sx={{ fontSize: '20px', fontStyle: 'italic', color: 'gray' }}>Contest: {proposal?.title}</Typography>
+                                        </Box>
+                                    ))} */}
                                 </Box>
-                                <TabPanel value={value} index={0}>
-                                    {loading ? <PostSkeleton /> : <PostList postList={postList} reload={() => setReload(!reload)} />}
-                                </TabPanel>
-                                <TabPanel value={value} index={1}>
-                                    {loading ? <PostSkeleton /> : <TradingPostList tradingPostList={tradingPostList} reload={() => setReload(!reload)} />}
-                                </TabPanel>
-                            </Box>
+                            </Grid>
+                            <Grid item xs={8}>
+                                <Card>
+                                    <CardHeader
+                                        title="Biography"
+                                    />
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {account.biography}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardContent>
+                                        <Typography sx={{ mb: 2 }}>
+                                            My Favorite
+                                        </Typography>
+
+
+                                        {/* {
+                                            accountId == currentAccount.accountId ? <Stack direction="row" spacing={1}>
+                                                {account.wishLists?.map((wl, index) => (
+                                                    <Chip
+                                                        label={wl.name}
+                                                        variant="outlined"
+                                                        onDelete={() => handleDeleteWishList(wl.id, wl.name)}
+                                                    />
+                                                ))}
+                                                <Chip label={<AddIcon />}
+                                                    variant="outlined"
+                                                    onClick={handleOpenWishlist}
+                                                />
+                                            </Stack> : <Stack direction="row" spacing={1}>
+                                                {account.wishLists?.map((wl, index) => (
+                                                    <Chip
+                                                        label={wl.name}
+                                                        variant="outlined"
+                                                    />
+                                                ))}
+                                            </Stack>
+                                        } */}
+
+
+                                    </CardContent>
+
+                                </Card>
+                                <Box sx={{ width: '100%' }}>
+                                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                            <Tab label="Post" {...a11yProps(0)} />
+                                            <Tab label="Trading Post" {...a11yProps(1)} />
+                                        </Tabs>
+                                    </Box>
+                                    <TabPanel value={value} index={0}>
+                                        {loading ? <PostSkeleton /> : <PostList postList={postList} reload={() => setReload(!reload)} />}
+                                    </TabPanel>
+                                    <TabPanel value={value} index={1}>
+                                        {loading ? <PostSkeleton /> : <TradingPostList tradingPostList={tradingPostList} reload={() => setReload(!reload)} />}
+                                    </TabPanel>
+                                </Box>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Box>
+                    </Box>
 
-                {/* dialog Following */}
-                <Dialog fullWidth={fullWidth} maxWidth={maxWidth} onClose={handleClose} open={openFollowingDlg}>
-                    <DialogTitle sx={{ width: '100%' }}>Following Account</DialogTitle>
-                    <List sx={{ pt: 0 }}>
-                        {followingList?.map((following) => (
-                            <ListItem button key={following.id} onClick={() => handleOpenProfile(following.id)}>
-                                <ListItemAvatar>
-                                    <Avatar src={following.avatar}></Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary={following.name} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Dialog>
+                    {/* dialog Following */}
+                    <Dialog fullWidth={fullWidth} maxWidth={maxWidth} onClose={handleClose} open={openFollowingDlg}>
+                        <DialogTitle sx={{ width: '100%' }}>Following Account</DialogTitle>
+                        <List sx={{ pt: 0 }}>
+                            {followingList?.map((following) => (
+                                <ListItem button key={following.id} onClick={() => handleOpenProfile(following.id)}>
+                                    <ListItemAvatar>
+                                        <Avatar src={following.avatar}></Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={following.name} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Dialog>
 
-                {/* dialog Follower */}
-                <Dialog fullWidth={fullWidth} maxWidth={maxWidth} onClose={handleClose} open={openFollowerDlg}>
-                    <DialogTitle>Follower Account</DialogTitle>
-                    <List sx={{ pt: 0 }}>
-                        {followerList?.map((follower) => (
-                            <ListItem button key={follower.id} onClick={() => handleOpenProfile(follower.id)}>
-                                <ListItemAvatar>
-                                    <Avatar src={follower.avatar}></Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary={follower.name} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Dialog>
+                    {/* dialog Follower */}
+                    <Dialog fullWidth={fullWidth} maxWidth={maxWidth} onClose={handleClose} open={openFollowerDlg}>
+                        <DialogTitle>Follower Account</DialogTitle>
+                        <List sx={{ pt: 0 }}>
+                            {followerList?.map((follower) => (
+                                <ListItem button key={follower.id} onClick={() => handleOpenProfile(follower.id)}>
+                                    <ListItemAvatar>
+                                        <Avatar src={follower.avatar}></Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={follower.name} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Dialog>
 
-                {/* dialog Delete */}
-                <Dialog fullWidth={fullWidth} maxWidth={maxWidth} onClose={handleClose} open={openFavorite}>
-                    <DialogTitle sx={{ width: '100%', textAlign: 'center' }}>
-                        Are you sure to delete {favoTitle} from your wish list
-                    </DialogTitle>
-                    <DialogActions>
-                        <Button sx={{ color: 'black !important' }} onClick={handleClose} autoFocus>
-                            Cancle
-                        </Button>
-                        <Button sx={{ color: '#db36a4 !important' }} onClick={handleDeleteWish}>Delete</Button>
-                    </DialogActions>
-
-
-
-                </Dialog>
-
-                <Dialog
-                    fullWidth={fullWidth}
-                    maxWidth={maxWidth}
-                    open={openWishList}
-                    onClose={handleClose}
-                    TransitionComponent={Transition}
-                >
-                    <AppBar sx={{ position: 'relative', backgroundColor: '#0F2027' }}>
-                        <Toolbar>
-                            <IconButton
-                                edge="start"
-                                color="inherit"
-                                onClick={handleClose}
-                                aria-label="close"
-                            >
-                                <CloseIcon />
-                            </IconButton>
-                            <Typography sx={{ ml: 2, flex: 1, textAlign: 'center', }} variant="h6" component="div">
-                                Select your favorite
-                            </Typography>
-                            <Button autoFocus color="inherit" onClick={handleSubmitWishList}>
-                                save
+                    {/* dialog Delete */}
+                    <Dialog fullWidth={fullWidth} maxWidth={maxWidth} onClose={handleClose} open={openFavorite}>
+                        <DialogTitle sx={{ width: '100%', textAlign: 'center' }}>
+                            Are you sure to delete {favoTitle} from your wish list
+                        </DialogTitle>
+                        <DialogActions>
+                            <Button sx={{ color: 'black !important' }} onClick={handleClose} autoFocus>
+                                Cancle
                             </Button>
-                        </Toolbar>
-                    </AppBar>
+                            <Button sx={{ color: '#db36a4 !important' }} onClick={handleDeleteWish}>Delete</Button>
+                        </DialogActions>
 
-                    <Container>
-                        <Grid container spacing={2} sx={{ mt: 5 }}>
-                            {
-                                groupList?.filter(({ id: id1 }) => !account.wishLists?.some(({ id: id2 }) => id2 === id1)).map((group, index) => (
-                                    <Grid key={index} item xs={6} onClick={() => handleSelect(group.id)}>
-                                        <WishList group={group} />
-                                    </Grid>
-                                ))
-                            }
 
-                        </Grid>
-                    </Container>
-                </Dialog>
 
-                <Dialog
-                    fullWidth={fullWidth}
-                    maxWidth={maxWidth}
-                    open={openProposalList}
-                    onClose={handleClose}
-                    TransitionComponent={Transition}
-                >
-                    <DialogTitle sx={{ textAlign: 'center', textTransform: 'uppercase', fontSize: '1.5rem' }}>
-                        proposal of {proposalItem.title}
-                    </DialogTitle>
-                    <DialogContent>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>Title</td>
-                                    <td>{proposalItem?.title}</td>
-                                </tr>
-                                <tr>
-                                    <td>Reason</td>
-                                    <td>
-                                        {proposalItem?.reason}
-                                    </td>
-                                </tr>
-                                {/* {(contest?.description?.split('\n'))?.map((des, index) => (
+                    </Dialog>
+
+                    {/* Dialog Wish List */}
+                    <Dialog
+                        fullWidth={fullWidth}
+                        maxWidth={maxWidth}
+                        open={openWishList}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
+                    >
+                        <AppBar sx={{ position: 'relative', backgroundColor: '#0F2027' }}>
+                            <Toolbar>
+                                <IconButton
+                                    edge="start"
+                                    color="inherit"
+                                    onClick={handleClose}
+                                    aria-label="close"
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                                <Typography sx={{ ml: 2, flex: 1, textAlign: 'center', }} variant="h6" component="div">
+                                    Select your favorite
+                                </Typography>
+                                <Button autoFocus color="inherit" onClick={handleSubmitWishList}>
+                                    save
+                                </Button>
+                            </Toolbar>
+                        </AppBar>
+
+                        <Container>
+                            <Grid container spacing={2} sx={{ mt: 5 }}>
+                                {
+                                    groupList?.filter(({ id: id1 }) => !account.wishLists?.some(({ id: id2 }) => id2 === id1)).map((group, index) => (
+                                        <Grid key={index} item xs={6} onClick={() => handleSelect(group.id)}>
+                                            <WishList group={group} />
+                                        </Grid>
+                                    ))
+                                }
+                            </Grid>
+                        </Container>
+                    </Dialog>
+
+                    {/* Dialog Proposal detail */}
+                    <Dialog
+                        fullWidth={fullWidth}
+                        maxWidth={maxWidth}
+                        open={openProposalList}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
+                    >
+                        <DialogTitle sx={{ textAlign: 'center', textTransform: 'uppercase', fontSize: '1.5rem' }}>
+                            proposal of {proposalItem.title}
+                        </DialogTitle>
+                        <DialogContent>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Title</td>
+                                        <td>{proposalItem?.title}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Reason</td>
+                                        <td>
+                                            {proposalItem?.reason}
+                                        </td>
+                                    </tr>
+                                    {/* {(contest?.description?.split('\n'))?.map((des, index) => (
                                     <li key={index}>{des}</li>
                                 ))} */}
-                                <tr>
-                                    <td>Slogan</td>
-                                    <td>
-                                        {(proposalItem?.slogan?.split('\n'))?.map((slog, index) => (
-                                            <li key={index}>{slog}</li>
-                                        ))}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Description</td>
-                                    <td>
-                                        {(proposalItem?.description?.split('\n'))?.map((des, index) => (
-                                            <li key={index}>{des}</li>
-                                        ))}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Rule</td>
-                                    <td>
-                                        {(proposalItem?.rule?.split('\n'))?.map((des, index) => (
-                                            <li key={index}>{des}</li>
-                                        ))}
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>Slogan</td>
+                                        <td>
+                                            {(proposalItem?.slogan?.split('\n'))?.map((slog, index) => (
+                                                <li key={index}>{slog}</li>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Description</td>
+                                        <td>
+                                            {(proposalItem?.description?.split('\n'))?.map((des, index) => (
+                                                <li key={index}>{des}</li>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rule</td>
+                                        <td>
+                                            {(proposalItem?.rule?.split('\n'))?.map((des, index) => (
+                                                <li key={index}>{des}</li>
+                                            ))}
+                                        </td>
+                                    </tr>
 
-                            </tbody>
-                        </table>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button sx={{ color: '#db367e' }} onClick={handleDeleteProposal}>Delete Proposal</Button>
-                    </DialogActions>
-                </Dialog>
-            </Container>
+                                </tbody>
+                            </table>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button sx={{ color: '#db367e' }} onClick={handleDeleteProposal}>Delete Proposal</Button>
+                        </DialogActions>
+                    </Dialog>
+                    {/* </Container> */}
+                </Grid>
+                <Grid item xs={1}></Grid>
+            </Grid >
         </div >
     );
 }

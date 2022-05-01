@@ -299,7 +299,7 @@ function Contest(props) {
             setReload(!reload);
             await Swal.fire(
                 'New submissions successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -333,7 +333,7 @@ function Contest(props) {
                 if (response) {
                     Swal.fire(
                         'Evaluate contest successfully',
-                        'Click Button to continute!',
+                        'Click button to continute!',
                         'success'
                     )
                 }

@@ -124,7 +124,7 @@ function TradingPost({ tradingPost }) {
     const [maxWidth, setMaxWidth] = React.useState('md');
     const [open, setOpen] = React.useState(false);
 
-    const [isLiked, setIsLiked] = React.useState(tradingPost?.isLikedPost);
+    const [isLiked, setIsLiked] = React.useState(tradingPost?.isReact);
     const [numOfLiked, setNumOfLiked] = React.useState(tradingPost?.numOfReact);
 
     const handleShowImageDialog = () => {

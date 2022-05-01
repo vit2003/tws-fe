@@ -35,7 +35,7 @@ export const disableProposal = (id) => {
                         dispatch(getAllProposals());
                         Swal.fire(
                             'Delete Successfully',
-                            'Click Button to continute!',
+                            'Click button to continute!',
                             'success'
                         )
                     } else {

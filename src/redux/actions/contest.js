@@ -78,8 +78,8 @@ export const deleteSubcriber = (contestId, accountId) => {
                     if (response) {
                         dispatch(getAllSubcribers(contestId));
                         Swal.fire(
-                            'Delete Successfully',
-                            'Click Button to continute!',
+                            'Delete successfully',
+                            'Click button to continute!',
                             'success'
                         )
                     }
@@ -106,8 +106,8 @@ export const addPrize = (contestId, data) => {
                     if (response) {
                         dispatch(getAllContestABC(2));
                         Swal.fire(
-                            'Add prize Successfully',
-                            'Click Button to continute!',
+                            'Add prize successfully',
+                            'Click button to continute!',
                             'success'
                         )
                     }
@@ -135,8 +135,8 @@ export const deleteContest = (contestId) => {
                     if (response) {
                         dispatch(getAllContestABC(2));
                         Swal.fire(
-                            'Delete Successfully',
-                            'Click Button to continute!',
+                            'Delete successfully',
+                            'Click button to continute!',
                             'success'
                         )
                     }
@@ -298,7 +298,7 @@ export const deletePostOfContest = (postID, contestId, filters) => {
                         dispatch(getPostOfContest(contestId, filters, false));
                         Swal.fire(
                             'Delete successfully',
-                            'Click Button to continute!',
+                            'Click button to continute!',
                             'success'
                         )
                     }
@@ -324,7 +324,7 @@ export const approvePost = (postID, contestId, filters) => {
                         dispatch(getSubmissions(contestId, filters, true));
                         Swal.fire(
                             'Approve successfully',
-                            'Click Button to continute!',
+                            'Click button to continute!',
                             'success'
                         )
                     }
@@ -352,7 +352,7 @@ export const denyPost = (postID, contestId, filters) => {
                         dispatch(getSubmissions(contestId, filters, true));
                         Swal.fire(
                             'Deny successfully',
-                            'Click Button to continute!',
+                            'Click button to continute!',
                             'success'
                         )
                     }
@@ -379,8 +379,8 @@ export const addWinner = (data, contestId) => {
                         dispatch(getTop10Submissions(contestId));
                         dispatch(getPrizesForEnd(contestId, true));
                         Swal.fire(
-                            'Add Reward successfully',
-                            'Click Button to continute!',
+                            'Add reward successfully',
+                            'Click button to continute!',
                             'success'
                         )
                     }

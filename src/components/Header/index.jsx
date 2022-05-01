@@ -58,58 +58,10 @@ const useStyles = makeStyles(theme => ({
     "& .active": {
       borderBottom: '5px solid #DB36A4 !important',
       paddingBottom: '22px',
-
-
-
     }
   },
 
 }))
-
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.black, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-// Search icon
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: 'black'
-}));
-
-// Input of search
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    color: 'black',
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
 
 function Header() {
 
@@ -176,10 +128,6 @@ function Header() {
 
   // NOTI OPEN
   const isNotiOpen = Boolean(anchorElNoti);
-
-
-
-
   // HANDLE OPEN PROFILE MENU
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -235,8 +183,6 @@ function Header() {
   const handleOpenManager = () => {
     history.push(`/manager`)
   }
-
-
 
   // AVATAR MENU
   const menuId = 'primary-search-account-menu';
@@ -337,8 +283,6 @@ function Header() {
       ))}
     </Menu>
   );
-
-
 
   // HANDLE OPEN MOBILE MENU
   const handleMobileMenuOpen = (event) => {
@@ -476,21 +420,7 @@ function Header() {
           <Avatar src='/2.png' sx={{ height: '70px', width: '150px' }}></Avatar>
 
           {/* Search */}
-          {/* <Paper
-            variant="outlined"
-            sx={{
-              // p: '2px 4px',
-              display: 'flex',
-              alignItems: 'center',
-              height: '20px',
-              // width: '15%',
-              // margin: "10px 0 10px 10px",
-              backgroundColor: 'grey !important',
-            }}
-          > */}
           <SearchBar placeholder="Enter trading title..." data={tradingPost} />
-          {/* </Paper> */}
-
           {/* END SEARCH */}
 
           {/* ===============MIDDLE HEADER  */}

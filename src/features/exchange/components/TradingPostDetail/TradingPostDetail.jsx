@@ -189,7 +189,7 @@ function TradingPostDetail({ tradingPost, reload }) {
             setAnchorEl(null);
             await Swal.fire(
                 'Delete trading post successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
             setOpenConfirm(false);

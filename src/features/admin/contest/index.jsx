@@ -402,12 +402,14 @@ function ContestManagement(props) {
 
     // VALIDATE FORM
     const schema = yup.object().shape({
-        // title: yup.string()
-        //     .required('Please enter your Title')
-        //     .test('should has at least two words', 'Please Enter as least two words', (value) => {
-        //         return value.split(' ').length >= 2;
-        //     }),
-        // toyName: yup.string().required('Please enter your Toy.'),
+        title: yup.string().required('Please enter your Title.'),
+        description: yup.string().required('Please enter description.'),
+        rule: yup.string().required('Please enter description.'),
+        slogan: yup.string().required('Please enter description.'),
+        startRegistration: yup.string().required('Please select start registration date.'),
+        endRegistration: yup.string().required('Please enter end registration date.'),
+        startDate: yup.string().required('Please enter start date.'),
+        endDate: yup.string().required('Please enter end date.'),
     });
 
     // HANDLE INITIAL FORM
@@ -421,8 +423,6 @@ function ContestManagement(props) {
             endRegistration: "",
             startDate: "",
             endDate: "",
-            // brand: '',
-            // type: '',
         },
         resolver: yupResolver(schema),
     });

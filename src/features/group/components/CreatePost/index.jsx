@@ -156,7 +156,7 @@ function CreatePost({ groupId, reload }) {
             setInputImage([]);
             await Swal.fire(
                 'New post successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {

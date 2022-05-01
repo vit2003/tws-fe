@@ -144,7 +144,7 @@ function PostDetail({ post, reload }) {
             reload();
             await Swal.fire(
                 'Delete post successfully!!',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {

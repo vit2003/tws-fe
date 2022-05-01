@@ -55,8 +55,8 @@ export const enablePost = (postID, enableId, params) => {
                     if (response) {
                         dispatch(getTradingPostsByEnableStatus(enableId, params));
                         Swal.fire(
-                            'Enable post Successfully',
-                            'Click Button to continute!',
+                            'Enable post successfully',
+                            'Click button to continute!',
                             'success'
                         )
                     }
@@ -83,8 +83,8 @@ export const disablePost = (postID, enableId, params) => {
                     if (response) {
                         dispatch(getTradingPostsByEnableStatus(enableId, params));
                         Swal.fire(
-                            'Disable post Successfully',
-                            'Click Button to continute!',
+                            'Disable post successfully',
+                            'Click button to continute!',
                             'success'
                         )
                     }
@@ -111,8 +111,8 @@ export const disablePostGroup = (postID, groupID, params) => {
                     if (response) {
                         dispatch(getTradingPostsByGroupId(groupID, params));
                         Swal.fire(
-                            'Disable post Successfully',
-                            'Click Button to continute!',
+                            'Disable post successfully',
+                            'Click button to continute!',
                             'success'
                         )
                     }

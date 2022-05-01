@@ -45,10 +45,10 @@ function TradingContent(props) {
         <Box sx={{ flexGrow: 1 }}>
             <Container>
                 <Grid container spacing={2}>
-                    <Grid item xs={2}>
+                    <Grid item xs={1}>
 
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={10}>
                         {/* Form to create a post */}
                         <CreateTradingPost tradingGroupId={tradingGroupId} onSubmit={handleCreatePostSubmit} reload={() => setReload(!reload)} />
 
@@ -57,7 +57,7 @@ function TradingContent(props) {
 
                         {/* {loading ? <PostSkeleton /> : <TradingPostList listTradingPost={listTradingPost} />} */}
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={1}>
 
                     </Grid>
                 </Grid>

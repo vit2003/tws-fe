@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PhotoCamera } from '@mui/icons-material/';
 import { Avatar, Button, Grid } from '@mui/material';
-import { Box, Typography } from '@mui/material/';
+import { Box, Typography, MenuItem } from '@mui/material/';
 import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import React, { useState } from 'react';
@@ -14,6 +14,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import accountApi from '../../../api/accountApi';
 import Swal from 'sweetalert2';
 import StorageKeys from './../../../constants/storage-keys';
+import SelectFormField from './../../../components/form-controls/SelectField/SelectFormField';
 import { setAccount } from './../../../redux/actions/login';
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
 EditAccount.propTypes = {
@@ -67,6 +68,9 @@ function EditAccount() {
     const currentAccount = useSelector(state => state.login.infoUser);
     const storage = getStorage();
 
+    // STATE FOR SELECTION
+    const [selected, setSelected] = useState(false);
+
     console.log("currentAccount: ", currentAccount)
     const [reload, setReload] = useState(false)
     // Change Avatar
@@ -74,6 +78,7 @@ function EditAccount() {
         display: 'none',
     });
     const [image, setImage] = useState(currentAccount.avatar)
+
 
     const [strgImg, setStrgImg] = React.useState([]);
     const onImageChange = (event) => {
@@ -101,14 +106,26 @@ function EditAccount() {
                 })
         }
     }
-
+    // Validation
+    const schema = yup.object().shape({
+        bio: yup.string().required('Please enter your Bio.').max(100, 'Please enter no more than 100 characters.'),
+        phone: yup.string()
+            .matches(/[0-9]{10}/, {
+                message: "Phone must be a number and no more than 10",
+                excludeEmptyString: false,
+            })
+            .required(),
+    });
+    const control = useForm();
     const form = useForm({
         defaultValues: {
+            // avatar: currentAccount.avatar,
             accountName: currentAccount.name,
             bio: currentAccount.biography,
-            phoneNumber: currentAccount.phoneNumber,
+            phone: currentAccount.phone,
             gender: currentAccount.gender,
         },
+        resolver: yupResolver(schema),
     })
     const { isSubmitting } = form.formState;
 
@@ -117,8 +134,8 @@ function EditAccount() {
         try {
             const newEdit = {
                 name: values.accountName,
-                phone: values.phoneNumber,
-                avatar: imagesLink[0],
+                phone: values.phone,
+                avatar: imagesLink[0] ? imagesLink[0] : currentAccount.avatar,
                 biography: values.bio,
                 gender: values.gender,
             }
@@ -127,8 +144,8 @@ function EditAccount() {
             const pushUserEdited = {
                 ...currentAccount,
                 name: values.accountName,
-                phone: values.phoneNumber,
-                avatar: imagesLink[0],
+                phone: values.phone,
+                avatar: imagesLink[0] ? imagesLink[0] : currentAccount.avatar,
                 biography: values.bio,
                 gender: values.gender,
             }
@@ -136,7 +153,7 @@ function EditAccount() {
             dispatch(setAccount(pushUserEdited));
             await Swal.fire(
                 'Edit account successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -146,12 +163,7 @@ function EditAccount() {
                 text: 'Something went wrong!',
             })
         }
-
-
     }
-
-
-
     return (
         <div>
 
@@ -169,8 +181,6 @@ function EditAccount() {
                                     {/* <Avatar sx={{ margin: '20px 0', height: '70px', width: '70px' }} src={image} /> */}
                                     <Button sx={{ backgroundColor: "db36a4 !important", color: '#db36a4' }} variant="text" aria-label="upload picture" component="span" endIcon={<PhotoCamera />}>
                                         Change Avatar
-
-
 
                                     </Button>
                                 </label>
@@ -195,15 +205,37 @@ function EditAccount() {
                             <Typography className={classes.labelText}>Phone Number</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <InputField className={classes.inputtext} name="phoneNumber" form={form} />
+                            <InputField className={classes.inputtext} name="phone" form={form} />
                         </Grid>
 
                         <Grid item xs={4}>
                             <Typography className={classes.labelText}>Gender</Typography>
                         </Grid>
-                        <Grid item xs={8}>
+                        {/* <Grid item xs={8}>
                             <InputField className={classes.inputtext} name="gender" form={form} />
+                        </Grid> */}
+                        <Grid item xs={8}>
+                            <SelectFormField
+                                id="gender"
+                                name="gender"
+                                control={control}
+                                defaultValue="1"
+                                variant="outlined"
+                                margin="normal"
+                                form={form}
+                            >
+                                <MenuItem value={"Male"} selected={selected}>
+                                    Male
+                                </MenuItem>
+                                <MenuItem value={"Female"} selected={selected}>
+                                    Female
+                                </MenuItem>
+                                <MenuItem value={"Other"} selected={selected}>
+                                    Other
+                                </MenuItem>
+                            </SelectFormField>
                         </Grid>
+
                         <Button disabled={isSubmitting} type='submit' className={classes.button} variant='contained'>
                             Edit
                         </Button>

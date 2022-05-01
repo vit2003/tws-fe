@@ -52,7 +52,7 @@ function FormEdit({ prize }) {
             dispatch(updatePrize(prize.id, editPrize))
             await Swal.fire(
                 'Edit prize successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {

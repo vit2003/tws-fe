@@ -170,7 +170,7 @@ function CreateContestForm({ proposal, handleClose }) {
                 newContest
             );
             await Swal.fire(
-                'New contest Successfully',
+                'New contest successfully',
                 'Click Button to continute!',
                 'success'
             )

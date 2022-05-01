@@ -59,7 +59,7 @@ export const register = (params, closeDialog) => {
                     }
                     Swal.fire(
                         'Register successfully',
-                        'Click Button to continute!',
+                        'Click button to continute!',
                         'success'
                     )
                 }

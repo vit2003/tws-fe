@@ -54,7 +54,7 @@ function CommentDetail({ comment, reload }) {
             reload();
             await Swal.fire(
                 'Delete successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
             setAnchorEl(null);

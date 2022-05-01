@@ -131,7 +131,7 @@ function Runner({ runner, contestId, contest, reload }) {
             reload();
             await Swal.fire(
                 'Rate successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {

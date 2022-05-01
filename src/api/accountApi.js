@@ -79,6 +79,14 @@ const accountApi = {
             return axioClient.put('accounts/change_password', params)
         }
     },
+    newPassword(pass) {
+        const token = axioClient.getToken();
+        if (token) {
+            console.log("pass: ", pass);
+            axioClient.setHeaderAuth(token)
+            return axioClient.put(`accounts/new_password?new_password=${pass}`)
+        }
+    },
     addWishList(params) {
         const token = axioClient.getToken();
         if (token) {

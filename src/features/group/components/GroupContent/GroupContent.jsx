@@ -50,24 +50,31 @@ function GroupContent(props) {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <Container>
-                <Grid container spacing={2}>
-                    <Grid item xs={8}>
-                        {/* Form to create a post */}
-                        <CreatePost groupId={groupId} reload={() => setReload(!reload)} />
+            {/* <Container> */}
 
-                        {/* get List post */}
+            <Grid container>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={10}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            {/* Form to create a post */}
+                            <CreatePost groupId={groupId} reload={() => setReload(!reload)} />
 
-                        {loading ? postList?.map((post) => <PostDetail key={post.id} post={post} reload={() => setReload(!reload)} />) : PostSkeleton}
+                            {/* get List post */}
 
+                            {loading ? postList?.map((post) => <PostDetail key={post.id} post={post} reload={() => setReload(!reload)} />) : PostSkeleton}
+
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Card>
+                                {loading ? <ContestList contestList={contestList} /> : <PostSkeleton />}
+                            </Card>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={4}>
-                        <Card>
-                            {loading ? <ContestList contestList={contestList} /> : <PostSkeleton />}
-                        </Card>
-                    </Grid>
+                    {/* </Container> */}
                 </Grid>
-            </Container>
+            </Grid>
+            <Grid item xs={1}></Grid>
         </Box>
     );
 }

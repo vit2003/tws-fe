@@ -41,7 +41,7 @@ export const deactiveAccount = (userID) => {
                     dispatch(getAccounts())
                     Swal.fire(
                         'Update successfully',
-                        'Click Button to continute!',
+                        'Click button to continute!',
                         'success'
                     )
                 })
@@ -92,7 +92,7 @@ export const updateRole = (id, role) => {
                 .then((response) => {
                     Swal.fire(
                         'Update role successfully',
-                        'Click Button to continute!',
+                        'Click button to continute!',
                         'success'
                     )
                 })

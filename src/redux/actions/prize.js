@@ -106,7 +106,7 @@ export const deletePrize = (prizeId) => {
                         dispatch(getPrizes(filters, false));
                         Swal.fire(
                             'Delete prize successfully',
-                            'Click Button to continute!',
+                            'Click button to continute!',
                             'success'
                         )
                     }

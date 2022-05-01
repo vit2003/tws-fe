@@ -184,7 +184,7 @@ function PrizeManagement() {
             setOpen(false)
             await Swal.fire(
                 'Create prize successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {

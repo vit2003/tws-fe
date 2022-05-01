@@ -493,7 +493,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             setOpen(false)
             await Swal.fire(
                 'New bill successfully!!',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
 
@@ -525,7 +525,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             setOpenRateAccount(false)
             await Swal.fire(
                 'Rate successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -551,7 +551,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             setOpenCheckBill(false)
             await Swal.fire(
                 'Bill was accepted !!',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -577,7 +577,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             setOpenCheckBill(false)
             await Swal.fire(
                 'Bill was denied !!',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -608,7 +608,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             setOpenFeedback(false)
             await Swal.fire(
                 'Send feedback successfully',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -632,7 +632,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             setOpenCheckBill(false)
             await Swal.fire(
                 'Bill was canceled',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -652,7 +652,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
             setOpenCheckBill(false)
             await Swal.fire(
                 'Trading post was closed',
-                'Click Button to continute!',
+                'Click button to continute!',
                 'success'
             )
         } catch (error) {
@@ -856,7 +856,7 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                         </DialogContent>
                                         <DialogActions>
                                             <Button onClick={handleClose} sx={{ color: "#db36e4" }}>Cancel</Button>
-                                            <Button onClick={handleCreateBill}>Create Bill</Button>
+                                            <Button onClick={handleCreateBill} sx={{ color: '#db36a4 !important' }}>Create Bill</Button>
                                         </DialogActions>
                                     </Dialog>
 
@@ -1075,7 +1075,6 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                                 </div>
                                             ))}
                                         </ImageList>
-
 
                                         <IconButton className={classes.closeBtn} onClick={handleDeleteSelectedSource}>
                                             <CloseIcon />
