@@ -98,7 +98,14 @@ function ContestManagement(props) {
         setItemClick({})
     }
 
-
+    // CUT TEXT
+    const truncate = (input) => {
+        if (input.length > 19) {
+            return input.substring(0, 20) + '...';
+        } else {
+            return input;
+        }
+    }
 
 
     const dispatch = useDispatch();
@@ -552,10 +559,10 @@ function ContestManagement(props) {
                                 <th>No</th>
                                 <th>title</th>
                                 <th>Slogan</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
                                 <th>Start Registration Date</th>
                                 <th>End Registration Date</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                                 {active === "happening" ||
                                     active === "closed" ? (
                                     <th className="th-action">Action</th>
@@ -569,8 +576,8 @@ function ContestManagement(props) {
                                 state.contests.map((item, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        <td>{item.title}</td>
-                                        <td>{item.slogan}</td>
+                                        <td>{truncate(item.title)}</td>
+                                        <td>{truncate(item.slogan)}</td>
                                         <td>{formatDate(item?.startRegistration)}</td>
                                         <td>{formatDate(item?.endRegistration)}</td>
                                         <td>{formatDate(item?.startDate)}</td>

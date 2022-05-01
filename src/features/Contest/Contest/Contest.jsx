@@ -648,7 +648,7 @@ function Contest(props) {
                                 </div>
                                 <div className="contestDetail__content__ortherPrize__prize">
                                     <img src={rewardList[1]?.post.images[0].url} alt="" />
-                                    <h2>Name: {rewardList[1]?.post.ownerName}</h2>
+                                    <h2>{rewardList[1]?.post.ownerName}</h2>
                                     <h2>Sum of Star: {rewardList[1]?.post.sumOfStart}</h2>
                                 </div>
                             </Grid>
@@ -659,7 +659,7 @@ function Contest(props) {
                                 </div>
                                 <div className="contestDetail__content__ortherPrize__prize">
                                     <img src={rewardList[2]?.post.images[0].url} alt="" />
-                                    <h2>Name: {rewardList[2]?.post.ownerName}</h2>
+                                    <h2>{rewardList[2]?.post.ownerName}</h2>
                                     <h2>Sum of Star: {rewardList[2]?.post.sumOfStart}</h2>
                                 </div>
                             </Grid>

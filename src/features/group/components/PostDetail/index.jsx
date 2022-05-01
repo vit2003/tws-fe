@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
@@ -78,6 +78,8 @@ const useStyle = makeStyles(theme => ({
 function PostDetail({ post, reload }) {
 
     const currentUser = useSelector(state => state.login.infoUser);
+
+
 
     const classes = useStyle();
 

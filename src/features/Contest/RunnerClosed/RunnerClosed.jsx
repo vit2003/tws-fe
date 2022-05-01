@@ -116,7 +116,7 @@ function RunnerClosed({ runner, contest }) {
                 </CardContent>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between !important', alignItems: 'center !important', height: 30 }}>
-                    <CardActions>
+                    {/* <CardActions>
                         {runner.isRated === true &&
                             <StyledRating
                                 name="customized-color"
@@ -128,7 +128,7 @@ function RunnerClosed({ runner, contest }) {
                                 emptyIcon={<StarIcon fontSize="inherit" />}
                             />
                         }
-                    </CardActions>
+                    </CardActions> */}
                     <Typography className={classes.averageStar}>Average Point: {(runner.averageStar).toFixed(2)}</Typography>
                 </Box>
 

@@ -24,7 +24,7 @@ function AdminInputField(props) {
 
             fullWidth
             label={label}
-            startAdornment={startAdornment}
+            // startAdornment={startAdornment}
             disabled={disabled}
             variant="outlined"
             margin="normal"

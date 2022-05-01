@@ -75,15 +75,49 @@
                 // height: 0px;
                 .contest__prize__image {
                     width: 200px;
-                    height: 250px;
+                    height: auto;
+                    padding: 70px 0;
                     margin: 0 auto;
-                    background-color: #fff;
+
+                    background: #ada996; /* fallback for old browsers */
+                    background: -webkit-linear-gradient(
+                        200deg,
+                        #eaeaea,
+                        #dbdbdb,
+                        #f2f2f2,
+                        #ada996
+                    ); /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(
+                        200deg,
+                        #eaeaea,
+                        #dbdbdb,
+                        #f2f2f2,
+                        #ada996
+                    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                    // transition: all 1.5s;
                     border: 1px solid #000;
                     box-shadow: 6px 6px #000;
                     img {
                         max-width: 100%;
                         height: auto;
                     }
+                }
+                .contest__prize__image:hover {
+                    background: #ada996; /* fallback for old browsers */
+                    background: -webkit-linear-gradient(
+                        30deg,
+                        #eaeaea,
+                        #dbdbdb,
+                        #f2f2f2,
+                        #ada996
+                    ); /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(
+                        30deg,
+                        #eaeaea,
+                        #dbdbdb,
+                        #f2f2f2,
+                        #ada996
+                    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
                 }
                 h4 {
                     margin: 20px 0;

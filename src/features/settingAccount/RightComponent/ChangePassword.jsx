@@ -11,6 +11,8 @@ import InputField from './../../../components/form-controls/InputFields/index';
 import PasswordField from './../../../components/form-controls/PasswordField/index';
 import Swal from 'sweetalert2';
 import { setAccount } from '../../../redux/actions/login';
+import StorageKeys from './../../../constants/storage-keys';
+
 ChangePassword.propTypes = {
 
 };

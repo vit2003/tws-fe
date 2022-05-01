@@ -123,7 +123,7 @@ function Home(props) {
         <div className='gradient-background'>
             <Fragment>
                 <Header />
-                <Box sx={{ paddingTop: '100px' }}>
+                <Box sx={{ paddingTop: '70px' }}>
                 </Box>
                 <GroupBar />
 

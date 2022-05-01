@@ -36,8 +36,9 @@ function GroupBar(props) {
                 p: 1,
                 mb: 1,
                 bgcolor: 'background.paper',
-                // boxShadow: "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;",
-                // borderTop: '5px solid #db36a4 !important'
+                // boxShadow: "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px",
+                // borderBottom: '5px solid #db36a4 !important',
+                // zIndex: "99999"
             }}
         >
             {groupList?.map((group) => (
