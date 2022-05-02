@@ -521,37 +521,11 @@ function UserProfile(props) {
                                             {account.biography}
                                         </Typography>
                                     </CardContent>
-                                    <CardContent>
+                                    {/* <CardContent>
                                         <Typography sx={{ mb: 2 }}>
                                             My Favorite
                                         </Typography>
-
-
-                                        {/* {
-                                            accountId == currentAccount.accountId ? <Stack direction="row" spacing={1}>
-                                                {account.wishLists?.map((wl, index) => (
-                                                    <Chip
-                                                        label={wl.name}
-                                                        variant="outlined"
-                                                        onDelete={() => handleDeleteWishList(wl.id, wl.name)}
-                                                    />
-                                                ))}
-                                                <Chip label={<AddIcon />}
-                                                    variant="outlined"
-                                                    onClick={handleOpenWishlist}
-                                                />
-                                            </Stack> : <Stack direction="row" spacing={1}>
-                                                {account.wishLists?.map((wl, index) => (
-                                                    <Chip
-                                                        label={wl.name}
-                                                        variant="outlined"
-                                                    />
-                                                ))}
-                                            </Stack>
-                                        } */}
-
-
-                                    </CardContent>
+                                    </CardContent> */}
 
                                 </Card>
                                 <Box sx={{ width: '100%' }}>
