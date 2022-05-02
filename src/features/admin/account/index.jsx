@@ -3,20 +3,33 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { IconButton, Avatar, Dialog, DialogTitle, DialogActions, DialogContent, Button } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@mui/styles';
 import { deactiveAccount, getAccounts } from '../../../redux/actions/account';
 import { useState } from 'react';
 
+const useStyles = makeStyles((theme) => ({
+    pagination: {
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        justifyContent: 'center',
+        marginTop: '20px',
+        paddingBottom: '10px'
+    }
+}));
+
 export default function AccountManagement() {
     const state = useSelector(state => state.account)
+    const classes = useStyles();
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getAccounts())
+        dispatch(getAccounts(filters))
     }, [])
 
 
@@ -24,6 +37,12 @@ export default function AccountManagement() {
     const [maxWidth, setMaxWidth] = useState("md");
     const [open, setOpen] = useState(false);
     const [itemClick, setItemClick] = useState({});
+
+
+    const [filters, setFilters] = useState({
+        PageNumber: 1,
+        PageSize: 9
+    });
 
     const handleOpenConfirm = (item) => {
         setOpen(true)
@@ -37,6 +56,18 @@ export default function AccountManagement() {
     const handleDisable = () => {
         dispatch(deactiveAccount(itemClick.id))
         setOpen(false)
+    }
+
+    const handlePageChange = (e, page) => {
+        const newFilter = {
+            PageNumber: page,
+            PageSize: 9,
+        }
+        dispatch(getAccounts(newFilter));
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            PageNumber: page
+        }))
     }
 
     return (
@@ -121,6 +152,14 @@ export default function AccountManagement() {
                             }
                         </tbody>
                     </table>
+                    <Box className={classes.pagination}>
+                        <Pagination
+                            count={Math.ceil(state.count / filters.PageSize)}
+                            color="secondary"
+                            page={filters.PageNumber}
+                            onChange={handlePageChange}
+                        />
+                    </Box>
                 </div>
             </div>
 
@@ -141,6 +180,7 @@ export default function AccountManagement() {
                 <DialogContent sx={{ marginTop: "10px", display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                     <Avatar src={itemClick.avatar} alt="avatar" sx={{ position: 'static !important', mr: 2, width: '100px', height: '100px' }}></Avatar>
                 </DialogContent>
+
 
                 <DialogActions>
                     <Button color="inherit" onClick={handleClose}>

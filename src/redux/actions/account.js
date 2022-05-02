@@ -11,15 +11,16 @@ import {
 */
 
 
-export const getAccounts = () => {
+export const getAccounts = (filter) => {
     return (dispatch) => {
         const token = axioClient.getToken();
         if (token) {
             axioClient.setHeaderAuth(token)
-            axioClient.get('/accounts')
+            axioClient.get2(`/accounts?PageNumber=${filter ? filter.PageNumber : 1}&PageSize=${filter ? filter.PageSize : 9}`)
                 .then((response) => {
                     if (response.data) {
                         dispatch(setAccounts(response.data))
+                        dispatch(setCount(response.count))
                     }
                 })
                 .catch((error) => {
@@ -119,6 +120,12 @@ export const setAccounts = (payload) => {
 export const setAccount = (payload) => {
     return {
         type: ACCOUNT.SET_ACCOUNT,
+        payload
+    }
+}
+export const setCount = (payload) => {
+    return {
+        type: ACCOUNT.SET_COUNT,
         payload
     }
 }

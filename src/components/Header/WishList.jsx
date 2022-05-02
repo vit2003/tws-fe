@@ -36,8 +36,6 @@ function WishList({ group }) {
         }))
     }
 
-
-
     return (
         <Card>
             <CardActionArea

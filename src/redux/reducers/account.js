@@ -13,7 +13,8 @@ const initState = {
     role: '',
     account: '',
     accounts: [],
-    infoUser: infoUser
+    infoUser: infoUser,
+    count: ''
 }
 
 const accountReducer = (state = initState, action) => {
@@ -38,6 +39,11 @@ const accountReducer = (state = initState, action) => {
             return {
                 ...state,
                 error: ''
+            }
+        case ACCOUNT.SET_COUNT:
+            return {
+                ...state,
+                count: action.payload
             }
         default:
             return state
