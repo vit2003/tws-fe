@@ -122,7 +122,7 @@ function Home(props) {
     return (
         <div className='gradient-background'>
             <Fragment>
-                <Header />
+                <Header reloadWl={() => setReload(!reload)} />
                 <Box sx={{ paddingTop: '70px' }}>
                 </Box>
                 <GroupBar />
@@ -157,11 +157,11 @@ function Home(props) {
 
 
                 {/* ======================  WHISPER  ===================== */}
-                <WishListTrading />
+                <WishListTrading reload={() => setReload(!reload)} />
 
                 {/* ==================================== */}
 
-                <WishListContest />
+                <WishListContest reload={() => setReload(!reload)} />
 
                 {/* ================TOYS============== */}
                 <div className='hometoys'>

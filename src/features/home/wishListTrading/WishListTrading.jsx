@@ -2,6 +2,7 @@ import { Box, Container, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Autoplay, Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
@@ -19,9 +20,15 @@ const useStyle = makeStyles(theme => ({
 
 }));
 
-function WishListTrading(props) {
+function WishListTrading({ reload }) {
     const classes = useStyle();
     const history = useHistory();
+
+    let loggedInAccount = useSelector(state => state.login.infoUser);
+
+    const [isWL, setIsWL] = useState(loggedInAccount.isHasWishlist);
+
+
 
     const [tradingWishList, setTradingWishList] = useState([]);
     const [filters, setFilters] = useState({
@@ -31,14 +38,17 @@ function WishListTrading(props) {
 
     useEffect(() => {
         (async () => {
-            try {
-                const response = await tradingPostApi.getWishListTrading(filters)
-                setTradingWishList(response.data)
-            } catch (error) {
-                console.log('Failed to fetch categorylist', error)
+            if (loggedInAccount.isHasWishlist == true) {
+                try {
+                    const response = await tradingPostApi.getWishListTrading(filters)
+                    setTradingWishList(response.data)
+                } catch (error) {
+                    console.log('Failed to fetch categorylist', error)
+                }
             }
+
         })()
-    }, [])
+    }, [reload])
 
     const handleRedirectTradingPostDetail = (id) => {
         history.push(`/tradingPost/${id}`);

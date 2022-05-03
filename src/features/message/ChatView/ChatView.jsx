@@ -848,7 +848,10 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                                     <tr>
                                                         <td>Value Exchange</td>
                                                         <td>{detailBill?.toyName}</td>
-                                                        <td>{detailBill?.trading ? detailBill?.trading : detailBill?.value}</td>
+                                                        <td>{detailBill?.trading ?
+                                                            detailBill?.trading :
+                                                            new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(detailBill?.value)}
+                                                        </td>
                                                     </tr>
 
                                                 </tbody>
@@ -896,7 +899,12 @@ function ChatView({ messages, users, id, tradingmsgs, tabStatus, tradingPost, tr
                                                             <TableRow>
                                                                 <TableCell >Toy Name</TableCell>
                                                                 <TableCell >{bill?.toyOfSellerName}</TableCell>
-                                                                <TableCell >{bill?.toyOfBuyerName}</TableCell>
+                                                                {
+                                                                    bill?.isExchangeByMoney ?
+                                                                        <TableCell >{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bill?.exchangeValue)}</TableCell>
+                                                                        : <TableCell >{bill?.toyOfBuyerName}</TableCell>
+                                                                }
+
                                                             </TableRow>
                                                         </TableBody>
 

@@ -86,24 +86,26 @@ function Bill({ tradingConver, id }) {
 
     // STATE TRADINGPOST CLICK
 
-
-    useEffect(() => {
-        const fetchTradingpost = async () => {
-            if (tradingPostId) {
-                try {
-                    const response = await tradingPostApi.getDetail(tradingPostId);
-                    setTradingPost(response)
-                } catch (error) {
-                    console.log('Failed to fetch userList', error)
-                }
-            }
-        }
-        fetchTradingpost();
-    }, [tradingPostId])
-
-
     const [tradingPost, setTradingPost] = useState({});
     const [imageOfTradingPost, setImageOfTradingPost] = useState([]);
+
+    // useEffect(() => {
+    //     const fetchTradingpost = async () => {
+    //         if (tradingPostId) {
+    //             try {
+    //                 const response = await tradingPostApi.getDetail(tradingPostId);
+    //                 setTradingPost(response)
+    //             } catch (error) {
+    //                 console.log('Failed to fetch userList', error)
+    //             }
+    //         }
+    //     }
+    //     fetchTradingpost();
+    // }, [tradingPostId])
+
+
+
+
 
     useEffect(() => {
         (async () => {
@@ -125,7 +127,7 @@ function Bill({ tradingConver, id }) {
             }
         })()
     }, [tradingPostId])
-
+    console.log("tradingPost: ", tradingPost);
 
     const handleGoToPost = () => {
         history.push(`/tradingPost/${tradingPostId}`);

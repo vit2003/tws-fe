@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-function Header() {
+function Header({ reloadWl }) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -392,6 +392,7 @@ function Header() {
       localStorage.setItem(StorageKeys.ACCOUNT, JSON.stringify(pushUserEdited))
       dispatch(setAccount(pushUserEdited));
       setOpenWishList(false);
+      reloadWl()
       await Swal.fire(
         'Add wish list successfully',
         'Click button to continute!',
@@ -414,7 +415,6 @@ function Header() {
 
       <AppBar position="static">
         <Toolbar>
-
           {/* ===========LEFT HEADER */}
           {/* Logo toysworld */}
           <Avatar src='/2.png' sx={{ height: '70px', width: '150px' }}></Avatar>

@@ -788,7 +788,7 @@ function Contest(props) {
                             <StyledRating
                                 name="customized-color"
                                 defaultValue={0}
-                                precision={0.5}
+                                precision={1}
                                 getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
                                 icon={<StarIcon fontSize="inherit" />}
                                 emptyIcon={<StarIcon fontSize="inherit" />}
@@ -808,7 +808,7 @@ function Contest(props) {
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} sx={{ color: "#db36a4" }}>Cancel</Button>
-                            <Button sx={{ color: "#db36a4" }} type="submit">EVALUATE ACCOUNT</Button>
+                            <Button sx={{ color: "#db36a4" }} type="submit">EVALUATE CONTEST</Button>
                         </DialogActions>
                     </form>
                 </Dialog>

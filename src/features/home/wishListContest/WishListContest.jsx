@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Autoplay, Navigation, Pagination } from "swiper";
+import { useSelector } from 'react-redux';
 // Import Swiper styles
 import "swiper/css";
 import 'swiper/css/autoplay';
@@ -19,9 +20,13 @@ const useStyle = makeStyles(theme => ({
 
 }));
 
-function WishListContest(props) {
+function WishListContest({ reload }) {
     const classes = useStyle();
     const history = useHistory();
+
+    let loggedInAccount = useSelector(state => state.login.infoUser);
+
+    const [isWL, setIsWL] = useState(loggedInAccount.isHasWishlist);
 
     const [wishListContest, setWishListContest] = useState([]);
     const [filters, setFilters] = useState({
@@ -31,14 +36,16 @@ function WishListContest(props) {
 
     useEffect(() => {
         (async () => {
-            try {
-                const response = await eventApi.getWishListContest(filters)
-                setWishListContest(response.data)
-            } catch (error) {
-                console.log('Failed to fetch categorylist', error)
+            if (loggedInAccount.isHasWishlist == true) {
+                try {
+                    const response = await eventApi.getWishListContest(filters)
+                    setWishListContest(response.data)
+                } catch (error) {
+                    console.log('Failed to fetch categorylist', error)
+                }
             }
         })()
-    }, [])
+    }, [reload])
 
     const handleRedirectContestDetail = (id) => {
         history.push(`/contest/${id}`);
@@ -50,6 +57,7 @@ function WishListContest(props) {
             <Typography
                 sx={{ textAlign: 'center', padding: '50px 0', textTransform: 'uppercase', fontSize: '48px', fontWeight: 'bold !important', fontFamily: "Wallpoet !important", textTransform: 'uppercase', background: "-webkit-linear-gradient(#c31432, #2C5364)", WebkitBackgroundClip: "text", WebkitTextFillColor: 'transparent' }}
             >
+
                 TOP contest you'll be interested
             </Typography>
             <Swiper
