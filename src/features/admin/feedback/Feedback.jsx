@@ -163,8 +163,10 @@ function FeedbackManagement(props) {
     }
 
     const handleSubmitReply = async (values) => {
+        console.log("values: ", values);
         try {
-            await feedbackApi.reply(feedbackItem.id, values.reply)
+            const reponse = await feedbackApi.reply(feedbackItem.id, values.reply)
+            console.log("reponse: ", reponse);
             await Swal.fire(
                 'Reply successfully',
                 'Click button to continute!',

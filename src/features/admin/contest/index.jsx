@@ -477,6 +477,9 @@ function ContestManagement(props) {
                 'Click button to continute!',
                 'success'
             )
+            setOpen(false);
+            setInputImage([]);
+            setStrgImg([]);
             dispatch(getAllContestABC(2, filtersContest));
             // enqueueSnackbar("New Post successfully!!", { variant: "success" });
         } catch (error) {
