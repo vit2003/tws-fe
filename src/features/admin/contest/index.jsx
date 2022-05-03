@@ -101,7 +101,7 @@ function ContestManagement(props) {
     // CUT TEXT
     const truncate = (input) => {
         if (input.length > 19) {
-            return input.substring(0, 20) + '...';
+            return input.substring(0, 17) + '...';
         } else {
             return input;
         }
@@ -113,6 +113,7 @@ function ContestManagement(props) {
     const control = useForm();
     // STORAGE OF FIREBASE
     const storage = getStorage();
+
 
     const [filters, setFilters] = useState({
         pageNumber: 1,
@@ -476,10 +477,7 @@ function ContestManagement(props) {
                 'Click button to continute!',
                 'success'
             )
-            dispatch(getAllContestABC(2, {
-                ...filtersContest,
-                PageNumber: 1
-            }));
+            dispatch(getAllContestABC(2, filtersContest));
             // enqueueSnackbar("New Post successfully!!", { variant: "success" });
         } catch (error) {
             console.log("Failed create new post: ", error);
@@ -490,7 +488,10 @@ function ContestManagement(props) {
             })
             // enqueueSnackbar("Failed to New Post !!", { variant: "error" });
         }
+        setOpen(false);
+        setInputImage([]);
         setStrgImg([]);
+        dispatch(getAllContestABC(2, filtersContest));
         form.reset();
     };
 
