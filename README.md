@@ -15,7 +15,7 @@ Team size: 4
 
  Role:
  - Front-End: Pham Le Tan Thinh.
-   + I'm responsible for design all of UX/UI for project. Determining the structure, design and build for all web pages. Build whole feature and chat app with firebase in project.
+   + I'm responsible for design all of UX/UI for Web app and mobile app. Determining the structure, design and build for all web pages. Build whole feature and chat app with firebase in project.
  
  ## TECHNICAL:
  - BE: .NET Core 5.0, Entity Framework 6.
