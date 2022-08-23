@@ -9,6 +9,7 @@ interested. Also have chat app to communicate.
 ## Team size, role, responsibilities:
 
 Team size: 4
+
 Role:
  + 2 Back-End: responsible for creating and maintaining technology at the back end of a website (the server, database and application), Assessing the efficiency and speed of current applications.
  + 1 Front-End: responsible for developing UX/UI, design mobile-based features, determining the structure and design of web pages, config and code chat app by firebase.
