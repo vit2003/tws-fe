@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# TWS : What is this project?
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The project provides a platform to help connect imported toys
+shops and people who have interested in imported toys. Based
+on this project, consumers can sell, exchange their
+products,and organize competitions for those who are
+interested. Also have chat app to communicate.
 
 ## Available Scripts
 
