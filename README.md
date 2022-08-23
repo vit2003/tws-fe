@@ -18,8 +18,8 @@ Role:
  
  ## TECHNICAL:
  - BE: .NET Core 5.0, Entity Framework 6.
- - FE: HTML 5, CSS 3, Material UI, ReactJS.
+ - FE: HTML 5, CSS 3, Javascript, Material UI, ReactJS.
  - Mobile: Dart-Flutter.
- - DB: SQLServer
+ - DB: SQLServer.
  - Deployment server: Heroku server, firebase Server.
 
